@@ -16,6 +16,8 @@ MonoBehaviour:
     PlayerType: 0
     AbilityList:
     - {fileID: 11400000, guid: da8fd38e31edb264badecabf261ea5a8, type: 2}
+    - {fileID: 11400000, guid: afbeb89e16d2deb469344a77bbd798da, type: 2}
+    - {fileID: 11400000, guid: 2d282102981e3f945981b59e7296a9dc, type: 2}
     BornPoint: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 1200656857735307707, guid: 078dc81d2ead85f40880122a28597110,
       type: 3}

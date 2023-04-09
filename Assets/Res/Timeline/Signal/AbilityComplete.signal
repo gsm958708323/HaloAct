@@ -9,9 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3281194032c61324ebe1069d97430903, type: 3}
-  m_Name: Ability101
+  m_Script: {fileID: 11500000, guid: d6fa2d92fc1b3f34da284357edf89c3b, type: 3}
+  m_Name: AbilityComplete
   m_EditorClassIdentifier: 
-  Name: "\u6280\u80FD1"
-  BindingKey: 323
-  AbilityResId: 101

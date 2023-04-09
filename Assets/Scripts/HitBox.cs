@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class HitBox : MonoBehaviour
 {
-    Action<PlayerTimelineController> triggerCB;
+    Action<PlayerAbilityController> triggerCB;
 
     void Start()
     {
@@ -18,7 +18,7 @@ public class HitBox : MonoBehaviour
 
     }
 
-    public void AddTriggerCB(Action<PlayerTimelineController> action)
+    public void AddTriggerCB(Action<PlayerAbilityController> action)
     {
         triggerCB = action;
     }
@@ -27,7 +27,7 @@ public class HitBox : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
-            triggerCB?.Invoke(other.GetComponent<PlayerTimelineController>());
+            triggerCB?.Invoke(other.GetComponent<PlayerAbilityController>());
         }
     }
 }

@@ -82,12 +82,27 @@ MonoBehaviour:
   m_Events:
     m_Signals:
     - {fileID: 11400000, guid: 27374673baf12f940b64b1eb151aedf8, type: 2}
+    - {fileID: 11400000, guid: c16fa7259c952044baf4522fdb29f28d, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 6733583189721579205}
           m_TargetAssemblyTypeName: SkillTimeline, Assembly-CSharp
           m_MethodName: Complete
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6733583189721579205}
+          m_TargetAssemblyTypeName: AbilityTimeline, Assembly-CSharp
+          m_MethodName: Combo
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     public void Init(PlayerInfo info)
     {
-        var timeline = gameObject.AddComponent<PlayerTimelineController>();
+        var timeline = gameObject.AddComponent<PlayerAbilityController>();
         timeline.Init(info.AbilityList);
 
         if (info.PlayerType == PlayerType.Hero)
