@@ -44,6 +44,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         // 落地检测（球形检测 ）
         bool isGround = CheckIsGround();
+        print(isGround);
 
         // 小跳和大跳（通过落地时间区别）
         if (isGround)

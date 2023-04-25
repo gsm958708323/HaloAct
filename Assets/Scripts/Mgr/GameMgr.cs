@@ -9,6 +9,7 @@ public class GameMgr : MonoBehaviour
     {
         gameObject.AddComponent<ResMgr>();
         gameObject.AddComponent<InputMgr>();
+        gameObject.AddComponent<GameInputMgr>();
     }
 
     void Start()
