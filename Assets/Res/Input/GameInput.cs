@@ -44,6 +44,15 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Run"",
+                    ""type"": ""Button"",
+                    ""id"": ""bfe17411-382f-4639-baaa-4f1609f03c72"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,6 +121,17 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                     ""action"": ""CameraLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""37dafb8c-3bb1-4706-8b20-a0fd0226a9f4"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -122,6 +142,7 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         m_PlayerInput = asset.FindActionMap("PlayerInput", throwIfNotFound: true);
         m_PlayerInput_Movement = m_PlayerInput.FindAction("Movement", throwIfNotFound: true);
         m_PlayerInput_CameraLook = m_PlayerInput.FindAction("CameraLook", throwIfNotFound: true);
+        m_PlayerInput_Run = m_PlayerInput.FindAction("Run", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -183,12 +204,14 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
     private IPlayerInputActions m_PlayerInputActionsCallbackInterface;
     private readonly InputAction m_PlayerInput_Movement;
     private readonly InputAction m_PlayerInput_CameraLook;
+    private readonly InputAction m_PlayerInput_Run;
     public struct PlayerInputActions
     {
         private @GameInput m_Wrapper;
         public PlayerInputActions(@GameInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_PlayerInput_Movement;
         public InputAction @CameraLook => m_Wrapper.m_PlayerInput_CameraLook;
+        public InputAction @Run => m_Wrapper.m_PlayerInput_Run;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -204,6 +227,9 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                 @CameraLook.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnCameraLook;
                 @CameraLook.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnCameraLook;
                 @CameraLook.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnCameraLook;
+                @Run.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnRun;
+                @Run.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnRun;
+                @Run.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnRun;
             }
             m_Wrapper.m_PlayerInputActionsCallbackInterface = instance;
             if (instance != null)
@@ -214,6 +240,9 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                 @CameraLook.started += instance.OnCameraLook;
                 @CameraLook.performed += instance.OnCameraLook;
                 @CameraLook.canceled += instance.OnCameraLook;
+                @Run.started += instance.OnRun;
+                @Run.performed += instance.OnRun;
+                @Run.canceled += instance.OnRun;
             }
         }
     }
@@ -222,5 +251,6 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnCameraLook(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
     }
 }
