@@ -504,6 +504,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 223563041}
+  targetCameraRot: {x: 0, y: 0, z: 0}
+  curCameraRot: {x: 0, y: 0, z: 0}
+  dampVelocity: {x: 0, y: 0, z: 0}
   cameraRotSpeed: 0.5
   cameraSmoothTime: 0.1
   maxVerticalAngle: {x: -30, y: 30}
@@ -2565,6 +2568,7 @@ GameObject:
   - component: {fileID: 2016342712509961843}
   - component: {fileID: 2016342712510122898}
   - component: {fileID: 2016342712510122904}
+  - component: {fileID: 2016342712510122908}
   - component: {fileID: 2016342712510122906}
   m_Layer: 0
   m_Name: MainPlayer
@@ -2685,11 +2689,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2016342712510122897}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 146be8b9cbc40df4cad60fa4b9c764f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d5d0bcc22f67ba468f05a1774c5b349, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerMovementController: {fileID: 0}
-  PlayerAnimatorController: {fileID: 0}
+  CharacterController: {fileID: 0}
 --- !u!1 &2016342712510122907
 GameObject:
   m_ObjectHideFlags: 0
@@ -2706,6 +2709,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2016342712510122908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016342712510122897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f5584cd55d1303419327c5e106df680, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2016342712510122909
 GameObject:
   m_ObjectHideFlags: 0

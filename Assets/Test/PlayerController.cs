@@ -1,41 +1,41 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Test;
-using UnityEngine;
+// using System;
+// using System.Collections;
+// using System.Collections.Generic;
+// using Test;
+// using UnityEngine;
 
-namespace Tset
-{
-    public class PlayerController : MonoBehaviour
-    {
-        [HideInInspector] public PlayerMovementController PlayerMovementController;
-        [HideInInspector] public PlayerAnimatorController PlayerAnimatorController;
+// namespace Test
+// {
+//     public class PlayerController : MonoBehaviour
+//     {
+//         [HideInInspector] public PlayerMovementController PlayerMovementController;
+//         [HideInInspector] public PlayerAnimatorController PlayerAnimatorController;
 
-        private void Awake()
-        {
-            PlayerMovementController = gameObject.AddComponent<PlayerMovementController>();
-            PlayerAnimatorController = gameObject.AddComponent<PlayerAnimatorController>();
+//         private void Awake()
+//         {
+//             PlayerMovementController = gameObject.AddComponent<PlayerMovementController>();
+//             PlayerAnimatorController = gameObject.AddComponent<PlayerAnimatorController>();
 
-            PlayerAnimatorController.Bind(GetComponent<Animator>(), this);
-            PlayerMovementController.Bind(GetComponent<CharacterController>(), this);
-        }
+//             PlayerAnimatorController.Bind(GetComponent<Animator>(), this);
+//             PlayerMovementController.Bind(GetComponent<CharacterController>(), this);
+//         }
 
-        private void Start()
-        {
-            PlayerAnimatorController.OnStart();
-            PlayerMovementController.OnStart();
-        }
+//         private void Start()
+//         {
+//             PlayerAnimatorController.OnStart();
+//             PlayerMovementController.OnStart();
+//         }
 
-        private void Update()
-        {
-            PlayerAnimatorController.OnUpdate();
-            PlayerMovementController.OnUpdate();
-        }
+//         private void Update()
+//         {
+//             PlayerAnimatorController.OnUpdate();
+//             PlayerMovementController.OnUpdate();
+//         }
 
-        private void OnAnimatorMove()
-        {
-            PlayerAnimatorController.OnAnimatorMove();
-        }
-    }
-}
+//         private void OnAnimatorMove()
+//         {
+//             PlayerAnimatorController.OnAnimatorMove();
+//         }
+//     }
+// }
 
