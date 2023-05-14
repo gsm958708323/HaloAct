@@ -16,20 +16,25 @@ namespace Tset
             PlayerMovementController = gameObject.AddComponent<PlayerMovementController>();
             PlayerAnimatorController = gameObject.AddComponent<PlayerAnimatorController>();
 
-            PlayerMovementController.Bind<CharacterController>(GetComponent<CharacterController>());
-            PlayerAnimatorController.Bind<Animator>(GetComponent<Animator>());
+            PlayerAnimatorController.Bind(GetComponent<Animator>(), this);
+            PlayerMovementController.Bind(GetComponent<CharacterController>(), this);
         }
 
         private void Start()
         {
-            PlayerMovementController.OnStart();
             PlayerAnimatorController.OnStart();
+            PlayerMovementController.OnStart();
         }
 
         private void Update()
         {
-            PlayerMovementController.OnUpdate();
             PlayerAnimatorController.OnUpdate();
+            PlayerMovementController.OnUpdate();
+        }
+
+        private void OnAnimatorMove()
+        {
+            PlayerAnimatorController.OnAnimatorMove();
         }
     }
 }

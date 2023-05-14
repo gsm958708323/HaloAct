@@ -424,7 +424,7 @@ Transform:
   m_GameObject: {fileID: 357748881}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 1, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2563,9 +2563,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2016342712509961843}
-  - component: {fileID: 2016342712510122900}
   - component: {fileID: 2016342712510122898}
   - component: {fileID: 2016342712510122904}
+  - component: {fileID: 2016342712510122906}
   m_Layer: 0
   m_Name: MainPlayer
   m_TagString: Hero
@@ -2608,26 +2608,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2016342712510122900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2016342712510122897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81e6f7495f3c9924da8d12aebf7673dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  checkGroundRadius: 0.35
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  checkGroundOffsetY: -0.35
-  inAirLevelTime: 0.15
-  verticalVelocityMax: 54
-  verticalVelocity: 0
 --- !u!1 &2016342712510122901
 GameObject:
   m_ObjectHideFlags: 0
@@ -2696,6 +2676,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2016342712510122906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016342712510122897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 146be8b9cbc40df4cad60fa4b9c764f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerMovementController: {fileID: 0}
+  PlayerAnimatorController: {fileID: 0}
 --- !u!1 &2016342712510122907
 GameObject:
   m_ObjectHideFlags: 0

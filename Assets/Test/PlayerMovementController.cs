@@ -1,14 +1,14 @@
+using System.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tset;
 using UnityEngine;
 
 namespace Test
 {
-    public class PlayerMovementController : ILogic
+    public class PlayerMovementController : ILogic<CharacterController, PlayerController>
     {
-        CharacterController characterController;
-
         Vector3 checkGroundPos;
         [SerializeField] float checkGroundRadius;
         [SerializeField] LayerMask groundLayer;
@@ -26,13 +26,10 @@ namespace Test
         /// 当前的垂直速度
         /// </summary>
         [SerializeField] float verticalVelocity;
-        Vector3 direction;
+        [SerializeField] float rotationAnglel;
 
-        public override void Bind<T>(T t)
-        {
-            base.Bind(t);
-            this.characterController = t as CharacterController;
-        }
+        Vector3 direction;
+        bool isGround;
 
         // Update is called once per frame
         public override void OnUpdate()
@@ -41,7 +38,8 @@ namespace Test
 
             // 落地检测（球形检测 ）
             bool isGround = CheckIsGround();
-            print(isGround);
+            // print(isGround);
+            this.isGround = isGround;
 
             // 小跳和大跳（通过落地时间区别）
             if (isGround)
@@ -69,22 +67,49 @@ namespace Test
 
             // 坡道检测
 
+            // 旋转
+            var Movement = GameInputMgr.Instance.Movement;
+            if (Movement != Vector2.zero)
+            {
+                rotationAnglel = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg;
+                SetAngle(rotationAnglel);
+            }
 
             // 重力计算
             direction.Set(0, -verticalVelocity, 0);
-            characterController.Move(direction * Time.deltaTime);
+            MoveVertical(direction);
         }
 
-        private void OnDrawGizmos()
+        public void MoveHonrizontal(Vector3 direction)
         {
-            checkGroundPos.Set(transform.position.x, transform.position.y - checkGroundOffsetY, transform.position.z);
-            Gizmos.DrawWireSphere(checkGroundPos, checkGroundRadius);
+            ctrl.Move(direction * Time.deltaTime);
+        }
+
+        public void MoveVertical(Vector3 direction)
+        {
+            ctrl.Move(direction * Time.deltaTime);
+        }
+
+        public void SetAngle(float angle)
+        {
+            ctrl.transform.eulerAngles = Vector3.up * angle;
+        }
+
+        public bool GetIsGround()
+        {
+            return isGround;
         }
 
         private bool CheckIsGround()
         {
             checkGroundPos.Set(transform.position.x, transform.position.y - checkGroundOffsetY, transform.position.z);
             return Physics.CheckSphere(checkGroundPos, checkGroundRadius, groundLayer, QueryTriggerInteraction.Ignore);
+        }
+
+        private void OnDrawGizmos()
+        {
+            checkGroundPos.Set(transform.position.x, transform.position.y - checkGroundOffsetY, transform.position.z);
+            Gizmos.DrawWireSphere(checkGroundPos, checkGroundRadius);
         }
     }
 }

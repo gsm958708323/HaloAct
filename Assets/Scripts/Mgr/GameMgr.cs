@@ -24,7 +24,7 @@ public class GameMgr : MonoBehaviour
     {
         GameObject player = GameObject.Instantiate(info.Prefab);
         player.transform.position = info.BornPoint;
-        player.AddComponent<PlayerController>().Init(info);
+        player.AddComponent<PlayerController2>().Init(info);
         return player;
     }
 }

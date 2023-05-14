@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tset;
 using UnityEngine;
 
 namespace Test
@@ -12,14 +14,15 @@ namespace Test
         public const string Run = "Run";
     }
 
-    public class PlayerAnimatorController : ILogic
+    public class PlayerAnimatorController : ILogic<Animator, PlayerController>
     {
-        Animator animator;
+        float tweenTime = 0.2f;
 
-        public override void Bind<T>(T t)
+        //应用根运动
+        internal void OnAnimatorMove()
         {
-            base.Bind(t);
-            this.animator = t as Animator;
+            ctrl.ApplyBuiltinRootMotion();
+            parent.PlayerMovementController.MoveHonrizontal(ctrl.deltaPosition);
         }
 
         public override void OnStart()
@@ -30,7 +33,29 @@ namespace Test
         public override void OnUpdate()
         {
             base.OnUpdate();
+
+            UpdateLocomotion();
+        }
+
+        private void UpdateLocomotion()
+        {
+            bool hasInput = GameInputMgr.Instance.Movement != Vector2.zero;
+            ctrl.SetBool(AnimtorDefine.HasInput, hasInput);
+
+            bool isRun = GameInputMgr.Instance.IsRun;
+            ctrl.SetBool(AnimtorDefine.Run, isRun);
+
+            bool isGround = parent.PlayerMovementController.GetIsGround();
+            if (isGround && hasInput)
+            {
+                //判断是否按下快速奔跑
+                float speed = isRun ? GameInputMgr.Instance.Movement.sqrMagnitude * 2 : GameInputMgr.Instance.Movement.sqrMagnitude;
+                ctrl.SetFloat(AnimtorDefine.Movement, speed, tweenTime, Time.deltaTime);
+            }
+            else
+            {
+                ctrl.SetFloat(AnimtorDefine.Movement, 0, tweenTime, Time.deltaTime);
+            }
         }
     }
-
 }
