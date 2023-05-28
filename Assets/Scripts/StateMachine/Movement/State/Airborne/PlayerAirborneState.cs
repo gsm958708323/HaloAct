@@ -4,19 +4,10 @@ using UnityEngine;
 
 namespace MovementSystem
 {
-    public class PlayerAirborneState : MonoBehaviour
+    public class PlayerAirborneState : PlayerMovementState
     {
-        // Start is called before the first frame update
-        void Start()
+        public PlayerAirborneState(PlayerMovementStateMachine machine) : base(machine)
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
     }
-
 }

@@ -53,6 +53,51 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WalkToggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""3c218541-c007-4d37-ab3e-7bd80f93626f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""9a335531-bdda-48e9-85ec-2542df5db24d"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""8109cf1f-7fc1-478f-a01a-13775d0dae11"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Spint"",
+                    ""type"": ""Button"",
+                    ""id"": ""af3ebb5b-605f-478a-b2d1-cfefc90555a8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""f440b692-0f83-4bad-8fbf-37f8398063c7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +177,61 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                     ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""952c28b6-e3aa-4331-9a24-313fbf44e67e"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WalkToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e617a210-9fec-4d84-9cd6-88b0c978f5c5"",
+                    ""path"": ""<VirtualMouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cb9de705-13a8-4f86-b9f8-6eb8be695be7"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dbc0fbf9-db7c-4f94-9b86-e67cc35c009b"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Spint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""95e6495e-7f15-4c50-9d09-0ed0eebc3175"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -143,6 +243,11 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         m_PlayerInput_Movement = m_PlayerInput.FindAction("Movement", throwIfNotFound: true);
         m_PlayerInput_CameraLook = m_PlayerInput.FindAction("CameraLook", throwIfNotFound: true);
         m_PlayerInput_Run = m_PlayerInput.FindAction("Run", throwIfNotFound: true);
+        m_PlayerInput_WalkToggle = m_PlayerInput.FindAction("WalkToggle", throwIfNotFound: true);
+        m_PlayerInput_Zoom = m_PlayerInput.FindAction("Zoom", throwIfNotFound: true);
+        m_PlayerInput_Dash = m_PlayerInput.FindAction("Dash", throwIfNotFound: true);
+        m_PlayerInput_Spint = m_PlayerInput.FindAction("Spint", throwIfNotFound: true);
+        m_PlayerInput_Jump = m_PlayerInput.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -205,6 +310,11 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerInput_Movement;
     private readonly InputAction m_PlayerInput_CameraLook;
     private readonly InputAction m_PlayerInput_Run;
+    private readonly InputAction m_PlayerInput_WalkToggle;
+    private readonly InputAction m_PlayerInput_Zoom;
+    private readonly InputAction m_PlayerInput_Dash;
+    private readonly InputAction m_PlayerInput_Spint;
+    private readonly InputAction m_PlayerInput_Jump;
     public struct PlayerInputActions
     {
         private @GameInput m_Wrapper;
@@ -212,6 +322,11 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_PlayerInput_Movement;
         public InputAction @CameraLook => m_Wrapper.m_PlayerInput_CameraLook;
         public InputAction @Run => m_Wrapper.m_PlayerInput_Run;
+        public InputAction @WalkToggle => m_Wrapper.m_PlayerInput_WalkToggle;
+        public InputAction @Zoom => m_Wrapper.m_PlayerInput_Zoom;
+        public InputAction @Dash => m_Wrapper.m_PlayerInput_Dash;
+        public InputAction @Spint => m_Wrapper.m_PlayerInput_Spint;
+        public InputAction @Jump => m_Wrapper.m_PlayerInput_Jump;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -230,6 +345,21 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                 @Run.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnRun;
                 @Run.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnRun;
                 @Run.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnRun;
+                @WalkToggle.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnWalkToggle;
+                @WalkToggle.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnWalkToggle;
+                @WalkToggle.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnWalkToggle;
+                @Zoom.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnZoom;
+                @Zoom.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnZoom;
+                @Zoom.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnZoom;
+                @Dash.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnDash;
+                @Spint.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSpint;
+                @Spint.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSpint;
+                @Spint.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSpint;
+                @Jump.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_PlayerInputActionsCallbackInterface = instance;
             if (instance != null)
@@ -243,6 +373,21 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                 @Run.started += instance.OnRun;
                 @Run.performed += instance.OnRun;
                 @Run.canceled += instance.OnRun;
+                @WalkToggle.started += instance.OnWalkToggle;
+                @WalkToggle.performed += instance.OnWalkToggle;
+                @WalkToggle.canceled += instance.OnWalkToggle;
+                @Zoom.started += instance.OnZoom;
+                @Zoom.performed += instance.OnZoom;
+                @Zoom.canceled += instance.OnZoom;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
+                @Spint.started += instance.OnSpint;
+                @Spint.performed += instance.OnSpint;
+                @Spint.canceled += instance.OnSpint;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -252,5 +397,10 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnCameraLook(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
+        void OnWalkToggle(InputAction.CallbackContext context);
+        void OnZoom(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
+        void OnSpint(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }

@@ -13,6 +13,8 @@ namespace MovementSystem
         public PlayerStopingState StopingState { get; private set; }
 
         public PlayerLandingState LandingState { get; private set; }
+        public PlayerJumpState JumpState { get; internal set; }
+        public PlayerDashState DashState { get; internal set; }
 
         public PlayerMovementStateMachine(Player player)
         {

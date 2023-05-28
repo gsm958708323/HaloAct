@@ -9,6 +9,15 @@ namespace MovementSystem
         public override void Enter()
         {
             base.Enter();
+
+            SetAnimBool(AnimDef.Idle, true);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            SetAnimBool(AnimDef.Idle, false);
         }
     }
 }

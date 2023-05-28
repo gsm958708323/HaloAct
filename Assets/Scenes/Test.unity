@@ -439,7 +439,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1420351039}
-  - component: {fileID: 1420351038}
   m_Layer: 0
   m_Name: GameMgr
   m_TagString: Untagged
@@ -447,18 +446,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1420351038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1420351037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7466af45f9c93b1408d72360b5d4f424, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1420351039
 Transform:
   m_ObjectHideFlags: 0
@@ -483,7 +470,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1868551192}
-  - component: {fileID: 1868551191}
+  - component: {fileID: 1868551193}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: Untagged
@@ -491,27 +478,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1868551191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1868551189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc10bc3b39639d044a0eb94d24ef33c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Target: {fileID: 223563041}
-  targetCameraRot: {x: 0, y: 0, z: 0}
-  curCameraRot: {x: 0, y: 0, z: 0}
-  dampVelocity: {x: 0, y: 0, z: 0}
-  cameraRotSpeed: 0.5
-  cameraSmoothTime: 0.1
-  maxVerticalAngle: {x: -30, y: 30}
-  cameraTargetOffset: 4
-  posSmoothTime: 0.5
 --- !u!4 &1868551192
 Transform:
   m_ObjectHideFlags: 0
@@ -528,6 +494,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1868551193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1868551189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc10bc3b39639d044a0eb94d24ef33c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 2016342712510122906}
+  cameraRotSpeed: 1
+  cameraSmoothTime: 0.1
+  maxVerticalAngle: {x: -30, y: 30}
+  cameraZoom: 1
+  cameraOffset: {x: 0, y: 1.56, z: -4.05}
+  posSmoothTime: 0.5
 --- !u!137 &2016342712504911657
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -2693,6 +2678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterController: {fileID: 0}
+  CameraTransform: {fileID: 0}
 --- !u!1 &2016342712510122907
 GameObject:
   m_ObjectHideFlags: 0

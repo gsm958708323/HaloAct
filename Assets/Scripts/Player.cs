@@ -9,15 +9,19 @@ namespace MovementSystem
     [RequireComponent(typeof(CharacterController))]
     public class Player : MonoBehaviour
     {
-        PlayerGameInput Input;
-        public CharacterController CharacterController;
+        [HideInInspector]public CharacterController CharacterController;
+        [HideInInspector]public Transform CameraTransform;
+        [HideInInspector]public Animator Animator;
 
+        PlayerGameInput Input;
         PlayerMovementStateMachine movementStateMachine;
 
         private void Awake()
         {
             Input = GetComponent<PlayerGameInput>();
             CharacterController = GetComponent<CharacterController>();
+            Animator = GetComponent<Animator>();
+            CameraTransform = Camera.main.transform;
             movementStateMachine = new PlayerMovementStateMachine(this);
         }
 
@@ -40,6 +44,16 @@ namespace MovementSystem
         public PlayerInputActions GetPlayerAction()
         {
             return Input.PlayerAction.PlayerInput;
+        }
+
+        public void Move(Vector3 dir)
+        {
+            CharacterController.Move(dir);
+        }
+
+        public void SetDir(Vector3 dir)
+        {
+            transform.eulerAngles = dir;
         }
     }
 }
