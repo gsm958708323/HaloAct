@@ -5,7 +5,7 @@ namespace MovementSystem
     public class PlayerMovementState : IState
     {
         protected PlayerMovementStateMachine statemMachine;
-        Vector2 movementInput;
+        protected Vector2 movementInput;
         float baseSpeed = 1;
         float speedModifier = 1;
         float speedTemp = 0.1f;
@@ -89,7 +89,6 @@ namespace MovementSystem
             // 增加摄像机的旋转角度
             targetAngle += statemMachine.Player.CameraTransform.eulerAngles.y;
             targetAngle = targetAngle % 360;
-            Debug.Log(targetAngle);
 
             statemMachine.Player.SetDir(Vector3.up * targetAngle);
             return targetAngle;
@@ -105,6 +104,18 @@ namespace MovementSystem
         }
 
         public virtual void Update()
+        {
+            Animator animator = statemMachine.Player.Animator;
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            // 如果动画已完成
+            if (stateInfo.normalizedTime >= 1.0f && !animator.IsInTransition(0))
+            {
+                // 触发回调
+                OnAnimationFinished();
+            }
+        }
+
+        public virtual void OnAnimationFinished()
         {
         }
     }

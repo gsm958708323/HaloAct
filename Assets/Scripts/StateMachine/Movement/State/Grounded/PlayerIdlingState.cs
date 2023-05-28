@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace MovementSystem
 {
     public class PlayerIdlingState : PlayerGroundedState
@@ -10,14 +12,25 @@ namespace MovementSystem
         {
             base.Enter();
 
-            SetAnimBool(AnimDef.Idle, true);
+            SetAnimBool(AnimDef.IsIdling, true);
         }
 
         public override void Exit()
         {
-            base.Exit();
+            SetAnimBool(AnimDef.IsIdling, false);
 
-            SetAnimBool(AnimDef.Idle, false);
+            base.Exit();
+        }
+
+        public override void Update()
+        {
+            base.Update();
+            if (movementInput == Vector2.zero)
+            {
+                return;
+            }   
+
+            statemMachine.ChangeState(statemMachine.MovingState);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace MovementSystem
     {
         protected IState curState;
 
-        public void ChangeState(IState newState)
+        public void ChangeState(IState newState, params object[] args)
         {
             curState?.Exit();
             curState = newState;

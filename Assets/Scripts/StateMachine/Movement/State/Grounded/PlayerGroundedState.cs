@@ -12,26 +12,16 @@ namespace MovementSystem
         {
         }
 
-        protected override void AddInputCallbacks()
+        public override void Enter()
         {
-            base.AddInputCallbacks();
-            statemMachine.Player.GetPlayerAction().Dash.started += OnDash;
-            statemMachine.Player.GetPlayerAction().Jump.started += OnJump;
-        }
-        protected override void RemoveInputCallbacks()
-        {
-            statemMachine.Player.GetPlayerAction().Dash.started -= OnDash;
-            statemMachine.Player.GetPlayerAction().Jump.started -= OnJump;
+            base.Enter();
+            SetAnimBool(AnimDef.Grouned, true);
         }
 
-        private void OnJump(InputAction.CallbackContext context)
+        public override void Exit()
         {
-            statemMachine.ChangeState(statemMachine.JumpState);
-        }
-
-        private void OnDash(InputAction.CallbackContext context)
-        {
-            statemMachine.ChangeState(statemMachine.DashState);
+            SetAnimBool(AnimDef.Grouned, false);
+            base.Exit();
         }
     }
 }

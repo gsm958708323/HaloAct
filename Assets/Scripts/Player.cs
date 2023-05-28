@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -54,6 +55,23 @@ namespace MovementSystem
         public void SetDir(Vector3 dir)
         {
             transform.eulerAngles = dir;
+        }
+
+        internal void OnAnimationEnterEvent()
+        {
+            Debug.Log("OnAnimationEnterEvent");
+        }
+
+        internal void OnAnimationExitEvent()
+        {
+            Debug.Log("OnAnimationExitEvent");
+
+        }
+
+        internal void OnAnimationTransitionEvent()
+        {
+            Debug.Log("OnAnimationTransitionEvent");
+
         }
     }
 }
