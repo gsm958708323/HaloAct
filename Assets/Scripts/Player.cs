@@ -10,12 +10,16 @@ namespace MovementSystem
     [RequireComponent(typeof(CharacterController))]
     public class Player : MonoBehaviour
     {
-        [HideInInspector]public CharacterController CharacterController;
-        [HideInInspector]public Transform CameraTransform;
-        [HideInInspector]public Animator Animator;
+        [HideInInspector] public CharacterController CharacterController;
+        [HideInInspector] public Transform CameraTransform;
+        [HideInInspector] public Animator Animator;
 
         PlayerGameInput Input;
         PlayerMovementStateMachine movementStateMachine;
+
+        Vector3 checkGroundPos;
+        [SerializeField] LayerMask groundLayer;
+        bool isGround = false;
 
         private void Awake()
         {
@@ -39,12 +43,30 @@ namespace MovementSystem
 
         private void FixedUpdate()
         {
+            isGround = CheckGround();
             movementStateMachine.PhysicsUpdate();
+        }
+
+        private bool CheckGround()
+        {
+            checkGroundPos.Set(transform.position.x, transform.position.y, transform.position.z);
+            return Physics.CheckSphere(checkGroundPos, 0.2f, groundLayer, QueryTriggerInteraction.Ignore);
+        }
+
+        private void OnDrawGizmos()
+        {
+            checkGroundPos.Set(transform.position.x, transform.position.y, transform.position.z);
+            Gizmos.DrawWireSphere(checkGroundPos, 0.2f);
         }
 
         public PlayerInputActions GetPlayerAction()
         {
             return Input.PlayerAction.PlayerInput;
+        }
+
+        public bool GetIsGround()
+        {
+            return isGround;
         }
 
         public void Move(Vector3 dir)
@@ -55,23 +77,6 @@ namespace MovementSystem
         public void SetDir(Vector3 dir)
         {
             transform.eulerAngles = dir;
-        }
-
-        internal void OnAnimationEnterEvent()
-        {
-            Debug.Log("OnAnimationEnterEvent");
-        }
-
-        internal void OnAnimationExitEvent()
-        {
-            Debug.Log("OnAnimationExitEvent");
-
-        }
-
-        internal void OnAnimationTransitionEvent()
-        {
-            Debug.Log("OnAnimationTransitionEvent");
-
         }
     }
 }

@@ -65,6 +65,6 @@ public class CameraMgr : MonoBehaviour
         // 设置位置（将原始向量偏移）
         var pos = player.transform.position + (transform.forward * cameraOffset.z + transform.right * cameraOffset.x + transform.up * cameraOffset.y) * cameraZoom;
         transform.position = pos;
-        // transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * posSmoothTime);
+        transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * posSmoothTime);
     }
 }

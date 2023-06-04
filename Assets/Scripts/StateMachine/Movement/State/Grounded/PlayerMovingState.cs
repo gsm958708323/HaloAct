@@ -58,7 +58,8 @@ namespace MovementSystem
         private void OnWolkToggle(InputAction.CallbackContext context)
         {
             walkToggle = !walkToggle;
-            moveValue = walkToggle ? 1f : 2f;
+            moveValue = walkToggle ? 1f : 0f;
+            speedModifier = walkToggle ? 2f : 1f;
             SetAnimFloat(AnimDef.MoveValue, moveValue);
         }
 

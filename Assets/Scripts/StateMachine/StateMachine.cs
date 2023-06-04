@@ -30,5 +30,4 @@ namespace MovementSystem
             curState?.PhysicsUpdate();
         }
     }
-
 }

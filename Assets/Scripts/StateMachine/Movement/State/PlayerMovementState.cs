@@ -2,12 +2,20 @@ using System;
 using UnityEngine;
 namespace MovementSystem
 {
-    public class PlayerMovementState : IState
+    public class PlayerMovementState : IState 
     {
         protected PlayerMovementStateMachine statemMachine;
         protected Vector2 movementInput;
+
+        protected float VerticalInput
+        {
+            get { return verticalInput; }
+            set { verticalInput = Math.Clamp(value, -20, 20); }
+        }
+        float verticalInput;
+
         float baseSpeed = 1;
-        float speedModifier = 1;
+        protected float speedModifier = 1;
         float speedTemp = 0.1f;
 
         public PlayerMovementState(PlayerMovementStateMachine machine)
@@ -43,7 +51,7 @@ namespace MovementSystem
 
         public virtual void PhysicsUpdate()
         {
-            if (movementInput == Vector2.zero || speedModifier == 0)
+            if ((movementInput == Vector2.zero || speedModifier == 0) && verticalInput == 0)
             {
                 return;
             }
@@ -53,7 +61,7 @@ namespace MovementSystem
             Vector3 rotationDir = GetRotationDirection(angle);
 
             float speed = baseSpeed * speedModifier;
-            statemMachine.Player.Move(rotationDir * speed * speedTemp);
+            statemMachine.Player.Move(rotationDir * speed * speedTemp + Vector3.up * verticalInput * speedTemp);
         }
 
         protected void SetAnimBool(string name, bool toggle)
@@ -65,6 +73,7 @@ namespace MovementSystem
         {
             statemMachine.Player.Animator.SetFloat(name, value);
         }
+
 
         /// <summary>
         /// 获取方向向量

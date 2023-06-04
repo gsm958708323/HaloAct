@@ -13,7 +13,7 @@ namespace MovementSystem
         }
 
         public override void Enter()
-        {
+    {
             base.Enter();
             SetAnimBool(AnimDef.Grouned, true);
         }
@@ -22,6 +22,32 @@ namespace MovementSystem
         {
             SetAnimBool(AnimDef.Grouned, false);
             base.Exit();
+        }
+
+        protected override void AddInputCallbacks()
+        {
+            base.AddInputCallbacks();
+            statemMachine.Player.GetPlayerAction().Jump.started += OnJump;
+            statemMachine.Player.GetPlayerAction().Dash.started += OnDash;
+        }
+
+
+
+        protected override void RemoveInputCallbacks()
+        {
+            statemMachine.Player.GetPlayerAction().Jump.started -= OnJump;
+            statemMachine.Player.GetPlayerAction().Dash.started -= OnDash;
+            base.RemoveInputCallbacks();
+        }
+
+        private void OnDash(InputAction.CallbackContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnJump(InputAction.CallbackContext context)
+        {
+            statemMachine.ChangeState(statemMachine.JumpState);
         }
     }
 }

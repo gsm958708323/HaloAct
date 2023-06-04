@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace MovementSystem
 
         public PlayerLandingState LandingState { get; private set; }
         public PlayerJumpState JumpState { get; internal set; }
+        public PlayerFallState FallState { get; internal set; }
         public PlayerDashState DashState { get; internal set; }
 
         public PlayerMovementStateMachine(Player player)
@@ -23,6 +25,8 @@ namespace MovementSystem
             MovingState = new PlayerMovingState(this);
             StopingState = new PlayerStopingState(this);
             LandingState = new PlayerLandingState(this);
+            FallState = new PlayerFallState(this);
+            JumpState = new PlayerJumpState(this);
         }
     }
 }
