@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a686a47eee2fa44cb0a34b5d86e4d5e, type: 3}
+  m_Name: Soldier Chase BT
+  m_EditorClassIdentifier: 
+  _serializedGraph: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"dynamic":true,"_position":{"x":5714.67,"y":5005.979},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"0"},{"dynamic":true,"_position":{"x":5400.0,"y":5175.0},"_comment":"Dynamic
+    for the Can See target condition","$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"1"},{"_condition":{"target":{"_name":"Target","_targetVariableID":"1c1a3c83-ccd6-49e1-bfb1-30924289768a"},"maxDistance":{"_value":50.0},"layerMask":{"_value":{"value":-1}},"awarnessDistance":{"_value":5.0},"viewAngle":{"_value":70.0},"$type":"NodeCanvas.Tasks.Conditions.CanSeeTarget"},"_position":{"x":5280.0,"y":5280.0},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"2"},{"_position":{"x":5520.0,"y":5295.0},"_comment":"Select
+    Move or Aim","$type":"NodeCanvas.BehaviourTrees.Selector","$id":"3"},{"dynamic":true,"_position":{"x":5310.0,"y":5415.0},"_comment":"Dynamic
+    for the distance check","$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"4"},{"_condition":{"checkTarget":{"_name":"Target","_targetVariableID":"1c1a3c83-ccd6-49e1-bfb1-30924289768a"},"distance":{"_value":5.0},"_invert":true,"$type":"NodeCanvas.Tasks.Conditions.CheckDistanceToGameObject"},"_position":{"x":5125.0,"y":5531.0},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"5"},{"policy":1,"_position":{"x":5353.0,"y":5534.0},"$type":"NodeCanvas.BehaviourTrees.Parallel","$id":"6"},{"_action":{"log":{"_value":"Come
+    here!"},"labelYOffset":2.2,"$type":"NodeCanvas.Tasks.Actions.DebugLogText"},"_position":{"x":5201.0,"y":5665.0},"_comment":"Log
+    something","$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"7"},{"_action":{"actions":[{"animationClip":{"_value":1},"waitActionFinish":false,"$type":"NodeCanvas.Tasks.Actions.PlayAnimationSimple"},{"target":{"_name":"Target","_targetVariableID":"1c1a3c83-ccd6-49e1-bfb1-30924289768a"},"speed":{"_value":5.0},"keepDistance":{"_value":0.1},"$type":"NodeCanvas.Tasks.Actions.MoveToGameObject"}],"$type":"NodeCanvas.Framework.ActionList"},"_position":{"x":5398.0,"y":5667.0},"_comment":"Move
+    to target","$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"8"},{"dynamic":true,"_position":{"x":5686.0,"y":5407.0},"_comment":"Repeat
+    finished children.","$type":"NodeCanvas.BehaviourTrees.Parallel","$id":"9"},{"_action":{"log":{"_value":"Halt!"},"labelYOffset":2.2,"$type":"NodeCanvas.Tasks.Actions.DebugLogText"},"_position":{"x":5579.0,"y":5531.0},"_comment":"Log
+    something","$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"10"},{"_action":{"actions":[{"animationClip":{"_value":2},"waitActionFinish":false,"$type":"NodeCanvas.Tasks.Actions.PlayAnimationSimple"},{"lookTarget":{"_name":"Target","_targetVariableID":"1c1a3c83-ccd6-49e1-bfb1-30924289768a"},"$type":"NodeCanvas.Tasks.Actions.LookAt"}],"$type":"NodeCanvas.Framework.ActionList"},"_position":{"x":5754.0,"y":5530.0},"_comment":"Aim
+    Target","$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"11"},{"_position":{"x":6036.0,"y":5178.0},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"12"},{"_action":{"actions":[{"animationClip":{"_value":3},"waitActionFinish":false,"$type":"NodeCanvas.Tasks.Actions.PlayAnimationSimple"},{"log":{"_value":"?"},"labelYOffset":2.2,"$type":"NodeCanvas.Tasks.Actions.DebugLogText"}],"$type":"NodeCanvas.Framework.ActionList"},"_position":{"x":5961.0,"y":5283.0},"_comment":"Idle
+    for a moment","$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"13"},{"_action":{"actions":[{"animationClip":{"_value":4},"waitActionFinish":false,"$type":"NodeCanvas.Tasks.Actions.PlayAnimationSimple"},{"targetList":{"_name":"PatrolWayPoints","_targetVariableID":"6fb24bd1-6887-4088-ab29-071d218d7ff1"},"patrolMode":{"_value":1},"speed":{"_value":2.0},"keepDistance":{"_value":0.1},"$type":"NodeCanvas.Tasks.Actions.Patrol"}],"$type":"NodeCanvas.Framework.ActionList"},"_position":{"x":6096.0,"y":5283.0},"_comment":"Patrol
+    Waypoints","$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"14"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"12"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"3"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"3"},"_targetNode":{"$ref":"9"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"4"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"4"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"7"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"8"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"9"},"_targetNode":{"$ref":"10"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"9"},"_targetNode":{"$ref":"11"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"12"},"_targetNode":{"$ref":"13"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"12"},"_targetNode":{"$ref":"14"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{}},"derivedData":{"repeat":true,"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
+  _objectReferences:
+  - {fileID: 0}
+  - {fileID: 7400000, guid: 4bea189f5a8e647f08c31194e4939463, type: 3}
+  - {fileID: 7400000, guid: 9d050ebeea5fa46adaf512596eda0e60, type: 3}
+  - {fileID: 7400000, guid: 6008cc211c6684caca78771af67e2602, type: 3}
+  - {fileID: 7400000, guid: b80083f178d4a4a6d957d6e342950ecd, type: 3}
+  _graphSource:
+    _version: 3.26
+    _category: 
+    _comments: Makes the agent move to target up to distance and aim only if the
+      agent is able to see the target and the target is in fron of him in the first
+      place. Else, it patrols the way points provided in the list variable.
+    _translation: {x: -4908, y: -4911}
+    _zoomFactor: 1
+  _haltSerialization: 0
