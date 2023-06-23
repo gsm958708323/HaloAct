@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a686a47eee2fa44cb0a34b5d86e4d5e, type: 3}
-  m_Name: BehaviourTree
+  m_Name: BT1
   m_EditorClassIdentifier: 
   _serializedGraph: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"_position":{"x":961.8634,"y":638.5538},"$type":"NodeCanvas.BehaviourTrees.Parallel","$id":"0"},{"_position":{"x":801.2657,"y":784.3167},"_comment":"\u4e2d\u65ad\u8282\u70b9\u8fd4\u56de\u7ed3\u679c\u4e3afalse\uff0c\u5982\u679c\u4e2d\u65ad\u4e4b\u540e\u9700\u8981\u7ee7\u7eed\u6267\u884c\u5176\u4ed6\u8282\u70b9\uff0c\u5e94\u8be5\u7528Selector\u8282\u70b9","$type":"NodeCanvas.BehaviourTrees.Selector","$id":"1"},{"_condition":{"conditions":[{"eventName":{"_value":"Rains"},"saveEventValue":{"_name":"RainsVal","_targetVariableID":"259b1d98-d7f9-4401-8f83-34cb0c8c6c65"},"$type":"NodeCanvas.Tasks.Conditions.CheckEvent`1[[System.Int32,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},{"valueA":{"_name":"RainsVal","_targetVariableID":"259b1d98-d7f9-4401-8f83-34cb0c8c6c65"},"checkType":1,"valueB":{"_value":5},"$type":"NodeCanvas.Tasks.Conditions.CheckInt"}],"$type":"NodeCanvas.Framework.ConditionList"},"_position":{"x":643.8197,"y":889.4268},"_comment":"\u5982\u679c\u6536\u5230\u4e0b\u96e8\u4e8b\u4ef6\uff0c\u5e76\u4e14\u96e8\u4e0b\u7684\u7279\u522b\u5927\uff0c\u5219\u4e2d\u65ad\u8dd1\u6b65","$type":"NodeCanvas.BehaviourTrees.Interruptor","$id":"2"},{"_action":{"log":{"_value":"\u8dd1\u6b65"},"secondsToRun":5.0,"finishStatus":0,"$type":"NodeCanvas.Tasks.Actions.DebugLogText"},"_position":{"x":655.3105,"y":1068.639},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"3"},{"_action":{"log":{"_value":"\u56de\u5bb6"},"$type":"NodeCanvas.Tasks.Actions.DebugLogText"},"_position":{"x":887.5713,"y":922.1299},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"4"},{"repeaterMode":1,"repeatTimes":{"_value":1},"_position":{"x":1165.679,"y":785.7282},"$type":"NodeCanvas.BehaviourTrees.Repeater","$id":"5"},{"_position":{"x":1170.012,"y":928.3938},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"6"},{"_condition":{"$type":"NodeCanvas.Tasks.Conditions.CheckKeyboardInput"},"_position":{"x":1161.629,"y":1061.401},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"7"},{"_action":{"executionMode":1,"actions":[{"eventName":{"_value":"Rains"},"eventValue":{"_value":10},"delay":{},"$type":"NodeCanvas.Tasks.Actions.SendEvent`1[[System.Int32,
@@ -20,6 +20,6 @@ MonoBehaviour:
     _version: 3.26
     _category: 
     _comments: 
-    _translation: {x: -433, y: -538}
-    _zoomFactor: 1
+    _translation: {x: 1032, y: 350}
+    _zoomFactor: 0.4406812
   _haltSerialization: 0
