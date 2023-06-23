@@ -36,6 +36,6 @@ MonoBehaviour:
     _comments: Makes the agent move to target up to distance and aim only if the
       agent is able to see the target and the target is in fron of him in the first
       place. Else, it patrols the way points provided in the list variable.
-    _translation: {x: -5011, y: -4954}
+    _translation: {x: -4996, y: -5032}
     _zoomFactor: 1
   _haltSerialization: 0
