@@ -7,8 +7,9 @@ public class ResMgr : MonoSingleton<ResMgr>
     Dictionary<int, AbilityTimeline> abilityDict = new Dictionary<int, AbilityTimeline>();
     ResData resData;
 
-    protected override void Init()
+    protected override void Awake()
     {
+        base.Awake();
         resData = Resources.Load<ResData>("SO/ResData");
     }
 
