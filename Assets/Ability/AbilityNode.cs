@@ -6,7 +6,6 @@ namespace Ability
 {
     public abstract class AbilityNode : ILogic
     {
-
         /// <summary>
         /// 所有的叶子节点
         /// </summary>
@@ -18,6 +17,8 @@ namespace Ability
         /// </summary>
         /// <returns></returns>
         public List<AbilityAction> Actions = new();
+
+        public AbilityBehavior behavior;
 
         public int FrameLength { get; internal set; }
         public bool IsLoop { get; internal set; }

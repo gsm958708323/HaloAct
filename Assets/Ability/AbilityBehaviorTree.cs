@@ -6,6 +6,10 @@ using UnityEngine;
 
 namespace Ability
 {
+    /// <summary>
+    /// 技能行为树
+    /// 管理关系：AbilityBehaviorTree -> AbilityNode -> AbilityBehavior -> AbilityAction 
+    /// </summary>
     public class AbilityBehaviorTree
     {
         /// <summary>
@@ -19,7 +23,7 @@ namespace Ability
         /// <summary>
         /// 当前执行的叶子节点的索引
         /// </summary>
-        public int curChildIndex;
+        public int curBehaviorIndex;
         /// <summary>
         /// 存储所有的节点
         /// </summary>
@@ -101,6 +105,27 @@ namespace Ability
             return null;
         }
 
+        private bool CheckNextBehavior()
+        {
+            if (behaviorsList.Count == 0)
+            {
+                Debug.LogError($"没有可选择的行为列表");
+                return false;
+            }
+
+            if (curBehaviorIndex >= behaviorsList.Count)
+            {
+                curBehaviorIndex = 0;
+            }
+
+            var curBehavior = behaviorsList[curBehaviorIndex];
+            foreach (var newBehaviorIndex in curBehavior.Childs)
+            {
+                var newBehavior = behaviorsList[newBehaviorIndex];
+            }
+            return false;
+        }
+
         public void StartBehavior(AbilityNode newBehavior)
         {
             if (newBehavior == null)
@@ -112,7 +137,7 @@ namespace Ability
 
             if (curBehavior == GetBehavior("Default"))
             {
-                curChildIndex = 0;
+                curBehaviorIndex = 0;
             }
             actorModel.CanCancel = false;
         }
