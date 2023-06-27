@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using NodeCanvas.Tasks.Actions;
+using UnityEditor;
 using UnityEngine;
 
 namespace Ability
@@ -10,7 +12,7 @@ namespace Ability
     /// 技能行为树
     /// 管理关系：AbilityBehaviorTree -> AbilityNode -> AbilityBehavior -> AbilityAction 
     /// </summary>
-    public class AbilityBehaviorTree
+    public class AbilityBehaviorTree : ILogic
     {
         /// <summary>
         /// 当前行为的帧计数
@@ -19,16 +21,13 @@ namespace Ability
         /// <summary>
         /// 当前进行的行为节点
         /// </summary>
-        public AbilityNode curBehavior;
+        public AbilityBehavior curBehavior;
         /// <summary>
-        /// 当前执行的叶子节点的索引
+        /// 当前执行的行为节点的索引
         /// </summary>
-        public int curBehaviorIndex;
-        /// <summary>
-        /// 存储所有的节点
-        /// </summary>
-        /// <returns></returns>
-        public List<AbilityNode> behaviorsList = new();
+        public int curNodeIndex;
+        public List<AbilityNode> nodeList = new();
+        public List<AbilityBehavior> behaviorsList = new();
 
         float fps;
         float cacheTime;
@@ -40,7 +39,31 @@ namespace Ability
             fps = 1.0f / GameManager_Settings.TargetFraneRate;
         }
 
-        public void OnUpdate()
+        public void OnInit()
+        {
+            LoadBehavior();
+        }
+
+        private void LoadBehavior()
+        {
+            // todo 加载行为数据
+            if (behaviorsList.Count == 0)
+            {
+                Debug.LogError("行为数据初始化错误");
+            }
+        }
+
+        public void OnEnter()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnExit()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnTick()
         {
             if (curBehavior == null)
                 return;
@@ -91,7 +114,7 @@ namespace Ability
             StartBehavior(GetBehavior("Default"));
         }
 
-        private AbilityNode GetBehavior(string name)
+        private AbilityBehavior GetBehavior(string name)
         {
             foreach (var item in behaviorsList)
             {
@@ -105,28 +128,50 @@ namespace Ability
             return null;
         }
 
-        private bool CheckNextBehavior()
+        private AbilityBehavior TryGetNextBehavior()
         {
-            if (behaviorsList.Count == 0)
+            if (nodeList.Count == 0)
             {
-                Debug.LogError($"没有可选择的行为列表");
-                return false;
+                Debug.LogError($"没有可选择的行为节点");
+                return null;
             }
 
-            if (curBehaviorIndex >= behaviorsList.Count)
+            if (curNodeIndex >= behaviorsList.Count)
             {
-                curBehaviorIndex = 0;
+                curNodeIndex = 0;
             }
 
-            var curBehavior = behaviorsList[curBehaviorIndex];
-            foreach (var newBehaviorIndex in curBehavior.Childs)
+            AbilityNode curNode = nodeList[curNodeIndex];
+            int priority = -1;
+            AbilityNode nextNode = default;
+            foreach (var newNodeIndex in curNode.Childs)
             {
-                var newBehavior = behaviorsList[newBehaviorIndex];
+                AbilityNode newNode = nodeList[newNodeIndex];
+                AbilityBehavior behavior = newNode.Behavior;
+                // 检查输入
+                if (GameManager_Input.Instance.bufferKeys.Any(predicate => predicate == behavior.InputKey))
+                {
+                    // 检查条件
+                    if (behavior.CheckCondition(actorModel))
+                    {
+                        if (newNode.Priority > priority)
+                        {
+                            priority = newNode.Priority;
+                            nextNode = newNode;
+                        }
+                    }
+                }
             }
-            return false;
+            if (priority > -1)
+            {
+                curNodeIndex = nextNode.BehaviorIndex;
+                return behaviorsList[curNodeIndex];
+            }
+
+            return null;
         }
 
-        public void StartBehavior(AbilityNode newBehavior)
+        public void StartBehavior(AbilityBehavior newBehavior)
         {
             if (newBehavior == null)
                 return;
@@ -137,12 +182,12 @@ namespace Ability
 
             if (curBehavior == GetBehavior("Default"))
             {
-                curBehaviorIndex = 0;
+                curNodeIndex = 0;
             }
             actorModel.CanCancel = false;
         }
 
-        private void ResetBehavior(AbilityNode newBehavior)
+        private void ResetBehavior(AbilityBehavior newBehavior)
         {
             foreach (var item in newBehavior.Actions)
             {

@@ -4,25 +4,20 @@ using UnityEngine;
 
 namespace Ability
 {
+    /// <summary>
+    /// 记录行为节点的连招过渡关系和其他拓展信息
+    /// </summary>
     public abstract class AbilityNode : ILogic
     {
         /// <summary>
-        /// 所有的叶子节点
+        /// 所有的叶子节点的索引
         /// </summary>
         /// <returns></returns>
         public List<int> Childs = new();
 
-        /// <summary>
-        /// 动作列表
-        /// </summary>
-        /// <returns></returns>
-        public List<AbilityAction> Actions = new();
-
-        public AbilityBehavior behavior;
-
-        public int FrameLength { get; internal set; }
-        public bool IsLoop { get; internal set; }
-        public string Name { get; internal set; }
+        public AbilityBehavior Behavior { get; internal set; }
+        public int Priority { get; internal set; }
+        public int BehaviorIndex { get; internal set; }
 
         public void OnEnter()
         {
