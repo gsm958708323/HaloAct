@@ -6,19 +6,22 @@ namespace Ability
 {
     public abstract class AbilityAction : ILogicT<ActorModel>
     {
-        public virtual void OnEnter(ActorModel t)
+        public int StartFrame { get; internal set; }
+        public int EndFrame { get; internal set; }
+
+        public virtual void Enter(ActorModel t)
         {
         }
 
-        public virtual void OnExit(ActorModel t)
+        public virtual void Exit(ActorModel t)
         {
         }
 
-        public virtual void OnInit(ActorModel t)
+        public virtual void Init(ActorModel t)
         {
         }
 
-        public virtual void OnTick(ActorModel t)
+        public virtual void Tick(ActorModel t)
         {
         }
     }

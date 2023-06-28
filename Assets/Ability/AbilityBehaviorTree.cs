@@ -39,31 +39,52 @@ namespace Ability
             fps = 1.0f / GameManager_Settings.TargetFraneRate;
         }
 
-        public void OnInit()
+        public void Init() { }
+
+        public void Init(string nodePath, string behaviorPath)
         {
-            LoadBehavior();
+            
+            LoadNode(nodePath);
+            LoadBehavior(behaviorPath);
         }
 
-        private void LoadBehavior()
+        private void LoadNode(string nodePath)
         {
-            // todo 加载行为数据
-            if (behaviorsList.Count == 0)
+            nodeList = Resources.LoadAll<AbilityNode>(nodePath).ToList();
+            if (nodeList.Count == 0)
             {
-                Debug.LogError("行为数据初始化错误");
+                Debug.LogError("行为节点初始化错误");
+                return;
             }
         }
 
-        public void OnEnter()
+        private void LoadBehavior(string behaviorPath)
         {
-            throw new NotImplementedException();
+            behaviorsList = Resources.LoadAll<AbilityBehavior>(behaviorPath).ToList();
+            if (behaviorsList.Count == 0)
+            {
+                Debug.LogError("行为数据初始化错误");
+                return;
+            }
+
+            foreach (var behavior in behaviorsList)
+            {
+                foreach (var action in behavior.Actions)
+                {
+                    action?.Init(actorModel);
+                }
+            }
         }
 
-        public void OnExit()
+        public void Enter()
         {
-            throw new NotImplementedException();
         }
 
-        public void OnTick()
+        public void Exit()
+        {
+        }
+
+        public void Tick()
         {
             if (curBehavior == null)
                 return;
@@ -93,12 +114,32 @@ namespace Ability
 
         private void UpdateAttack()
         {
-            throw new NotImplementedException();
+
         }
 
         private void UpdateActions()
         {
-            throw new NotImplementedException();
+            foreach (var action in curBehavior.Actions)
+            {
+                if (action != null)
+                {
+                    int startFrame = action.StartFrame + 1;
+                    int endFrame = action.EndFrame + 1;
+
+                    if (curFrame == startFrame)
+                    {
+                        action.Enter(actorModel);
+                    }
+                    else if (curFrame > startFrame && curFrame < endFrame)
+                    {
+                        action.Tick(actorModel);
+                    }
+                    else if (curFrame == endFrame)
+                    {
+                        action.Exit(actorModel);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -118,7 +159,7 @@ namespace Ability
         {
             foreach (var item in behaviorsList)
             {
-                if (item.Name == name)
+                if (item.name == name)
                 {
                     return item;
                 }
@@ -147,7 +188,7 @@ namespace Ability
             foreach (var newNodeIndex in curNode.Childs)
             {
                 AbilityNode newNode = nodeList[newNodeIndex];
-                AbilityBehavior behavior = newNode.Behavior;
+                AbilityBehavior behavior = behaviorsList[newNode.BehaviorIndex];
                 // 检查输入
                 if (GameManager_Input.Instance.bufferKeys.Any(predicate => predicate == behavior.InputKey))
                 {
@@ -191,9 +232,10 @@ namespace Ability
         {
             foreach (var item in newBehavior.Actions)
             {
-                item.OnExit(actorModel);
+                item.Exit(actorModel);
             }
         }
+
     }
 }
 

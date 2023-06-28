@@ -17,16 +17,16 @@ using UnityEngine;
 
 public interface ILogic
 {
-    void OnInit();
-    void OnEnter();
-    void OnTick();
-    void OnExit();
+    void Init();
+    void Enter();
+    void Tick();
+    void Exit();
 }
 
 public interface ILogicT<T>
 {
-    void OnInit(T t);
-    void OnEnter(T t);
-    void OnTick(T t);
-    void OnExit(T t);
+    void Init(T t);
+    void Enter(T t);
+    void Tick(T t);
+    void Exit(T t);
 }

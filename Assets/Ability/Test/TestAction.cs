@@ -5,9 +5,9 @@ using Ability;
 
 public class TestAction : AbilityAction
 {
-    override public void OnEnter(ActorModel t)
+    override public void Enter(ActorModel t)
     {
-        base.OnEnter(t);
+        base.Enter(t);
         Debug.Log("OnEnter");
     }
 }
