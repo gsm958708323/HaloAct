@@ -11,6 +11,7 @@ namespace Ability
     /// </summary>
     public class AbilityNode : SerializedScriptableObject
     {
+        public int Id;
         /// <summary>
         /// 所有的叶子节点的索引
         /// </summary>

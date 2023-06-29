@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e31ce440dc2ac644bce3368948d3601, type: 3}
-  m_Name: Default
+  m_Name: Atk1
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,6 +21,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Childs: 00000000
+  Id: 2
+  Childs: 03000000
   Priority: 0
   BehaviorIndex: 0

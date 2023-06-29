@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NodeCanvas.Tasks.Actions;
 using UnityEditor;
 using UnityEngine;
@@ -43,9 +44,11 @@ namespace Ability
 
         public void Init(string nodePath, string behaviorPath)
         {
-            
-            LoadNode(nodePath);
+
             LoadBehavior(behaviorPath);
+            LoadNode(nodePath);
+
+            curBehavior = GetBehavior("Default");
         }
 
         private void LoadNode(string nodePath)
@@ -55,6 +58,26 @@ namespace Ability
             {
                 Debug.LogError("行为节点初始化错误");
                 return;
+            }
+
+            //设置Node和Behavior的对应关系 
+            var name2Index = new Dictionary<string, int>();
+            for (int i = 0; i < behaviorsList.Count; i++)
+            {
+                name2Index[behaviorsList[i].name] = i;
+            }
+            foreach (var item in nodeList)
+            {
+                var nameT = Regex.Replace(item.name, @"\d", "");
+                var isGet = name2Index.TryGetValue(item.name, out int index) || name2Index.TryGetValue(nameT, out index);
+                if (isGet)
+                {
+                    item.BehaviorIndex = index;
+                }
+                else
+                {
+                    Debug.LogError($"设置Node和Behavior的对应关系错误 {item.name}");
+                }
             }
         }
 
@@ -86,8 +109,12 @@ namespace Ability
 
         public void Tick()
         {
-            if (curBehavior == null)
-                return;
+            var nextBehavior = TryGetNextBehavior();
+            if (nextBehavior != null)
+            {
+                curBehavior = nextBehavior;
+            }
+            
             cacheTime += Time.deltaTime;
 
             // 超过fps执行一次Tick
@@ -177,7 +204,7 @@ namespace Ability
                 return null;
             }
 
-            if (curNodeIndex >= behaviorsList.Count)
+            if (curNodeIndex >= nodeList.Count)
             {
                 curNodeIndex = 0;
             }
@@ -217,7 +244,7 @@ namespace Ability
             if (newBehavior == null)
                 return;
 
-            ResetBehavior(newBehavior);
+            ResetBehavior(curBehavior);
             curFrame = 0;
             curBehavior = newBehavior;
 
@@ -228,9 +255,9 @@ namespace Ability
             actorModel.CanCancel = false;
         }
 
-        private void ResetBehavior(AbilityBehavior newBehavior)
+        private void ResetBehavior(AbilityBehavior behavior)
         {
-            foreach (var item in newBehavior.Actions)
+            foreach (var item in behavior.Actions)
             {
                 item.Exit(actorModel);
             }

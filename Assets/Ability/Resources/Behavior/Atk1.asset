@@ -40,6 +40,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  FrameLength: 0
+  FrameLength: 60
   IsLoop: 0
   InputKey: 8

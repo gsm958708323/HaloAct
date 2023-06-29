@@ -10,4 +10,16 @@ public class TestAction : AbilityAction
         base.Enter(t);
         Debug.Log("OnEnter");
     }
+
+    override public void Tick(ActorModel t)
+    {
+        base.Tick(t);
+        Debug.Log("Tick");
+    }
+
+    override public void Exit(ActorModel t)
+    {
+        Debug.Log("Exit");
+        base.Exit(t);
+    }
 }
