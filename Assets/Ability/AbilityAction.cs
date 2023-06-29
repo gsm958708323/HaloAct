@@ -6,8 +6,8 @@ namespace Ability
 {
     public abstract class AbilityAction : ILogicT<ActorModel>
     {
-        public int StartFrame { get; internal set; }
-        public int EndFrame { get; internal set; }
+        public int StartFrame;
+        public int EndFrame;
 
         public virtual void Enter(ActorModel t)
         {

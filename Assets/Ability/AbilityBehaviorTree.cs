@@ -114,13 +114,14 @@ namespace Ability
             {
                 curBehavior = nextBehavior;
             }
-            
+
             cacheTime += Time.deltaTime;
 
             // 超过fps执行一次Tick
             while (cacheTime > fps)
             {
-                if (curFrame >= curBehavior.FrameLength)
+                // 如果用>=则会丢失Exit
+                if (curFrame > curBehavior.FrameLength)
                 {
                     if (curBehavior.IsLoop)
                     {
@@ -132,6 +133,8 @@ namespace Ability
                     }
                 }
                 curFrame += 1;
+                Debug.Log(curFrame);
+
                 UpdateActions();
                 UpdateAttack();
 
@@ -150,6 +153,7 @@ namespace Ability
             {
                 if (action != null)
                 {
+                    // +1为了重置时能够触发Enter，但是会多跑一帧
                     int startFrame = action.StartFrame + 1;
                     int endFrame = action.EndFrame + 1;
 
@@ -157,11 +161,11 @@ namespace Ability
                     {
                         action.Enter(actorModel);
                     }
-                    else if (curFrame > startFrame && curFrame < endFrame)
+                    if (curFrame >= startFrame && curFrame <= endFrame)
                     {
                         action.Tick(actorModel);
                     }
-                    else if (curFrame == endFrame)
+                    if (curFrame == endFrame)
                     {
                         action.Exit(actorModel);
                     }
