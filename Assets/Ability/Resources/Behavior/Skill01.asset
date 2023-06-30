@@ -31,6 +31,12 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 1|TestAction, Assembly-CSharp
+    - Name: StartFrame
+      Entry: 3
+      Data: 1
+    - Name: EndFrame
+      Entry: 3
+      Data: 60
     - Name: 
       Entry: 8
       Data: 

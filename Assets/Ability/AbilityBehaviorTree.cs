@@ -120,7 +120,13 @@ namespace Ability
             // 超过fps执行一次Tick
             while (cacheTime > fps)
             {
-                // 如果用>=则会丢失Exit
+                UpdateActions();
+                UpdateAttack();
+
+                curFrame += 1;
+                Debug.Log(curFrame);
+
+                // 执行次数？生命周期完整？重置之后curFrame是否正确？
                 if (curFrame > curBehavior.FrameLength)
                 {
                     if (curBehavior.IsLoop)
@@ -132,11 +138,6 @@ namespace Ability
                         EndBehavior();
                     }
                 }
-                curFrame += 1;
-                Debug.Log(curFrame);
-
-                UpdateActions();
-                UpdateAttack();
 
                 cacheTime -= fps;
             }
@@ -154,8 +155,8 @@ namespace Ability
                 if (action != null)
                 {
                     // +1为了重置时能够触发Enter，但是会多跑一帧
-                    int startFrame = action.StartFrame + 1;
-                    int endFrame = action.EndFrame + 1;
+                    int startFrame = action.StartFrame;
+                    int endFrame = action.EndFrame;
 
                     if (curFrame == startFrame)
                     {
@@ -178,7 +179,7 @@ namespace Ability
         /// </summary>
         private void LoopBehavior()
         {
-            curFrame = 0;
+            curFrame = 1;
         }
 
         private void EndBehavior()
@@ -249,7 +250,7 @@ namespace Ability
                 return;
 
             ResetBehavior(curBehavior);
-            curFrame = 0;
+            curFrame = 1;
             curBehavior = newBehavior;
 
             if (curBehavior == GetBehavior("Default"))
