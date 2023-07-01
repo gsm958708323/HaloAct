@@ -27,19 +27,20 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 1|TestAction, Assembly-CSharp
-    - Name: StartFrame
-      Entry: 3
       Data: 0
-    - Name: EndFrame
-      Entry: 3
-      Data: 60
+    - Name: 
+      Entry: 13
+      Data: 
     - Name: 
       Entry: 8
       Data: 
+    - Name: conditions
+      Entry: 7
+      Data: 1|System.Collections.Generic.List`1[[Ability.AbilityCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
     - Name: 
       Entry: 13
       Data: 

@@ -8,7 +8,6 @@ public class TestAction : AbilityAction
     override public void Enter(AbilityBehaviorTree t)
     {
         base.Enter(t);
-        Debugger.Log($"Enter {typeof(TestAction)}", LogDomain.AbilityAction);
     }
 
     override public void Tick(AbilityBehaviorTree t)
@@ -19,6 +18,5 @@ public class TestAction : AbilityAction
 
     override public void Exit(AbilityBehaviorTree t)
     {
-        Debugger.Log($"Exit {typeof(TestAction)}", LogDomain.AbilityAction);
     }
 }

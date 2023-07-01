@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Ability
 {
+    /// <summary>
+    /// 打断当前行为
+    /// </summary>
     public class CancelAction : AbilityAction
     {
         public bool CanCancel;
@@ -13,7 +16,6 @@ namespace Ability
             base.Tick(t);
 
             t.CanCancel = CanCancel;
-            Debug.Log("CancelAction Tick");
         }
     }
 }

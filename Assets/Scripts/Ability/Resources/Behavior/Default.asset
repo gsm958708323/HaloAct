@@ -30,13 +30,16 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|TestAction, Assembly-CSharp
+      Data: 1|Ability.CancelAction, Assembly-CSharp
     - Name: StartFrame
       Entry: 3
-      Data: 1
+      Data: 30
     - Name: EndFrame
       Entry: 3
       Data: 60
+    - Name: CanCancel
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -55,7 +58,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 3|Ability.TestCondition, Assembly-CSharp
+      Data: 3|Ability.CancelCondition, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
@@ -67,4 +70,4 @@ MonoBehaviour:
       Data: 
   FrameLength: 60
   IsLoop: 1
-  InputKey: 32
+  InputKey: 0

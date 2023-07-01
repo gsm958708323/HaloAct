@@ -17,23 +17,10 @@ namespace Ability
         /// </summary>
         /// <returns></returns>
         public List<AbilityAction> Actions = new();
-        public List<AbilityCondition> conditions = new();
 
         public int FrameLength = 60;
         public bool IsLoop;
         public KeyCode InputKey;
-
-        internal bool CheckCondition(AbilityBehaviorTree tree)
-        {
-            foreach (var item in conditions)
-            {
-                if (!item.Check(tree))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
     }
 
 }

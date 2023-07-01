@@ -74,7 +74,7 @@ namespace Ability
             }
             foreach (var item in nodeList)
             {
-                var nameT = Regex.Replace(item.name, @"\d", "");
+                var nameT = Regex.Replace(item.name, @"\d", ""); // Dash1，Dash2，Dash3 只对比Dash
                 var isGet = name2Index.TryGetValue(item.name, out int index) || name2Index.TryGetValue(nameT, out index);
                 if (isGet)
                 {
@@ -229,7 +229,7 @@ namespace Ability
                 if (GameManager_Input.Instance.bufferKeys.Any(predicate => predicate == behavior.InputKey))
                 {
                     // 检查条件
-                    if (behavior.CheckCondition(this))
+                    if (newNode.CheckCondition(this))
                     {
                         if (newNode.Priority > priority)
                         {
