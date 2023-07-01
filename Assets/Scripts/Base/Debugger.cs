@@ -4,11 +4,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 public enum LogDomain
 {
-    None, All, Project_Setup, ActorData, ActorControl, ActorBehavior, ActorFSM, BehaviorAcrion, FrameInfo,
-    BehaviorRequirement,
-    BT_Conditional,
-    DataSerialization,
-    Input
+    None, All, AbilityBehavior, AbilityAction, AbilityCondition,
 }
 
 public class Debugger : MonoSingleton<Debugger>
@@ -20,7 +16,7 @@ public class Debugger : MonoSingleton<Debugger>
     /// </summary>
     /// <param name="level"></param>
     /// <param name="msg"></param>
-    public static void Log(string msg, LogDomain domain)
+    public static void Log(string msg, LogDomain domain = LogDomain.All)
     {
         if (logDomain == LogDomain.None)
         {
@@ -28,11 +24,11 @@ public class Debugger : MonoSingleton<Debugger>
         }
         else if (logDomain == LogDomain.All)
         {
-            Debug.Log($"<b><color=#008AFF>[{domain}]: </color></b>" + msg);
+            Debug.Log($"<b><color=#008AFF>[{domain}]  </color></b>{msg}");
         }
         else if (domain == logDomain)
         {
-            Debug.Log($"<b><color=#008AFF>[{domain}]: </color></b>" + msg);
+            Debug.Log($"<b><color=#45FFE0>[{domain}]  </color></b>{msg}");
         }
     }
 
@@ -41,7 +37,7 @@ public class Debugger : MonoSingleton<Debugger>
     /// </summary>
     /// <param name="level"></param>
     /// <param name="msg"></param>
-    public static void LogWarning(string msg, LogDomain domain)
+    public static void LogWarning(string msg, LogDomain domain = LogDomain.All)
     {
         if (logDomain == LogDomain.None)
         {
@@ -49,11 +45,11 @@ public class Debugger : MonoSingleton<Debugger>
         }
         else if (logDomain == LogDomain.All)
         {
-            Debug.LogWarning($"<b><color=#008AFF>[{domain}]: </color></b>" + msg);
+            Debug.LogWarning($"<b><color=#008AFF>[{domain}]  </color></b>{msg}");
         }
         else if (domain == logDomain)
         {
-            Debug.LogWarning($"<b><color=#008AFF>[{domain}]: </color></b>" + msg);
+            Debug.LogWarning($"<b><color=#45FFE0>[{domain}]  </color></b>{msg}");
         }
     }
 
@@ -62,7 +58,7 @@ public class Debugger : MonoSingleton<Debugger>
     /// </summary>
     /// <param name="level"></param>
     /// <param name="msg"></param>
-    public static void LogError(string msg, LogDomain domain)
+    public static void LogError(string msg, LogDomain domain = LogDomain.All)
     {
         if (logDomain == LogDomain.None)
         {
@@ -70,11 +66,11 @@ public class Debugger : MonoSingleton<Debugger>
         }
         else if (logDomain == LogDomain.All)
         {
-            Debug.LogError($"<b><color=#008AFF>[{domain}]: </color></b>" + msg);
+            Debug.LogError($"<b><color=#008AFF>[{domain}]  </color></b>{msg}");
         }
         else if (domain == logDomain)
         {
-            Debug.LogError($"<b><color=#008AFF>[{domain}]: </color></b>" + msg);
+            Debug.LogError($"<b><color=#45FFE0>[{domain}]  </color></b>{msg}");
         }
     }
 }

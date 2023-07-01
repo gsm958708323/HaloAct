@@ -21,18 +21,5 @@ public class ActorModel : MonoBehaviour
     void Update()
     {
         tree.Tick();
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Debugger.Log("A", LogDomain.Input);
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            Debugger.Log("S", LogDomain.All);
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            Debugger.Log("D", LogDomain.BehaviorAcrion);
-        }
     }
 }
