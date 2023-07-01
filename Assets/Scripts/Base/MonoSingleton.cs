@@ -13,8 +13,8 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
                 instance = GameObject.FindObjectOfType(typeof(T)) as T;
                 if (instance == null)
                 {
-                    GameObject go = new GameObject(typeof(T).Name);
-                    instance = go.AddComponent<T>();
+                    GameObject parent = GameObject.Find("MonoSingleton") ?? new GameObject("MonoSingleton");
+                    instance = parent.AddComponent<T>();
                 }
             }
             return instance;

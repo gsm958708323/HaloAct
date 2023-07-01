@@ -7,9 +7,7 @@ using Sirenix.OdinInspector;
 public class ActorModel : MonoBehaviour
 {
     public AbilityBehaviorTree tree;
-    public bool CanCancel { get; internal set; }
     [FolderPath] public string NodePath;
-
     [FolderPath] public string BehaviorPath;
 
     // Start is called before the first frame update
@@ -23,5 +21,18 @@ public class ActorModel : MonoBehaviour
     void Update()
     {
         tree.Tick();
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Debugger.Log("A", LogDomain.Input);
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            Debugger.Log("S", LogDomain.All);
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            Debugger.Log("D", LogDomain.BehaviorAcrion);
+        }
     }
 }

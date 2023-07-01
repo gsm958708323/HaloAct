@@ -11,27 +11,33 @@ namespace Ability
 {
     /// <summary>
     /// 技能行为树
-    /// 管理关系：AbilityBehaviorTree -> AbilityNode -> AbilityBehavior -> AbilityAction 
+    ///                                                               -> AbilityAction 
+    /// 管理关系：AbilityBehaviorTree -> AbilityNode -> AbilityBehavior 
+    ///                                                               -> AbilityCondition
     /// </summary>
     public class AbilityBehaviorTree : ILogic
     {
         /// <summary>
         /// 当前行为的帧计数
         /// </summary>
-        public int curFrame;
+        int curFrame;
         /// <summary>
         /// 当前进行的行为节点
         /// </summary>
-        public AbilityBehavior curBehavior;
+        AbilityBehavior curBehavior;
         /// <summary>
         /// 当前执行的行为节点的索引
         /// </summary>
-        public int curNodeIndex;
-        public List<AbilityNode> nodeList = new();
-        public List<AbilityBehavior> behaviorsList = new();
+        int curNodeIndex;
+        List<AbilityNode> nodeList = new();
+        List<AbilityBehavior> behaviorsList = new();
 
         float fps;
         float cacheTime;
+        /// <summary>
+        /// 当前动作是否可以取消
+        /// </summary>
+        public bool CanCancel;
         ActorModel actorModel;
 
         public AbilityBehaviorTree(ActorModel model)
@@ -94,7 +100,7 @@ namespace Ability
             {
                 foreach (var action in behavior.Actions)
                 {
-                    action?.Init(actorModel);
+                    action?.Init(this);
                 }
             }
         }
@@ -124,7 +130,6 @@ namespace Ability
                 UpdateAttack();
 
                 curFrame += 1;
-                Debug.Log(curFrame);
 
                 // 执行次数？生命周期完整？重置之后curFrame是否正确？
                 if (curFrame > curBehavior.FrameLength)
@@ -154,21 +159,20 @@ namespace Ability
             {
                 if (action != null)
                 {
-                    // +1为了重置时能够触发Enter，但是会多跑一帧
                     int startFrame = action.StartFrame;
                     int endFrame = action.EndFrame;
 
                     if (curFrame == startFrame)
                     {
-                        action.Enter(actorModel);
+                        action.Enter(this);
                     }
                     if (curFrame >= startFrame && curFrame <= endFrame)
                     {
-                        action.Tick(actorModel);
+                        action.Tick(this);
                     }
                     if (curFrame == endFrame)
                     {
-                        action.Exit(actorModel);
+                        action.Exit(this);
                     }
                 }
             }
@@ -225,7 +229,7 @@ namespace Ability
                 if (GameManager_Input.Instance.bufferKeys.Any(predicate => predicate == behavior.InputKey))
                 {
                     // 检查条件
-                    if (behavior.CheckCondition(actorModel))
+                    if (behavior.CheckCondition(this))
                     {
                         if (newNode.Priority > priority)
                         {
@@ -257,14 +261,14 @@ namespace Ability
             {
                 curNodeIndex = 0;
             }
-            actorModel.CanCancel = false;
+            CanCancel = false;
         }
 
         private void ResetBehavior(AbilityBehavior behavior)
         {
             foreach (var item in behavior.Actions)
             {
-                item.Exit(actorModel);
+                item.Exit(this);
             }
         }
 
