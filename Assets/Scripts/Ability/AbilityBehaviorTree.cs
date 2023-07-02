@@ -131,7 +131,7 @@ namespace Ability
             {
                 curBehavior.Tick(curFrame);
                 curFrame += 1;
-                Debugger.Log($"{curFrame}");
+                Debugger.Log($"{curFrame}", LogDomain.Frame);
 
                 // 执行次数？生命周期完整？重置之后curFrame是否正确？
                 if (curFrame > curBehavior.FrameLength)

@@ -27,7 +27,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: 1|Ability.CancelAction, Assembly-CSharp
@@ -40,6 +40,18 @@ MonoBehaviour:
     - Name: CanCancel
       Entry: 5
       Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 2|TestAction, Assembly-CSharp
+    - Name: StartFrame
+      Entry: 3
+      Data: 1
+    - Name: EndFrame
+      Entry: 3
+      Data: 60
     - Name: 
       Entry: 8
       Data: 
