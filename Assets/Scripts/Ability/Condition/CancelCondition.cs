@@ -7,9 +7,9 @@ namespace Ability
 {
     public class CancelCondition : AbilityCondition
     {
-        override public bool Check(AbilityBehaviorTree t)
+        override public bool Check(AbilityBehaviorTree tree)
         {
-            return t.CanCancel;
+            return tree.CanCancel;
         }
     }
 }

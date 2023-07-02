@@ -26,7 +26,7 @@ public interface ILogic
 public interface ILogicT<T>
 {
     void Init(T t);
-    void Enter(T t);
-    void Tick(T t);
-    void Exit(T t);
+    void Enter();
+    void Tick();
+    void Exit();
 }

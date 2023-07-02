@@ -26,7 +26,7 @@ namespace Ability
         /// </summary>
         AbilityBehavior curBehavior;
         /// <summary>
-        /// 当前执行的行为节点的索引
+        /// 当前执行的行为节点的索引（这里Index和Id是相等的）
         /// </summary>
         int curNodeIndex;
         List<AbilityNode> nodeList = new();
@@ -54,7 +54,8 @@ namespace Ability
             LoadBehavior(behaviorPath);
             LoadNode(nodePath);
 
-            curBehavior = GetBehavior("Default");
+            StartBehavior(GetBehavior("Default"));
+            // curBehavior = GetBehavior("Default");
         }
 
         private void LoadNode(string nodePath)
@@ -65,6 +66,7 @@ namespace Ability
                 Debug.LogError("行为节点初始化错误");
                 return;
             }
+            nodeList.Sort((x, y) => x.Id.CompareTo(y.Id));
 
             //设置Node和Behavior的对应关系 
             var name2Index = new Dictionary<string, int>();
@@ -98,6 +100,7 @@ namespace Ability
 
             foreach (var behavior in behaviorsList)
             {
+                behavior.Init(this);
                 foreach (var action in behavior.Actions)
                 {
                     action?.Init(this);
@@ -118,7 +121,7 @@ namespace Ability
             var nextBehavior = TryGetNextBehavior();
             if (nextBehavior != null)
             {
-                curBehavior = nextBehavior;
+                StartBehavior(nextBehavior);
             }
 
             cacheTime += Time.deltaTime;
@@ -126,10 +129,9 @@ namespace Ability
             // 超过fps执行一次Tick
             while (cacheTime > fps)
             {
-                UpdateActions();
-                UpdateAttack();
-
+                curBehavior.Tick(curFrame);
                 curFrame += 1;
+                Debugger.Log($"{curFrame}");
 
                 // 执行次数？生命周期完整？重置之后curFrame是否正确？
                 if (curFrame > curBehavior.FrameLength)
@@ -148,35 +150,6 @@ namespace Ability
             }
         }
 
-        private void UpdateAttack()
-        {
-
-        }
-
-        private void UpdateActions()
-        {
-            foreach (var action in curBehavior.Actions)
-            {
-                if (action != null)
-                {
-                    int startFrame = action.StartFrame;
-                    int endFrame = action.EndFrame;
-
-                    if (curFrame == startFrame)
-                    {
-                        action.Enter(this);
-                    }
-                    if (curFrame >= startFrame && curFrame <= endFrame)
-                    {
-                        action.Tick(this);
-                    }
-                    if (curFrame == endFrame)
-                    {
-                        action.Exit(this);
-                    }
-                }
-            }
-        }
 
         /// <summary>
         /// 将行为重置到第一帧
@@ -242,7 +215,9 @@ namespace Ability
             if (priority > -1)
             {
                 curNodeIndex = nextNode.BehaviorIndex;
-                return behaviorsList[curNodeIndex];
+                var newBehavior = behaviorsList[curNodeIndex];
+                // Debugger.Log($"切换行为 {newBehavior.name}", LogDomain.AbilityBehavior);
+                return newBehavior;
             }
 
             return null;
@@ -253,22 +228,24 @@ namespace Ability
             if (newBehavior == null)
                 return;
 
-            ResetBehavior(curBehavior);
+            curBehavior?.Exit();
             curFrame = 1;
             curBehavior = newBehavior;
+            newBehavior.Enter();
 
             if (curBehavior == GetBehavior("Default"))
             {
                 curNodeIndex = 0;
             }
             CanCancel = false;
+            // Debugger.Log($"开始行为 {curBehavior.name}", LogDomain.AbilityBehavior);
         }
 
         private void ResetBehavior(AbilityBehavior behavior)
         {
             foreach (var item in behavior.Actions)
             {
-                item.Exit(this);
+                item.Exit();
             }
         }
 

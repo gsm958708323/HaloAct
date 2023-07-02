@@ -33,10 +33,10 @@ MonoBehaviour:
       Data: 1|Ability.CancelAction, Assembly-CSharp
     - Name: StartFrame
       Entry: 3
-      Data: 30
+      Data: 3
     - Name: EndFrame
       Entry: 3
-      Data: 60
+      Data: 5
     - Name: CanCancel
       Entry: 5
       Data: true
@@ -49,25 +49,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: conditions
-      Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[Ability.AbilityCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 3|Ability.CancelCondition, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  FrameLength: 60
+  FrameLength: 5
   IsLoop: 1
   InputKey: 0

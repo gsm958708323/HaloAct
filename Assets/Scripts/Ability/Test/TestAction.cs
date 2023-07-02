@@ -5,18 +5,18 @@ using Ability;
 
 public class TestAction : AbilityAction
 {
-    override public void Enter(AbilityBehaviorTree t)
+    override public void Enter()
     {
-        base.Enter(t);
+        base.Enter();
     }
 
-    override public void Tick(AbilityBehaviorTree t)
+    override public void Tick()
     {
-        base.Tick(t);
+        base.Tick();
         // Debug.Log("Tick");
     }
 
-    override public void Exit(AbilityBehaviorTree t)
+    override public void Exit()
     {
     }
 }

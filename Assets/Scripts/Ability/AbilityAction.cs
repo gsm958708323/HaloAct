@@ -10,22 +10,24 @@ namespace Ability
     {
         public int StartFrame = 1;
         public int EndFrame = 60;
+        protected AbilityBehaviorTree tree;
 
-        public virtual void Enter(AbilityBehaviorTree t)
+        public virtual void Init(AbilityBehaviorTree tree)
+        {
+            this.tree = tree;
+        }
+
+        public virtual void Enter()
         {
             Debugger.Log($"Enter {GetType()}", LogDomain.AbilityAction);
         }
 
-        public virtual void Exit(AbilityBehaviorTree t)
+        public virtual void Exit()
         {
             Debugger.Log($"Exit {GetType()}", LogDomain.AbilityAction);
         }
 
-        public virtual void Init(AbilityBehaviorTree t)
-        {
-        }
-
-        public virtual void Tick(AbilityBehaviorTree t)
+        public virtual void Tick()
         {
         }
     }

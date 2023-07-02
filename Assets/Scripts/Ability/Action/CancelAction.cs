@@ -11,11 +11,11 @@ namespace Ability
     {
         public bool CanCancel;
 
-        override public void Tick(AbilityBehaviorTree t)
+        override public void Tick()
         {
-            base.Tick(t);
+            base.Tick();
 
-            t.CanCancel = CanCancel;
+            tree.CanCancel = CanCancel;
         }
     }
 }
