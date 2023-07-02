@@ -10,9 +10,9 @@ public class TestAction : AbilityAction
         base.Enter(tree);
     }
 
-    override public void Tick()
+    override public void Tick(int curFrame)
     {
-        base.Tick();
+        base.Tick(curFrame);
     }
 
     override public void Exit()

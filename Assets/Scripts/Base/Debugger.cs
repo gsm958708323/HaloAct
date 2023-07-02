@@ -8,6 +8,7 @@ public enum LogDomain
 {
     None, All, AbilityBehavior, AbilityAction, AbilityCondition,
     Frame,
+    AbilityNode,
 }
 
 public class Debugger : MonoSingleton<Debugger>

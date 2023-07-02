@@ -9,7 +9,7 @@ namespace Ability
     {
         override public bool Check(AbilityBehaviorTree tree)
         {
-            return tree.curBehavior.CanCancel;
+            return tree.curNode.CanCancel;
         }
     }
 }

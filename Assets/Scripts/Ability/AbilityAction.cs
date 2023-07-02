@@ -18,18 +18,19 @@ namespace Ability
 
         public virtual void Enter(AbilityBehaviorTree tree)
         {
-            this.tree = tree;
             Debugger.Log($"Enter {GetType()}", LogDomain.AbilityAction);
+            this.tree = tree;
         }
 
         public virtual void Exit()
         {
-            this.tree = null;
             Debugger.Log($"Exit {GetType()}", LogDomain.AbilityAction);
+            this.tree = null;
         }
-
-        public virtual void Tick()
+        
+        public virtual void Tick(int frame)
         {
+            
         }
     }
 }

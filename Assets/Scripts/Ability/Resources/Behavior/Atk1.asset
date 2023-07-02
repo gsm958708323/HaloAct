@@ -39,7 +39,7 @@ MonoBehaviour:
       Data: 60
     - Name: CanCancel
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 8
       Data: 

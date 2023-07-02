@@ -21,10 +21,6 @@ namespace Ability
         /// </summary>
         int curFrame;
         /// <summary>
-        /// 当前进行的行为节点
-        /// </summary>
-        public AbilityBehavior curBehavior;
-        /// <summary>
         /// 当前执行的行为节点的索引（这里Index和Id是相等的）
         /// </summary>
         int curNodeIndex;
@@ -38,6 +34,7 @@ namespace Ability
         // /// </summary>
         // public bool CanCancel;
         ActorModel actorModel;
+        public AbilityNode curNode;
 
         public AbilityBehaviorTree(ActorModel model)
         {
@@ -53,8 +50,7 @@ namespace Ability
             LoadBehavior(behaviorPath);
             LoadNode(nodePath);
 
-            StartBehavior(GetBehavior("Default"));
-            // curBehavior = GetBehavior("Default");
+            StartBehavior(GetBehaviorById(0));
         }
 
         private void LoadNode(string nodePath)
@@ -85,7 +81,18 @@ namespace Ability
                 {
                     Debug.LogError($"设置Node和Behavior的对应关系错误 {item.name}");
                 }
+                item?.Init();
             }
+        }
+
+        public AbilityBehavior GetAbilityBehavior(int index)
+        {
+            if (index < 0 || index >= behaviorsList.Count)
+            {
+                return null;
+            }
+
+            return behaviorsList[index];
         }
 
         private void LoadBehavior(string behaviorPath)
@@ -117,7 +124,7 @@ namespace Ability
 
         public void Tick()
         {
-            var nextBehavior = TryGetNextBehavior();
+            AbilityNode nextBehavior = TryGetNextBehavior();
             if (nextBehavior != null)
             {
                 StartBehavior(nextBehavior);
@@ -128,14 +135,14 @@ namespace Ability
             // 超过fps执行一次Tick
             while (cacheTime > fps)
             {
-                curBehavior.Tick(curFrame);
+                curNode.Tick(curFrame);
                 curFrame += 1;
                 Debugger.Log($"{curFrame}", LogDomain.Frame);
 
                 // 执行次数？生命周期完整？重置之后curFrame是否正确？
-                if (curFrame > curBehavior.FrameLength)
+                if (curFrame > curNode.curBehavior.FrameLength)
                 {
-                    if (curBehavior.IsLoop)
+                    if (curNode.curBehavior.IsLoop)
                     {
                         LoopBehavior();
                     }
@@ -161,24 +168,22 @@ namespace Ability
 
         private void EndBehavior()
         {
-            StartBehavior(GetBehavior("Default"));
+            StartBehavior(GetBehaviorById(0));
         }
 
-        private AbilityBehavior GetBehavior(string name)
+        private AbilityNode GetBehaviorById(int id)
         {
-            foreach (var item in behaviorsList)
+            // 判断数组越界
+            if (id < 0 || id >= nodeList.Count)
             {
-                if (item.name == name)
-                {
-                    return item;
-                }
+                Debug.LogError($"行为节点不存在 {id}");
+                return null;
             }
 
-            Debug.LogError($"行为不存在 {name}");
-            return null;
+            return nodeList[id];
         }
 
-        private AbilityBehavior TryGetNextBehavior()
+        private AbilityNode TryGetNextBehavior()
         {
             if (nodeList.Count == 0)
             {
@@ -186,12 +191,6 @@ namespace Ability
                 return null;
             }
 
-            if (curNodeIndex >= nodeList.Count)
-            {
-                curNodeIndex = 0;
-            }
-
-            AbilityNode curNode = nodeList[curNodeIndex];
             int priority = -1;
             AbilityNode nextNode = default;
             foreach (var newNodeIndex in curNode.Childs)
@@ -214,28 +213,21 @@ namespace Ability
             }
             if (priority > -1)
             {
-                curNodeIndex = nextNode.BehaviorIndex;
-                var newBehavior = behaviorsList[curNodeIndex];
-                return newBehavior;
+                return nextNode;
             }
 
             return null;
         }
 
-        public void StartBehavior(AbilityBehavior newBehavior)
+        public void StartBehavior(AbilityNode newNode)
         {
-            if (newBehavior == null || newBehavior == curBehavior)
+            if (newNode == null || newNode == curNode)
                 return;
 
-            curBehavior?.Exit();
             curFrame = 1;
-            curBehavior = newBehavior;
-            newBehavior.Enter(this);
-
-            if (curBehavior == GetBehavior("Default"))
-            {
-                curNodeIndex = 0;
-            }
+            curNode?.Exit();
+            curNode = newNode;
+            newNode?.Enter(this);
             // CanCancel = false;
         }
 
