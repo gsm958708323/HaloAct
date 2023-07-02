@@ -13,8 +13,8 @@ public enum LogDomain
 public class Debugger : MonoSingleton<Debugger>
 {
     [ShowInInspector]
-    [ValueDropdown("GetEnumValues", IsUniqueList = true)]
-    public static HashSet<LogDomain> logDict = new();
+    [ValueDropdown(nameof(GetEnumValues), IsUniqueList = true)]
+    public static HashSet<LogDomain> logDict = new(new LogDomain[] { LogDomain.AbilityBehavior });
     private IEnumerable<LogDomain> GetEnumValues()
     {
         // 生成所有可选项

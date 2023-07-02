@@ -22,20 +22,28 @@ namespace Ability
         public bool IsLoop;
         public KeyCode InputKey;
 
+        // todo 移动到node节点，并优化node设置生命周期
+        /// <summary>
+        /// 当前行为是否可以打断
+        /// </summary>
+        public bool CanCancel;
+
         protected AbilityBehaviorTree tree;
 
-        public virtual void Init(AbilityBehaviorTree tree)
+        public virtual void Init()
         {
-            this.tree = tree;
         }
 
-        public virtual void Enter()
+        public virtual void Enter(AbilityBehaviorTree tree)
         {
+            this.tree = tree;
+            CanCancel = false;
             Debugger.Log($"Enter {name} {GetType()}", LogDomain.AbilityBehavior);
         }
 
         public virtual void Exit()
         {
+            this.tree = null;
             Debugger.Log($"Exit {name} {GetType()}", LogDomain.AbilityBehavior);
         }
 
@@ -66,7 +74,7 @@ namespace Ability
 
                     if (curFrame == startFrame)
                     {
-                        action.Enter();
+                        action.Enter(tree);
                     }
                     if (curFrame >= startFrame && curFrame <= endFrame)
                     {

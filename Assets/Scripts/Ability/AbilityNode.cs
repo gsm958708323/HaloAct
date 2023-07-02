@@ -27,6 +27,9 @@ namespace Ability
         public List<AbilityCondition> conditions = new();
 
         public int Priority;
+        /// <summary>
+        /// 行为配置的索引
+        /// </summary>
         public int BehaviorIndex;
 
         internal bool CheckCondition(AbilityBehaviorTree tree)

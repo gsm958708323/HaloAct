@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using NodeCanvas.Tasks.Actions;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,7 +23,7 @@ namespace Ability
         /// <summary>
         /// 当前进行的行为节点
         /// </summary>
-        AbilityBehavior curBehavior;
+        public AbilityBehavior curBehavior;
         /// <summary>
         /// 当前执行的行为节点的索引（这里Index和Id是相等的）
         /// </summary>
@@ -34,10 +33,10 @@ namespace Ability
 
         float fps;
         float cacheTime;
-        /// <summary>
-        /// 当前动作是否可以取消
-        /// </summary>
-        public bool CanCancel;
+        // /// <summary>
+        // /// 当前行为是否可以打断
+        // /// </summary>
+        // public bool CanCancel;
         ActorModel actorModel;
 
         public AbilityBehaviorTree(ActorModel model)
@@ -100,10 +99,10 @@ namespace Ability
 
             foreach (var behavior in behaviorsList)
             {
-                behavior.Init(this);
+                behavior?.Init();
                 foreach (var action in behavior.Actions)
                 {
-                    action?.Init(this);
+                    action?.Init();
                 }
             }
         }
@@ -157,6 +156,7 @@ namespace Ability
         private void LoopBehavior()
         {
             curFrame = 1;
+            // CanCancel = false;
         }
 
         private void EndBehavior()
@@ -216,7 +216,6 @@ namespace Ability
             {
                 curNodeIndex = nextNode.BehaviorIndex;
                 var newBehavior = behaviorsList[curNodeIndex];
-                // Debugger.Log($"切换行为 {newBehavior.name}", LogDomain.AbilityBehavior);
                 return newBehavior;
             }
 
@@ -225,20 +224,19 @@ namespace Ability
 
         public void StartBehavior(AbilityBehavior newBehavior)
         {
-            if (newBehavior == null)
+            if (newBehavior == null || newBehavior == curBehavior)
                 return;
 
             curBehavior?.Exit();
             curFrame = 1;
             curBehavior = newBehavior;
-            newBehavior.Enter();
+            newBehavior.Enter(this);
 
             if (curBehavior == GetBehavior("Default"))
             {
                 curNodeIndex = 0;
             }
-            CanCancel = false;
-            // Debugger.Log($"开始行为 {curBehavior.name}", LogDomain.AbilityBehavior);
+            // CanCancel = false;
         }
 
         private void ResetBehavior(AbilityBehavior behavior)

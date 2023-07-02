@@ -15,7 +15,7 @@ namespace Ability
         {
             base.Tick();
 
-            tree.CanCancel = CanCancel;
+            tree.curBehavior.CanCancel = CanCancel;
         }
     }
 }

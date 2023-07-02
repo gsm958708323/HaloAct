@@ -33,10 +33,10 @@ MonoBehaviour:
       Data: 1|Ability.CancelAction, Assembly-CSharp
     - Name: StartFrame
       Entry: 3
-      Data: 3
+      Data: 49
     - Name: EndFrame
       Entry: 3
-      Data: 5
+      Data: 50
     - Name: CanCancel
       Entry: 5
       Data: true
@@ -61,6 +61,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  FrameLength: 5
+  FrameLength: 60
   IsLoop: 1
   InputKey: 0
