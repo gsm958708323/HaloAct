@@ -66,6 +66,7 @@ namespace Ability
 
         public virtual void Tick(int curFrame)
         {
+            CanCancel = false;
             curBehavior?.Tick(curFrame);
         }
 

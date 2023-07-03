@@ -41,6 +41,8 @@ MonoBehaviour:
       Entry: 8
       Data: 
   Id: 2
-  Childs: 03000000
+  Childs: 0300000005000000
   Priority: 0
   BehaviorIndex: 0
+  curBehavior: {fileID: 0}
+  CanCancel: 1

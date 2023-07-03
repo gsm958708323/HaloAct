@@ -9,13 +9,11 @@ namespace Ability
     /// </summary>
     public class CancelAction : AbilityAction
     {
-        public bool CanCancel;
-
         override public void Tick(int curFrame)
         {
             base.Tick(curFrame);
 
-            tree.curNode.CanCancel = CanCancel;
+            tree.curNode.CanCancel = true;
         }
     }
 }
