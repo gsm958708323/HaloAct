@@ -33,12 +33,12 @@ namespace Ability
         // /// 当前行为是否可以打断
         // /// </summary>
         // public bool CanCancel;
-        ActorModel actorModel;
+        public ActorModel ActorModel;
         public AbilityNode curNode;
 
         public AbilityBehaviorTree(ActorModel model)
         {
-            actorModel = model;
+            ActorModel = model;
             fps = 1.0f / GameManager_Settings.TargetFraneRate;
         }
 
@@ -110,6 +110,10 @@ namespace Ability
                 foreach (var action in behavior.Actions)
                 {
                     action?.Init();
+                }
+                foreach (var attack in behavior.Attacks)
+                {
+                    attack?.Init();
                 }
             }
         }

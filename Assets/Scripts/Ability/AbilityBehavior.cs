@@ -17,12 +17,15 @@ namespace Ability
         /// </summary>
         /// <returns></returns>
         public List<AbilityAction> Actions = new();
+        /// <summary>
+        /// 攻击列表
+        /// </summary>
+        /// <returns></returns>
+        public List<AbilityAttack> Attacks = new();
 
         public int FrameLength = 60;
         public bool IsLoop;
         public KeyCode InputKey;
-
-
 
         protected AbilityBehaviorTree tree;
 
@@ -47,10 +50,29 @@ namespace Ability
             UpdateActions(curFrame);
             UpdateAttack(curFrame);
         }
-        
+
         private void UpdateAttack(int curFrame)
         {
+            foreach (var attack in Attacks)
+            {
+                int startFrame = attack.FrameInfo.StartFrame;
+                int endFrame = attack.FrameInfo.EndFrame;
 
+                if (curFrame == startFrame)
+                {
+                    attack.Enter(tree.ActorModel);
+                }
+
+                if (curFrame >= startFrame && curFrame <= endFrame)
+                {
+                    attack.Tick(curFrame);
+                }
+
+                if (curFrame == endFrame)
+                {
+                    attack.Exit();
+                }
+            }
         }
 
         private void UpdateActions(int curFrame)
