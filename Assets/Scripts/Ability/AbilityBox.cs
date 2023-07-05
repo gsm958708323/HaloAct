@@ -6,24 +6,25 @@ namespace Ability
 {
     public class AbilityBox : MonoBehaviour, ILogicT<ActorModel>
     {
+        protected ActorModel model;
         public void Init()
         {
-            throw new System.NotImplementedException();
+
         }
 
-        public void Enter(ActorModel tree)
+        public void Enter(ActorModel model)
         {
-            throw new System.NotImplementedException();
+            this.model = model;
         }
 
         public void Exit()
         {
-            throw new System.NotImplementedException();
+            this.model = null;
         }
 
         public void Tick(int frame)
         {
-            throw new System.NotImplementedException();
+
         }
     }
 }

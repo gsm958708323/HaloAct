@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 55090192}
   - component: {fileID: 55090194}
   - component: {fileID: 55090193}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -565,7 +565,7 @@ GameObject:
   - component: {fileID: 2115584304}
   - component: {fileID: 2115584306}
   - component: {fileID: 2115584305}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HurtBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

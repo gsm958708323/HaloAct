@@ -14,7 +14,7 @@ namespace Ability
     /// 管理关系：AbilityBehaviorTree -> AbilityNode -> AbilityBehavior 
     ///                                                               -> AbilityCondition
     /// </summary>
-    public class AbilityBehaviorTree : ILogic
+    public class AbilityBehaviorTree : ILogicT<ActorModel>
     {
         /// <summary>
         /// 当前行为的帧计数
@@ -26,21 +26,12 @@ namespace Ability
         int curNodeIndex;
         List<AbilityNode> nodeList = new();
         List<AbilityBehavior> behaviorsList = new();
-
-        float fps;
-        float cacheTime;
         // /// <summary>
         // /// 当前行为是否可以打断
         // /// </summary>
         // public bool CanCancel;
         public ActorModel ActorModel;
         public AbilityNode curNode;
-
-        public AbilityBehaviorTree(ActorModel model)
-        {
-            ActorModel = model;
-            fps = 1.0f / GameManager_Settings.TargetFraneRate;
-        }
 
         public void Init() { }
 
@@ -51,6 +42,43 @@ namespace Ability
             LoadNode(nodePath);
 
             StartBehavior(GetBehaviorById(0));
+        }
+
+
+        public void Enter(ActorModel model)
+        {
+            this.ActorModel = model;
+        }
+
+        public void Exit()
+        {
+            ActorModel = null;
+        }
+
+        public void Tick(int frame)
+        {
+            AbilityNode nextBehavior = TryGetNextBehavior();
+            if (nextBehavior != null)
+            {
+                StartBehavior(nextBehavior);
+            }
+
+            curNode.Tick(curFrame);
+            curFrame += 1;
+            Debugger.Log($"{curFrame}", LogDomain.Frame);
+
+            // 执行次数？生命周期完整？重置之后curFrame是否正确？
+            if (curFrame > curNode.curBehavior.FrameLength)
+            {
+                if (curNode.curBehavior.IsLoop)
+                {
+                    LoopBehavior();
+                }
+                else
+                {
+                    EndBehavior();
+                }
+            }
         }
 
         private void LoadNode(string nodePath)
@@ -115,48 +143,6 @@ namespace Ability
                 {
                     attack?.Init();
                 }
-            }
-        }
-
-        public void Enter()
-        {
-        }
-
-        public void Exit()
-        {
-        }
-
-        public void Tick()
-        {
-            AbilityNode nextBehavior = TryGetNextBehavior();
-            if (nextBehavior != null)
-            {
-                StartBehavior(nextBehavior);
-            }
-
-            cacheTime += Time.deltaTime;
-
-            // 超过fps执行一次Tick
-            while (cacheTime > fps)
-            {
-                curNode.Tick(curFrame);
-                curFrame += 1;
-                Debugger.Log($"{curFrame}", LogDomain.Frame);
-
-                // 执行次数？生命周期完整？重置之后curFrame是否正确？
-                if (curFrame > curNode.curBehavior.FrameLength)
-                {
-                    if (curNode.curBehavior.IsLoop)
-                    {
-                        LoopBehavior();
-                    }
-                    else
-                    {
-                        EndBehavior();
-                    }
-                }
-
-                cacheTime -= fps;
             }
         }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,16 +7,17 @@ namespace Ability
 {
     public class HurtBox : AbilityBox
     {
-        // Start is called before the first frame update
-        void Start()
+        public Vector3 HitPoint { get; internal set; }
+
+        /// <summary>
+        /// 被攻击，传入攻击者数据
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="transform"></param>
+        /// <param name="atk"></param>
+        internal void OnHurt(ActorModel model, Transform transform, AbilityAttack atk)
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            throw new NotImplementedException();
         }
     }
 }
