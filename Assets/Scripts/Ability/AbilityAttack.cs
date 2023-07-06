@@ -25,11 +25,20 @@ namespace Ability
         Stun,
     }
 
+    /// <summary>
+    /// 攻击配置
+    /// </summary>
     public class AbilityAttack : ILogicT<ActorModel>
     {
         public AttackType AttackType;
         public FrameInfo FrameInfo;
         public HitBoxInfo HitBoxInfo;
+
+        /// <summary>
+        /// 格挡角度
+        /// </summary>
+        /// <value></value>
+        public float BlockAngle { get; internal set; }
 
         public virtual void Init()
         {

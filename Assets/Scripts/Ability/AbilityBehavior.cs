@@ -22,6 +22,16 @@ namespace Ability
         /// </summary>
         /// <returns></returns>
         public List<AbilityAttack> Attacks = new();
+        /// <summary>
+        /// 受伤事件
+        /// </summary>
+        /// <returns></returns>
+        public List<AbilityUnderAttack> HurtEvents = new();
+        /// <summary>
+        /// 格挡事件
+        /// </summary>
+        /// <returns></returns>
+        public List<AbilityUnderAttack> BlockEvents = new();
 
         public int FrameLength = 60;
         public bool IsLoop;
@@ -99,7 +109,5 @@ namespace Ability
                 }
             }
         }
-
-
     }
 }

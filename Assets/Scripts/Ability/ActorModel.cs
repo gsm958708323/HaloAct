@@ -33,10 +33,8 @@ namespace Ability
         private int curFrame;
         private float fps;
 
-        internal AbilityAttack GetCurAbilityAttack()
-        {
-            throw new NotImplementedException();
-        }
+        public bool IsDead { get; internal set; }
+        public bool IsInvincible { get; internal set; }
 
         private void Awake()
         {
@@ -70,6 +68,21 @@ namespace Ability
                 curFrame += 1;
                 cacheTime -= fps;
             }
+        }
+
+        internal AbilityAttack GetCurAbilityAttack()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal AbilityBehavior GetCurAbilityBehavior()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void DeathCheck()
+        {
+            throw new NotImplementedException();
         }
     }
 }
