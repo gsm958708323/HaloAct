@@ -28,13 +28,9 @@ namespace Ability
 
         public int Priority;
         /// <summary>
-        /// 行为配置的索引
-        /// </summary>
-        public int BehaviorIndex;
-        /// <summary>
         /// 当前引用的行为节点
         /// </summary>
-        public AbilityBehavior curBehavior;
+        public AbilityBehavior Behavior;
         protected AbilityBehaviorTree tree;
 
         /// <summary>
@@ -49,25 +45,23 @@ namespace Ability
         {
             Debugger.Log($"Enter {name} {GetType()}", LogDomain.AbilityNode);
             this.tree = tree;
-            this.curBehavior = tree.GetAbilityBehavior(BehaviorIndex);
             CanCancel = false;
 
-            curBehavior?.Enter(tree);
+            Behavior?.Enter(tree);
         }
 
         public virtual void Exit()
         {
             Debugger.Log($"Exit {name} {GetType()}", LogDomain.AbilityNode);
-            curBehavior?.Exit();
+            Behavior?.Exit();
 
             this.tree = null;
-            this.curBehavior = null;
         }
 
         public virtual void Tick(int curFrame)
         {
             CanCancel = false;
-            curBehavior?.Tick(curFrame);
+            Behavior?.Tick(curFrame);
         }
 
         internal bool CheckCondition(AbilityBehaviorTree tree)

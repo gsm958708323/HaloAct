@@ -9,28 +9,12 @@ namespace Ability
     /// 受击配置
     /// </summary> <summary>
     /// </summary>
-    public class AbilityUnderAttack : ILogicT<ActorModel>
+    public class AbilityUnderAttack
     {
-        public virtual void Init()
+        internal void OnHurt(ActorModel atkModel, ActorModel model, AbilityBehaviorAttack atk, Transform atkTrans)
         {
+            Debugger.Log($"OnHurt {GetType()}", LogDomain.AbilityUnderAttack);
 
-        }
-
-        public virtual void Enter(ActorModel model)
-        {
-        }
-
-        public virtual void Exit()
-        {
-        }
-
-        public virtual void Tick(int frame)
-        {
-        }
-
-        internal void OnHurt(ActorModel atkModel, ActorModel model, AbilityAttack atk, Transform atkTrans)
-        {
-            throw new NotImplementedException();
         }
     }
 }

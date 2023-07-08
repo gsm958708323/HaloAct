@@ -32,6 +32,7 @@ namespace Ability
         // public bool CanCancel;
         public ActorModel ActorModel;
         public AbilityNode curNode;
+        Dictionary<AttackType, AbilityNode> hurtNodeDict = new();
 
         public void Init() { }
 
@@ -68,9 +69,9 @@ namespace Ability
             Debugger.Log($"{curFrame}", LogDomain.Frame);
 
             // 执行次数？生命周期完整？重置之后curFrame是否正确？
-            if (curFrame > curNode.curBehavior.FrameLength)
+            if (curFrame > curNode.Behavior.FrameLength)
             {
-                if (curNode.curBehavior.IsLoop)
+                if (curNode.Behavior.IsLoop)
                 {
                     LoopBehavior();
                 }
@@ -103,13 +104,18 @@ namespace Ability
                 var isGet = name2Index.TryGetValue(item.name, out int index) || name2Index.TryGetValue(nameT, out index);
                 if (isGet)
                 {
-                    item.BehaviorIndex = index;
+                    item.Behavior = behaviorsList[index];
                 }
                 else
                 {
                     Debug.LogError($"设置Node和Behavior的对应关系错误 {item.name}");
                 }
                 item?.Init();
+
+                if (item.Behavior is AbilityBehaviorHurt hurtBehavior)
+                {
+                    hurtNodeDict[hurtBehavior.AttackType] = item;
+                }
             }
         }
 
@@ -139,9 +145,13 @@ namespace Ability
                 {
                     action?.Init();
                 }
-                foreach (var attack in behavior.Attacks)
+
+                if (behavior is AbilityBehaviorAttack attackBehavior)
                 {
-                    attack?.Init();
+                    foreach (var attack in attackBehavior.Attacks)
+                    {
+                        attack?.Init();
+                    }
                 }
             }
         }
@@ -173,6 +183,16 @@ namespace Ability
             return nodeList[id];
         }
 
+        public AbilityNode GetHurtBehavior(AttackType attackType)
+        {
+            return hurtNodeDict[attackType];
+        }
+
+        public AbilityBehavior GetCurAbilityBehavior()
+        {
+            return curNode?.Behavior;
+        }
+
         private AbilityNode TryGetNextBehavior()
         {
             if (nodeList.Count == 0)
@@ -186,7 +206,7 @@ namespace Ability
             foreach (var newNodeIndex in curNode.Childs)
             {
                 AbilityNode newNode = nodeList[newNodeIndex];
-                AbilityBehavior behavior = behaviorsList[newNode.BehaviorIndex];
+                AbilityBehavior behavior = newNode.Behavior;
                 // 检查输入
                 if (GameManager_Input.Instance.bufferKeys.Any(predicate => predicate == behavior.InputKey))
                 {

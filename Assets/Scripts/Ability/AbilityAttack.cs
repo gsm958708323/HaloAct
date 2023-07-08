@@ -37,11 +37,6 @@ namespace Ability
         public FrameInfo FrameInfo;
         public HitBoxInfo HitBoxInfo;
 
-        /// <summary>
-        /// 格挡角度
-        /// </summary>
-        /// <value></value>
-        public float BlockAngle { get; internal set; }
         HitBox hitBox;
 
         public virtual void Init()

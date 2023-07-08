@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f303cde272919a04eacd1b21379542c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 2945f8a4668b6e54880eec96b440fd99, type: 3}
   m_Name: Atk2
   m_EditorClassIdentifier: 
   serializationData:
@@ -60,14 +60,90 @@ MonoBehaviour:
       Entry: 3
       Data: 0
     - Name: FrameInfo
-      Entry: 6
+      Entry: 7
+      Data: 4|Ability.FrameInfo, Assembly-CSharp
+    - Name: StartFrame
+      Entry: 3
+      Data: 1
+    - Name: EndFrame
+      Entry: 3
+      Data: 60
+    - Name: 
+      Entry: 8
       Data: 
     - Name: HitBoxInfo
-      Entry: 6
+      Entry: 7
+      Data: 5|Ability.HitBoxInfo, Assembly-CSharp
+    - Name: HitBoxPos
+      Entry: 7
+      Data: UnityEngine.Vector3, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: HitBoxRot
+      Entry: 7
+      Data: UnityEngine.Quaternion, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: HitBoxScale
+      Entry: 7
+      Data: UnityEngine.Vector3, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
       Data: 
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: CurAttack
+      Entry: 6
+      Data: 
+    - Name: BlockEvents
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
     - Name: 
       Entry: 13
       Data: 

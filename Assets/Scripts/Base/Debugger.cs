@@ -6,11 +6,11 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 public enum LogDomain
 {
-    None, All, AbilityBehavior, AbilityAction, AbilityCondition,
-    Frame,
+    None, All, AbilityBehavior, AbilityAction, AbilityCondition, Frame,
     AbilityNode,
     AbilityAttack,
     AbilityBox,
+    AbilityUnderAttack,
 }
 
 public class Debugger : MonoSingleton<Debugger>

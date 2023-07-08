@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2945f8a4668b6e54880eec96b440fd99, type: 3}
+  m_Script: {fileID: 11500000, guid: fbbfd78fa0c4f644d9f3f916f9d80ee5, type: 3}
   m_Name: Default
   m_EditorClassIdentifier: 
   serializationData:
@@ -52,35 +52,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Attacks
-      Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[Ability.AbilityAttack, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: CurAttack
-      Entry: 6
-      Data: 
-    - Name: BlockEvents
-      Entry: 7
-      Data: 4|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
     - Name: 
       Entry: 13
       Data: 

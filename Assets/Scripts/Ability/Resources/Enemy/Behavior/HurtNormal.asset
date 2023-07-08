@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2945f8a4668b6e54880eec96b440fd99, type: 3}
-  m_Name: Default
+  m_Script: {fileID: 11500000, guid: 880855b932f659e42b9338a5c530c8dc, type: 3}
+  m_Name: HurtNormal
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -27,43 +27,6 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 1|Ability.CancelAction, Assembly-CSharp
-    - Name: StartFrame
-      Entry: 3
-      Data: 1
-    - Name: EndFrame
-      Entry: 3
-      Data: 60
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 2|TestAction, Assembly-CSharp
-    - Name: StartFrame
-      Entry: 3
-      Data: 1
-    - Name: EndFrame
-      Entry: 3
-      Data: 60
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Attacks
-      Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[Ability.AbilityAttack, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
       Data: 0
     - Name: 
       Entry: 13
@@ -71,12 +34,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: CurAttack
-      Entry: 6
-      Data: 
-    - Name: BlockEvents
+    - Name: HurtEvents
       Entry: 7
-      Data: 4|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
+      Data: 1|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -90,3 +50,4 @@ MonoBehaviour:
   FrameLength: 60
   IsLoop: 1
   InputKey: 0
+  AttackType: 0

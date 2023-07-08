@@ -17,9 +17,9 @@ namespace Ability
     {
         [FolderPath] public string NodePath;
         [FolderPath] public string BehaviorPath;
-        public AbilityBehaviorTree tree;
-        public HitBox HitBox;
-        public HurtBox HurtBox;
+        [HideInInspector] public AbilityBehaviorTree tree;
+        [HideInInspector] public HitBox HitBox;
+        [HideInInspector] public HurtBox HurtBox;
         public ActorType ActorType;
         public ActorModel Target;
 
@@ -70,19 +70,23 @@ namespace Ability
             }
         }
 
-        internal AbilityAttack GetCurAbilityAttack()
-        {
-            throw new NotImplementedException();
-        }
+        // internal AbilityAttack GetCurAbilityAttack()
+        // {
+        //     if (GetCurAbilityBehavior() is AbilityBehaviorAttack attackBehavior)
+        //     {
+        //         return attackBehavior.CurAttack;
+        //     }
+        //     return null;
+        // }
 
-        internal AbilityBehavior GetCurAbilityBehavior()
-        {
-            throw new NotImplementedException();
-        }
+        // internal AbilityBehavior GetCurAbilityBehavior()
+        // {
+        //     return tree?.curNode?.Behavior;
+        // }
 
         internal void DeathCheck()
         {
-            throw new NotImplementedException();
+
         }
     }
 }

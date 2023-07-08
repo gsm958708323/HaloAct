@@ -6,36 +6,25 @@ using UnityEngine;
 
 namespace Ability
 {
-    [CreateAssetMenu(fileName = "NewBehavior", menuName = "AbilityTree/AbilityBehavior")]
     /// <summary>
     /// 存储行为数据：定义此行为将要执行的动作
     /// </summary>
-    public class AbilityBehavior : SerializedScriptableObject, ILogicT<AbilityBehaviorTree>
+    public abstract class AbilityBehavior : SerializedScriptableObject, ILogicT<AbilityBehaviorTree>
     {
         /// <summary>
         /// 动作列表
         /// </summary>
         /// <returns></returns>
         public List<AbilityAction> Actions = new();
-        /// <summary>
-        /// 攻击列表
-        /// </summary>
-        /// <returns></returns>
-        public List<AbilityAttack> Attacks = new();
-        /// <summary>
-        /// 受伤事件
-        /// </summary>
-        /// <returns></returns>
-        public List<AbilityUnderAttack> HurtEvents = new();
-        /// <summary>
-        /// 格挡事件
-        /// </summary>
-        /// <returns></returns>
-        public List<AbilityUnderAttack> BlockEvents = new();
 
         public int FrameLength = 60;
         public bool IsLoop;
         public KeyCode InputKey;
+        /// <summary>
+        /// 格挡角度
+        /// </summary>
+        /// <value></value>
+        public float BlockAngle { get; internal set; }
 
         protected AbilityBehaviorTree tree;
 
@@ -58,31 +47,7 @@ namespace Ability
         public virtual void Tick(int curFrame)
         {
             UpdateActions(curFrame);
-            UpdateAttack(curFrame);
-        }
-
-        private void UpdateAttack(int curFrame)
-        {
-            foreach (var attack in Attacks)
-            {
-                int startFrame = attack.FrameInfo.StartFrame;
-                int endFrame = attack.FrameInfo.EndFrame;
-
-                if (curFrame == startFrame)
-                {
-                    attack.Enter(tree.ActorModel);
-                }
-
-                if (curFrame >= startFrame && curFrame <= endFrame)
-                {
-                    attack.Tick(curFrame);
-                }
-
-                if (curFrame == endFrame)
-                {
-                    attack.Exit();
-                }
-            }
+            // UpdateAttack(curFrame);
         }
 
         private void UpdateActions(int curFrame)

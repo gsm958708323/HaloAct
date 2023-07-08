@@ -539,7 +539,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!143 &734906437
 CharacterController:
   m_ObjectHideFlags: 0
@@ -570,8 +570,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd92ad97d4696124f8784f38263f3b80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NodePath: Player/Node
-  BehaviorPath: Player/Behavior
+  NodePath: Enemy/Node
+  BehaviorPath: Enemy/Behavior
   HitBox: {fileID: 0}
   HurtBox: {fileID: 0}
   ActorType: 1
