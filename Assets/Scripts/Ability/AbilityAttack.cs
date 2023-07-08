@@ -27,6 +27,9 @@ namespace Ability
 
     /// <summary>
     /// 攻击配置
+    ///                 -> HitBox
+    /// AbilityAttack ->
+    ///                 -> HurtBox
     /// </summary>
     public class AbilityAttack : ILogicT<ActorModel>
     {
@@ -39,6 +42,7 @@ namespace Ability
         /// </summary>
         /// <value></value>
         public float BlockAngle { get; internal set; }
+        HitBox hitBox;
 
         public virtual void Init()
         {
@@ -47,14 +51,22 @@ namespace Ability
 
         public virtual void Enter(ActorModel model)
         {
+            // Debugger.Log($"Enter {GetType()}", LogDomain.AbilityAttack);
+
+            this.hitBox = model.HitBox;
+            hitBox.Enter(model, HitBoxInfo.HitBoxPos, HitBoxInfo.HitBoxScale, HitBoxInfo.HitBoxRot);
         }
 
         public virtual void Exit()
         {
+            // Debugger.Log($"Exit {GetType()}", LogDomain.AbilityAttack);
+            hitBox.Exit();
+            hitBox = null;
         }
 
         public virtual void Tick(int frame)
         {
+            hitBox.Tick(frame);
         }
     }
 }

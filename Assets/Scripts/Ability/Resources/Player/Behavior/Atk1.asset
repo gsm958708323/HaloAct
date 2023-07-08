@@ -64,10 +64,10 @@ MonoBehaviour:
       Data: 4|Ability.FrameInfo, Assembly-CSharp
     - Name: StartFrame
       Entry: 3
-      Data: 0
+      Data: 40
     - Name: EndFrame
       Entry: 3
-      Data: 0
+      Data: 60
     - Name: 
       Entry: 8
       Data: 
@@ -85,7 +85,7 @@ MonoBehaviour:
       Data: 0
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 1.7
     - Name: 
       Entry: 8
       Data: 
@@ -112,19 +112,57 @@ MonoBehaviour:
       Data: UnityEngine.Vector3, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 2.3
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 1.6
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: HurtEvents
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 7|Ability.AbilityUnderAttack, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BlockEvents
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 9|Ability.AbilityUnderAttack, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 

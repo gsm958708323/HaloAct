@@ -10,7 +10,7 @@ namespace Ability
     public enum ActorType
     {
         PLAYER,
-        AI,
+        Enemy,
     }
 
     public class ActorModel : MonoBehaviour
@@ -24,7 +24,7 @@ namespace Ability
         public ActorModel Target;
 
         /// <summary>
-        /// 缓存帧，用于计算帧数
+        /// 缓存时间，用于计算帧数
         /// </summary>
         private float cacheTime;
         /// <summary>
@@ -50,7 +50,7 @@ namespace Ability
 
             HitBox = GetComponentInChildren<HitBox>();
             HitBox.Init();
-            HitBox.Enter(this);
+            HitBox.Exit(); // 默认隐藏
 
             HurtBox = GetComponentInChildren<HurtBox>();
             HurtBox.Init();
