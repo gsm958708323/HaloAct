@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 namespace MovementSystem
 {
-    public class PlayerMovementState : IState 
+    public class PlayerMovementState : IState
     {
         protected PlayerMovementStateMachine statemMachine;
         protected Vector2 movementInput;
@@ -66,12 +66,16 @@ namespace MovementSystem
 
         protected void SetAnimBool(string name, bool toggle)
         {
-            statemMachine.Player.Animator.SetBool(name, toggle);
+            var animator = statemMachine.Player.Animator;
+            if (animator == null) return;
+            animator.SetBool(name, toggle);
         }
 
         protected void SetAnimFloat(string name, float value)
         {
-            statemMachine.Player.Animator.SetFloat(name, value);
+            var animator = statemMachine.Player.Animator;
+            if (animator == null) return;
+            animator.SetFloat(name, value);
         }
 
 
@@ -115,6 +119,7 @@ namespace MovementSystem
         public virtual void Update()
         {
             Animator animator = statemMachine.Player.Animator;
+            if (animator == null) return;
             AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
             // 如果动画已完成
             if (stateInfo.normalizedTime >= 1.0f && !animator.IsInTransition(0))

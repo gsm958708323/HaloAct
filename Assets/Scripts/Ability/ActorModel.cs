@@ -4,6 +4,7 @@ using UnityEngine;
 using Ability;
 using Sirenix.OdinInspector;
 using System;
+using MovementSystem;
 
 namespace Ability
 {
@@ -55,6 +56,8 @@ namespace Ability
             HurtBox = GetComponentInChildren<HurtBox>();
             HurtBox.Init();
             HurtBox.Enter(this);
+
+
         }
 
         void Update()

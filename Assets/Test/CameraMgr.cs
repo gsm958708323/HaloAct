@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CameraMgr : MonoBehaviour
 {
-    public Player player;
+    public PlayerMovement player;
 
     Vector3 targetCameraEulers;
     Vector3 curCameraEulers;

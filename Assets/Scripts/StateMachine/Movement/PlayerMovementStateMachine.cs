@@ -7,7 +7,7 @@ namespace MovementSystem
 {
     public class PlayerMovementStateMachine : StateMachine
     {
-        public Player Player { get; }
+        public PlayerMovement Player { get; }
 
         public PlayerIdlingState IdlingState { get; private set; }
         public PlayerMovingState MovingState { get; private set; }
@@ -18,7 +18,7 @@ namespace MovementSystem
         public PlayerFallState FallState { get; internal set; }
         public PlayerDashState DashState { get; internal set; }
 
-        public PlayerMovementStateMachine(Player player)
+        public PlayerMovementStateMachine(PlayerMovement player)
         {
             Player = player;
             IdlingState = new PlayerIdlingState(this);

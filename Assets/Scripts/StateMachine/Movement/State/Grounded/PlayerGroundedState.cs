@@ -42,7 +42,7 @@ namespace MovementSystem
 
         private void OnDash(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
+
         }
 
         private void OnJump(InputAction.CallbackContext context)
