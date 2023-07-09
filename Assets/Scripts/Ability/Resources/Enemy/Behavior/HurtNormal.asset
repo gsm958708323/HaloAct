@@ -48,6 +48,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
   FrameLength: 60
-  IsLoop: 1
+  IsLoop: 0
   InputKey: 0
   AttackType: 0
