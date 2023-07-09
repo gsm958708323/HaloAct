@@ -7,14 +7,14 @@ namespace Ability
 {
     public class HitBox : AbilityBox
     {
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)     
         {
             if (model == null) return;
 
-            var otherModel = other.GetComponentInParent<ActorModel>();
+            var otherModel = other.GetComponent<ActorModel>();
             if (otherModel == model) return; // 排除自己
 
-            if (other.gameObject.layer != LayerMask.NameToLayer("HurtBox"))
+            if (other.GetComponentInChildren<HurtBox>().gameObject.layer != LayerMask.NameToLayer("HurtBox"))
                 return; // 只检测HurtBox
 
             if (model.ActorType == otherModel.ActorType)
