@@ -14,9 +14,16 @@ namespace MovementSystem
         }
         float verticalInput;
 
-        float baseSpeed = 1;
-        protected float speedModifier = 1;
+        protected float ForwardInput
+        {
+            get { return forwardInput; }
+            set { forwardInput = value; }
+        }
+        float forwardInput;
+
+        float baseSpeed = 1f;
         float speedTemp = 0.1f;
+        protected float speedModifier = 1;
 
         public PlayerMovementState(PlayerMovementStateMachine machine)
         {
@@ -61,7 +68,9 @@ namespace MovementSystem
             Vector3 rotationDir = GetRotationDirection(angle);
 
             float speed = baseSpeed * speedModifier;
-            statemMachine.Player.Move(rotationDir * speed * speedTemp + Vector3.up * verticalInput * speedTemp);
+            // statemMachine.Player.Move(rotationDir * speed * speedTemp + Vector3.up * verticalInput * speedTemp);
+            Vector3 moveVect = (rotationDir * speed + Vector3.up * verticalInput + Vector3.forward * forwardInput) * speedTemp;
+            statemMachine.Player.Move(moveVect);
         }
 
         protected void SetAnimBool(string name, bool toggle)

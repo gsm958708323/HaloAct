@@ -23,7 +23,7 @@ namespace MovementSystem
         /// <summary>
         /// x为检测半径，y为偏移量
         /// </summary>
-        public Vector2 CheckGroundSetting;
+        public Vector2 CheckGroundSetting = new(0.5f, 0.75f);
 
         private void Awake()
         {

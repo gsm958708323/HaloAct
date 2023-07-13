@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Ability;
 using Sirenix.OdinInspector;
-using System;
-using MovementSystem;
+using UnityEngine.InputSystem;
+using static GameInput;
 
 namespace Ability
 {
@@ -37,6 +36,13 @@ namespace Ability
         public bool IsDead { get; internal set; }
         public bool IsInvincible { get; internal set; }
 
+        public float Gravity = -9.8f;
+        public float RotationAngle;
+        public Vector2 InputDir;
+        public Vector3 Velocity;
+        CharacterController characterController;
+        public PlayerGameInput GameInput;
+
         private void Awake()
         {
             fps = 1.0f / GameManager_Settings.TargetFraneRate;
@@ -57,7 +63,8 @@ namespace Ability
             HurtBox.Init();
             HurtBox.Enter(this);
 
-
+            characterController = GetComponent<CharacterController>();
+            GameInput = GetComponent<PlayerGameInput>();
         }
 
         void Update()
@@ -71,21 +78,21 @@ namespace Ability
                 curFrame += 1;
                 cacheTime -= fps;
             }
+
+            UpdatePhysics();
         }
 
-        // internal AbilityAttack GetCurAbilityAttack()
-        // {
-        //     if (GetCurAbilityBehavior() is AbilityBehaviorAttack attackBehavior)
-        //     {
-        //         return attackBehavior.CurAttack;
-        //     }
-        //     return null;
-        // }
+        private void UpdatePhysics()
+        {
+            characterController.Move(Velocity * Time.deltaTime);
+            Velocity.y += Gravity * Time.deltaTime;
+            Velocity.y = Mathf.Clamp(Velocity.y, -20, 50);
+        }
 
-        // internal AbilityBehavior GetCurAbilityBehavior()
-        // {
-        //     return tree?.curNode?.Behavior;
-        // }
+        public PlayerInputActions GetPlayerInput()
+        {
+            return GameInput.PlayerAction.PlayerInput;
+        }
 
         internal void DeathCheck()
         {

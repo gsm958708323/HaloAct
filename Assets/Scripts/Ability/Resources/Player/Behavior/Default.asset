@@ -42,13 +42,16 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 2|TestAction, Assembly-CSharp
+      Data: 2|Ability.MovementAction, Assembly-CSharp
     - Name: StartFrame
       Entry: 3
       Data: 1
     - Name: EndFrame
       Entry: 3
       Data: 60
+    - Name: moveSpeed
+      Entry: 4
+      Data: 10
     - Name: 
       Entry: 8
       Data: 

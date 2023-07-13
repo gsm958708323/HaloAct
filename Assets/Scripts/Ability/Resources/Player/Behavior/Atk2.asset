@@ -135,8 +135,8 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: CurAttack
-      Entry: 6
-      Data: 
+      Entry: 9
+      Data: 3
     - Name: BlockEvents
       Entry: 7
       Data: 6|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
@@ -152,4 +152,4 @@ MonoBehaviour:
       Data: 
   FrameLength: 60
   IsLoop: 0
-  InputKey: 106
+  InputKey: 323

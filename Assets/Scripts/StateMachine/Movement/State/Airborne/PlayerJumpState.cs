@@ -23,7 +23,7 @@ namespace MovementSystem
 
         private void Jump()
         {
-            VerticalInput = 5;
+            VerticalInput = 5f;
         }
 
         public override void PhysicsUpdate()

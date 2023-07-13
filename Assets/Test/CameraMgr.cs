@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CameraMgr : MonoBehaviour
 {
-    public PlayerMovement player;
+    public PlayerGameInput input;
 
     Vector3 targetCameraEulers;
     Vector3 curCameraEulers;
@@ -48,7 +48,7 @@ public class CameraMgr : MonoBehaviour
 
     void HandleInput()
     {
-        cameraLook = player.GetPlayerAction().CameraLook.ReadValue<Vector2>();
+        cameraLook = input.PlayerAction.PlayerInput.CameraLook.ReadValue<Vector2>();
     }
 
     private void Rotate()
@@ -63,7 +63,7 @@ public class CameraMgr : MonoBehaviour
         transform.eulerAngles = curCameraEulers;
 
         // 设置位置（将原始向量偏移）
-        var pos = player.transform.position + (transform.forward * cameraOffset.z + transform.right * cameraOffset.x + transform.up * cameraOffset.y) * cameraZoom;
+        var pos = input.transform.position + (transform.forward * cameraOffset.z + transform.right * cameraOffset.x + transform.up * cameraOffset.y) * cameraZoom;
         transform.position = pos;
         transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * posSmoothTime);
     }
