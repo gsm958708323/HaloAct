@@ -9,9 +9,9 @@ namespace Ability
     /// </summary>
     public class CancelAction : AbilityAction
     {
-        override public void Tick(int curFrame)
+        protected override void OnTick(int curFrame)
         {
-            base.Tick(curFrame);
+            base.OnTick(curFrame);
 
             tree.curNode.CanCancel = true;
         }

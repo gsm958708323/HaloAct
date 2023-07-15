@@ -27,7 +27,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 7
       Data: 1|Ability.CancelAction, Assembly-CSharp
@@ -37,24 +37,6 @@ MonoBehaviour:
     - Name: EndFrame
       Entry: 3
       Data: 60
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 2|Ability.MovementAction, Assembly-CSharp
-    - Name: StartFrame
-      Entry: 3
-      Data: 1
-    - Name: EndFrame
-      Entry: 3
-      Data: 60
-    - Name: moveSpeed
-      Entry: 4
-      Data: 10
-    - Name: rotationTime
-      Entry: 4
-      Data: 0.1
     - Name: 
       Entry: 8
       Data: 

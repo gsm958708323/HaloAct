@@ -11,9 +11,9 @@ namespace Ability
         public float rotationTime = 0.1f;
         private float currentVelocity;
 
-        public override void Tick(int frame)
+        protected override void OnTick(int frame)
         {
-            base.Tick(frame);
+            base.OnTick(frame);
             var inputDir = tree.ActorModel.GameInput.GetPlayerInput().Movement.ReadValue<Vector2>();
             Vector3 moveDir = Vector3.zero;
             if (inputDir != Vector2.zero)
