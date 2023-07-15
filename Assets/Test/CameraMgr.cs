@@ -49,7 +49,7 @@ public class CameraMgr : MonoBehaviour
 
     void HandleInput()
     {
-        cameraLook = input.PlayerAction.PlayerInput.CameraLook.ReadValue<Vector2>();
+        cameraLook = input.GetPlayerInput().CameraLook.ReadValue<Vector2>();
     }
 
     private void Rotate()

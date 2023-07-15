@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameInput;
 
 public class PlayerGameInput : MonoBehaviour
 {
@@ -19,6 +20,11 @@ public class PlayerGameInput : MonoBehaviour
     private void OnDisable()
     {
         PlayerAction?.Disable();
+    }
+
+    public PlayerInputActions GetPlayerInput()
+    {
+        return PlayerAction.PlayerInput;
     }
 }
 

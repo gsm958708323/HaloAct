@@ -52,6 +52,9 @@ MonoBehaviour:
     - Name: moveSpeed
       Entry: 4
       Data: 10
+    - Name: rotationTime
+      Entry: 4
+      Data: 0.1
     - Name: 
       Entry: 8
       Data: 

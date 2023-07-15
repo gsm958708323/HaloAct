@@ -30,13 +30,28 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|TestAction, Assembly-CSharp
+      Data: 1|Ability.AddVelocityAction, Assembly-CSharp
     - Name: StartFrame
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: EndFrame
       Entry: 3
-      Data: 60
+      Data: 10
+    - Name: Velocity
+      Entry: 7
+      Data: UnityEngine.Vector3, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -75,6 +90,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  FrameLength: 60
+  FrameLength: 10
   IsLoop: 0
   InputKey: 324

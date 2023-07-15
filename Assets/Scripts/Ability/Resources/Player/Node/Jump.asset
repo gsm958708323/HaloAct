@@ -20,8 +20,22 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: conditions
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[Ability.AbilityCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   Id: 1
   Childs: 
   Priority: 0
-  BehaviorIndex: 0
+  Behavior: {fileID: 11400000, guid: eb17f91fea306c544bf74272c69d5394, type: 2}
+  CanCancel: 1

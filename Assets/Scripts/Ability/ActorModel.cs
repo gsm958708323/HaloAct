@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using UnityEngine.InputSystem;
-using static GameInput;
 
 namespace Ability
 {
@@ -33,15 +31,20 @@ namespace Ability
         private int curFrame;
         private float fps;
 
-        public bool IsDead { get; internal set; }
-        public bool IsInvincible { get; internal set; }
+        public bool IsDead;
+        public bool IsInvincible;
+        public bool IsGround;
+        public bool IsAerial;
+        float cacheAerialTime;
+        float delayAerialTime = 0.5f;
 
-        public float Gravity = -9.8f;
-        public float RotationAngle;
-        public Vector2 InputDir;
-        public Vector3 Velocity;
-        CharacterController characterController;
         public PlayerGameInput GameInput;
+        CharacterController characterController;
+        public float Gravity = -9.8f;
+        public Vector2 InputDir;
+        public Vector3 EulerAngles;
+        public Vector3 Velocity;
+        public GroundChecker groundChecker;
 
         private void Awake()
         {
@@ -65,6 +68,7 @@ namespace Ability
 
             characterController = GetComponent<CharacterController>();
             GameInput = GetComponent<PlayerGameInput>();
+            groundChecker = GetComponent<GroundChecker>();
         }
 
         void Update()
@@ -84,14 +88,40 @@ namespace Ability
 
         private void UpdatePhysics()
         {
-            characterController.Move(Velocity * Time.deltaTime);
-            Velocity.y += Gravity * Time.deltaTime;
-            Velocity.y = Mathf.Clamp(Velocity.y, -20, 50);
+            UpdateVelocity();
+            CheckGround();
         }
 
-        public PlayerInputActions GetPlayerInput()
+        private void CheckGround()
         {
-            return GameInput.PlayerAction.PlayerInput;
+            IsGround = groundChecker.CheckGround();
+            if (IsGround)
+            {
+                Velocity.y = 0;
+                IsAerial = false;
+                cacheAerialTime = 0;
+            }
+            else
+            {
+                // 延迟一段时间后才算空中
+                if (!IsAerial)
+                {
+                    cacheAerialTime += Time.deltaTime;
+                }
+
+                if (cacheAerialTime > delayAerialTime)
+                {
+                    IsAerial = true;
+                }
+            }
+        }
+
+        private void UpdateVelocity()
+        {
+            characterController.Move(Velocity * Time.deltaTime);
+            characterController.transform.eulerAngles = EulerAngles;
+            Velocity.y += Gravity * Time.deltaTime;
+            Velocity.y = Mathf.Clamp(Velocity.y, -20, 20);
         }
 
         internal void DeathCheck()
