@@ -420,7 +420,7 @@ MonoBehaviour:
   maxVerticalAngle: {x: -30, y: 30}
   cameraZoom: 1
   cameraOffset: {x: 0, y: 2.19, z: -6.84}
-  posSmoothTime: 0.5
+  posSmoothTime: 0.1
 --- !u!1 &611954320
 GameObject:
   m_ObjectHideFlags: 0
@@ -664,6 +664,7 @@ MonoBehaviour:
   RotationAngle: 0
   InputDir: {x: 0, y: 0}
   Velocity: {x: 0, y: 0, z: 0}
+  GameInput: {fileID: 0}
 --- !u!4 &734906439
 Transform:
   m_ObjectHideFlags: 0
@@ -908,6 +909,7 @@ MonoBehaviour:
   RotationAngle: 0
   InputDir: {x: 0, y: 0}
   Velocity: {x: 0, y: 0, z: 0}
+  GameInput: {fileID: 0}
 --- !u!4 &1626294270
 Transform:
   m_ObjectHideFlags: 0

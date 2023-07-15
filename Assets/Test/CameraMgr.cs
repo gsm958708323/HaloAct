@@ -11,6 +11,7 @@ public class CameraMgr : MonoBehaviour
     Vector3 targetCameraEulers;
     Vector3 curCameraEulers;
     Vector3 dampVelocity;
+    Vector3 posDampVelocity;
     [SerializeField] float cameraRotSpeed = 1;
     /// <summary>
     /// 平滑过渡的时间
@@ -29,7 +30,7 @@ public class CameraMgr : MonoBehaviour
     /// </summary>
     [SerializeField] Vector3 cameraOffset;
 
-    [SerializeField] float posSmoothTime = 0.5f;
+    [SerializeField] float posSmoothTime = 0.1f;
 
     Vector2 cameraLook;
 
@@ -64,7 +65,7 @@ public class CameraMgr : MonoBehaviour
 
         // 设置位置（将原始向量偏移）
         var pos = input.transform.position + (transform.forward * cameraOffset.z + transform.right * cameraOffset.x + transform.up * cameraOffset.y) * cameraZoom;
-        transform.position = pos;
-        transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * posSmoothTime);
+        // transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * posSmoothTime); Vector3.Lerp方法是线性插值，它会在相机移动过程中产生不连续的变化，从而导致抖动
+        transform.position = Vector3.SmoothDamp(transform.position, pos, ref posDampVelocity, posSmoothTime);
     }
 }
