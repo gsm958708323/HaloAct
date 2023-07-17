@@ -48,7 +48,7 @@ MonoBehaviour:
       Data: 5
     - Name: EndFrame
       Entry: 3
-      Data: 6
+      Data: 5
     - Name: Velocity
       Entry: 7
       Data: UnityEngine.Vector3, UnityEngine.CoreModule
@@ -60,7 +60,7 @@ MonoBehaviour:
       Data: 0
     - Name: 
       Entry: 4
-      Data: 10
+      Data: 50
     - Name: 
       Entry: 8
       Data: 

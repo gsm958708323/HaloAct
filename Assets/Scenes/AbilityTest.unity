@@ -719,10 +719,10 @@ MonoBehaviour:
   IsAerial: 0
   GameInput: {fileID: 0}
   Gravity: -9.8
+  Frictional: {x: 0, y: 0, z: 0}
   InputDir: {x: 0, y: 0}
   EulerAngles: {x: 0, y: 0, z: 0}
   Velocity: {x: 0, y: 0, z: 0}
-  VelocitySmoothDamp: {x: 0, y: 0, z: 0}
   groundChecker: {fileID: 0}
 --- !u!4 &734906439
 Transform:
@@ -1000,10 +1000,10 @@ MonoBehaviour:
   IsAerial: 0
   GameInput: {fileID: 0}
   Gravity: -20
+  Frictional: {x: 0.5, y: 1, z: 0.5}
   InputDir: {x: 0, y: 0}
   EulerAngles: {x: 0, y: 0, z: 0}
   Velocity: {x: 0, y: 0, z: 0}
-  VelocitySmoothDamp: {x: 0, y: 0, z: 0}
   groundChecker: {fileID: 0}
 --- !u!4 &1626294270
 Transform:

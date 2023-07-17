@@ -124,12 +124,7 @@ namespace Ability
             Velocity.y += Gravity * Time.deltaTime;
             Velocity.y = Mathf.Clamp(Velocity.y, -20, 20);
 
-            // var frictional = Velocity.x * Frictional > 0 ? -Frictional : Frictional;
-            // Velocity.x += frictional * Time.deltaTime;
-            // Velocity.z += frictional * Time.deltaTime;
-            // Velocity.x = Mathf.Max(0, Velocity.x);
-            // Velocity.z = Mathf.Max(0, Velocity.z);
-
+            // 用来处理速度的衰减，速度不断变小并无限接近0
             Velocity.Scale(Frictional);
         }
 
