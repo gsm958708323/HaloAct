@@ -388,7 +388,7 @@ MonoBehaviour:
   maxVerticalAngle: {x: -10, y: 30}
   cameraZoom: 1
   cameraOffset: {x: 0, y: 2.19, z: -6.84}
-  posSmoothTime: 0.1
+  posSmoothTime: 0
 --- !u!1 &439929735
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,6 +669,7 @@ GameObject:
   - component: {fileID: 734906438}
   - component: {fileID: 734906437}
   - component: {fileID: 734906440}
+  - component: {fileID: 734906441}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -712,11 +713,16 @@ MonoBehaviour:
   HurtBox: {fileID: 0}
   ActorType: 1
   Target: {fileID: 0}
+  IsDead: 0
+  IsInvincible: 0
+  IsGround: 0
+  IsAerial: 0
   GameInput: {fileID: 0}
   Gravity: -9.8
   InputDir: {x: 0, y: 0}
   EulerAngles: {x: 0, y: 0, z: 0}
   Velocity: {x: 0, y: 0, z: 0}
+  VelocitySmoothDamp: {x: 0, y: 0, z: 0}
   groundChecker: {fileID: 0}
 --- !u!4 &734906439
 Transform:
@@ -753,6 +759,18 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &734906441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734906436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f5584cd55d1303419327c5e106df680, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &781531704
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,11 +994,16 @@ MonoBehaviour:
   HurtBox: {fileID: 0}
   ActorType: 0
   Target: {fileID: 0}
+  IsDead: 0
+  IsInvincible: 0
+  IsGround: 0
+  IsAerial: 0
   GameInput: {fileID: 0}
   Gravity: -20
   InputDir: {x: 0, y: 0}
   EulerAngles: {x: 0, y: 0, z: 0}
   Velocity: {x: 0, y: 0, z: 0}
+  VelocitySmoothDamp: {x: 0, y: 0, z: 0}
   groundChecker: {fileID: 0}
 --- !u!4 &1626294270
 Transform:

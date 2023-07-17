@@ -41,14 +41,13 @@ namespace Ability
 
             LoadBehavior(behaviorPath);
             LoadNode(nodePath);
-
-            StartBehavior(GetBehaviorById(0));
         }
 
 
         public void Enter(ActorModel model)
         {
             this.ActorModel = model;
+            StartBehavior(GetBehaviorById(0));
         }
 
         public void Exit()

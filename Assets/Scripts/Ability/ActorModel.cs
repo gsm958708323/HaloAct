@@ -19,7 +19,7 @@ namespace Ability
         [HideInInspector] public HitBox HitBox;
         [HideInInspector] public HurtBox HurtBox;
         public ActorType ActorType;
-        public ActorModel Target;
+        [HideInInspector] public ActorModel Target;
 
         /// <summary>
         /// 缓存时间，用于计算帧数
@@ -38,13 +38,14 @@ namespace Ability
         float cacheAerialTime;
         float delayAerialTime = 0.5f;
 
-        public PlayerGameInput GameInput;
+        [HideInInspector] public PlayerGameInput GameInput;
         CharacterController characterController;
         public float Gravity = -9.8f;
+        public Vector3 Frictional;
         public Vector2 InputDir;
         public Vector3 EulerAngles;
         public Vector3 Velocity;
-        public GroundChecker groundChecker;
+        [HideInInspector] public GroundChecker groundChecker;
 
         private void Awake()
         {
@@ -122,6 +123,14 @@ namespace Ability
             characterController.transform.eulerAngles = EulerAngles;
             Velocity.y += Gravity * Time.deltaTime;
             Velocity.y = Mathf.Clamp(Velocity.y, -20, 20);
+
+            // var frictional = Velocity.x * Frictional > 0 ? -Frictional : Frictional;
+            // Velocity.x += frictional * Time.deltaTime;
+            // Velocity.z += frictional * Time.deltaTime;
+            // Velocity.x = Mathf.Max(0, Velocity.x);
+            // Velocity.z = Mathf.Max(0, Velocity.z);
+
+            Velocity.Scale(Frictional);
         }
 
         internal void DeathCheck()
