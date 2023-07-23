@@ -11,6 +11,7 @@ public enum LogDomain
     AbilityAttack,
     AbilityBox,
     AbilityUnderAttack,
+    HurtBox,
 }
 
 public class Debugger : MonoSingleton<Debugger>

@@ -17,6 +17,7 @@ namespace Ability
             Debugger.Log($"Enter {GetType()}", LogDomain.AbilityBox);
 
             this.model = model;
+            gameObject.SetActive(false);
             gameObject.SetActive(true);
         }
 
@@ -25,6 +26,8 @@ namespace Ability
             Debugger.Log($"Enter {GetType()}", LogDomain.AbilityBox);
 
             this.model = model;
+            // 触发器一直显示OnTriggerEnter只会触发一次，这里保证每次都会触发
+            gameObject.SetActive(false);
             gameObject.SetActive(true);
 
             transform.localPosition = pos;

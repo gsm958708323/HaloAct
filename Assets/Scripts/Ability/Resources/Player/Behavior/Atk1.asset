@@ -162,8 +162,8 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: CurAttack
-      Entry: 9
-      Data: 4
+      Entry: 6
+      Data: 
     - Name: BlockEvents
       Entry: 7
       Data: 7|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
