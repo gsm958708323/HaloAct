@@ -31,6 +31,7 @@ namespace Ability
 
             AbilityBehaviorAttack attackBehavior = model.tree.GetCurAbilityBehavior() as AbilityBehaviorAttack;
             model.Target = otherModel;
+            otherModel.Target = model;
             otherHurtBox.HitPoint = model.HitBox.transform.position;
             otherHurtBox.OnHurt(model, transform, attackBehavior);
         }

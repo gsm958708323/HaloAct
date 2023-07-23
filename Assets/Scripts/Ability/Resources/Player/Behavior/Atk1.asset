@@ -27,43 +27,16 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 7
       Data: 1|Ability.CancelAction, Assembly-CSharp
     - Name: StartFrame
       Entry: 3
-      Data: 40
+      Data: 20
     - Name: EndFrame
       Entry: 3
-      Data: 60
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 2|Ability.AddVelocityAction, Assembly-CSharp
-    - Name: StartFrame
-      Entry: 3
-      Data: 5
-    - Name: EndFrame
-      Entry: 3
-      Data: 5
-    - Name: Velocity
-      Entry: 7
-      Data: UnityEngine.Vector3, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 50
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 30
     - Name: 
       Entry: 8
       Data: 
@@ -75,32 +48,32 @@ MonoBehaviour:
       Data: 
     - Name: Attacks
       Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[Ability.AbilityAttack, Assembly-CSharp]],
+      Data: 2|System.Collections.Generic.List`1[[Ability.AbilityAttack, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 4|Ability.AbilityAttack, Assembly-CSharp
+      Data: 3|Ability.AbilityAttack, Assembly-CSharp
     - Name: AttackType
       Entry: 3
       Data: 0
     - Name: FrameInfo
       Entry: 7
-      Data: 5|Ability.FrameInfo, Assembly-CSharp
+      Data: 4|Ability.FrameInfo, Assembly-CSharp
     - Name: StartFrame
       Entry: 3
-      Data: 40
+      Data: 20
     - Name: EndFrame
       Entry: 3
-      Data: 60
+      Data: 30
     - Name: 
       Entry: 8
       Data: 
     - Name: HitBoxInfo
       Entry: 7
-      Data: 6|Ability.HitBoxInfo, Assembly-CSharp
+      Data: 5|Ability.HitBoxInfo, Assembly-CSharp
     - Name: HitBoxPos
       Entry: 7
       Data: UnityEngine.Vector3, UnityEngine.CoreModule
@@ -139,13 +112,13 @@ MonoBehaviour:
       Data: UnityEngine.Vector3, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 2.3
+      Data: 5
     - Name: 
       Entry: 4
       Data: 1
     - Name: 
       Entry: 4
-      Data: 1.6
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
@@ -166,7 +139,7 @@ MonoBehaviour:
       Data: 
     - Name: BlockEvents
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
+      Data: 6|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -177,6 +150,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  FrameLength: 60
+  FrameLength: 30
   IsLoop: 0
   InputKey: 323

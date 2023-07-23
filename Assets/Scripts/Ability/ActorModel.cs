@@ -19,7 +19,7 @@ namespace Ability
         [HideInInspector] public HitBox HitBox;
         [HideInInspector] public HurtBox HurtBox;
         public ActorType ActorType;
-        [HideInInspector] public ActorModel Target;
+        public ActorModel Target;
 
         /// <summary>
         /// 缓存时间，用于计算帧数
@@ -44,6 +44,7 @@ namespace Ability
         public Vector3 Frictional;
         public Vector2 InputDir;
         public Vector3 EulerAngles;
+        public Quaternion Rotation;
         public Vector3 Velocity;
         [HideInInspector] public GroundChecker groundChecker;
 
@@ -120,7 +121,7 @@ namespace Ability
         private void UpdateVelocity()
         {
             characterController.Move(Velocity * Time.deltaTime);
-            characterController.transform.eulerAngles = EulerAngles;
+            characterController.transform.rotation = Rotation;
             Velocity.y += Gravity * Time.deltaTime;
             Velocity.y = Mathf.Clamp(Velocity.y, -20, 20);
 
@@ -131,6 +132,20 @@ namespace Ability
         internal void DeathCheck()
         {
 
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (Target != null && ActorType == ActorType.Enemy)
+            {
+                Gizmos.DrawLine(transform.position, Target.transform.position);
+                // Target.transform.LookAt(dir);
+
+                // var dir = Target.transform.position - transform.position;
+                // dir.y = 0;
+                // float angle = Vector3.Angle(transform.forward, dir);
+                // EulerAngles = angle * Vector3.up;
+            }
         }
     }
 }

@@ -8,8 +8,7 @@ namespace Ability
     public class MovementAction : AbilityAction
     {
         public float moveSpeed = 10;
-        public float rotationTime = 0.1f;
-        private float currentVelocity;
+        public float rotationRatio = 0.2f;
 
         protected override void OnTick(int frame)
         {
@@ -33,8 +32,9 @@ namespace Ability
             if (inputDir != Vector2.zero)
             {
                 var angle = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-                tree.ActorModel.EulerAngles = Vector3.up * Mathf.SmoothDampAngle(tree.ActorModel.EulerAngles.y, angle, ref currentVelocity, rotationTime);
-                tree.ActorModel.EulerAngles.y %= 360;
+
+                var targetRotation = Quaternion.Euler(0, angle, 0);
+                tree.ActorModel.Rotation = Quaternion.Slerp(tree.ActorModel.Rotation, targetRotation, rotationRatio);
             }
         }
     }
