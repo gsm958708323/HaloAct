@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,6 +39,7 @@ namespace Ability
         public HitBoxInfo HitBoxInfo;
 
         HitBox hitBox;
+        bool isEnter;
 
         public virtual void Init()
         {
@@ -46,22 +48,28 @@ namespace Ability
 
         public virtual void Enter(ActorModel model)
         {
-            // Debugger.Log($"Enter {GetType()}", LogDomain.AbilityAttack);
-
+            Debugger.Log($"Enter {GetType()}", LogDomain.AbilityAttack);
+            isEnter = true;
             this.hitBox = model.HitBox;
             hitBox.Enter(model, HitBoxInfo.HitBoxPos, HitBoxInfo.HitBoxScale, HitBoxInfo.HitBoxRot);
         }
 
         public virtual void Exit()
         {
-            // Debugger.Log($"Exit {GetType()}", LogDomain.AbilityAttack);
+            Debugger.Log($"Exit {GetType()}", LogDomain.AbilityAttack);
             hitBox.Exit();
             hitBox = null;
+            isEnter = false;
         }
 
         public virtual void Tick(int frame)
         {
             hitBox.Tick(frame);
+        }
+
+        internal bool IsEnter()
+        {
+            return isEnter;
         }
     }
 }

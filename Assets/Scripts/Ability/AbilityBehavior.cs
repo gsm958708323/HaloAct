@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Ability
 {
@@ -40,7 +41,14 @@ namespace Ability
 
         public virtual void Exit()
         {
-            // Debugger.Log($"Exit {tree.ActorModel.name} {name} {GetType()}", LogDomain.AbilityBehavior);
+            Debugger.Log($"Exit {tree.ActorModel.name} {name} {GetType()}", LogDomain.AbilityBehavior);
+            foreach (var action in Actions)
+            {
+                if (action.IsEnter())
+                {
+                    action.Exit();
+                }
+            }
             this.tree = null;
         }
 

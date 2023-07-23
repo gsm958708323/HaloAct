@@ -85,7 +85,7 @@ MonoBehaviour:
       Data: 4|Ability.AbilityAttack, Assembly-CSharp
     - Name: AttackType
       Entry: 3
-      Data: 2
+      Data: 1
     - Name: FrameInfo
       Entry: 7
       Data: 5|Ability.FrameInfo, Assembly-CSharp

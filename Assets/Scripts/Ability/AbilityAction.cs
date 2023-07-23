@@ -11,6 +11,7 @@ namespace Ability
         public int StartFrame = 1;
         public int EndFrame = 60;
         protected AbilityBehaviorTree tree;
+        private bool isEnter = false;
 
         public virtual void Init()
         {
@@ -20,6 +21,7 @@ namespace Ability
         {
             Debugger.Log($"Enter {GetType()}", LogDomain.AbilityAction);
             this.tree = tree;
+            isEnter = true;
             OnEnter();
         }
 
@@ -28,6 +30,7 @@ namespace Ability
             Debugger.Log($"Exit {GetType()}", LogDomain.AbilityAction);
             OnExit();
             this.tree = null;
+            isEnter = false;
         }
 
         public void Tick(int frame)
@@ -35,6 +38,11 @@ namespace Ability
             // 防止运行时动态添加action报错
             if (tree == null) return;
             OnTick(frame);
+        }
+
+        public bool IsEnter()
+        {
+            return isEnter;
         }
 
         protected virtual void OnEnter()

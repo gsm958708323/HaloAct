@@ -28,6 +28,19 @@ namespace Ability
             UpdateAttack(frame);
         }
 
+        public override void Exit()
+        {
+            foreach (var attack in Attacks)
+            {
+                if (attack.IsEnter())
+                {
+                    attack.Exit();
+                }
+            }
+
+            base.Exit();
+        }
+
         private void UpdateAttack(int curFrame)
         {
             foreach (var attack in Attacks)
