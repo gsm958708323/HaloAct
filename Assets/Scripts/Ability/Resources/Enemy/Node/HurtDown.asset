@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e31ce440dc2ac644bce3368948d3601, type: 3}
-  m_Name: 0Default
+  m_Name: HurtDown
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -34,8 +34,8 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Id: 0
-  Childs: 010000000200000003000000
+  Id: 1
+  Childs: 
   Priority: 0
-  Behavior: {fileID: 11400000, guid: 0060dbb8f21431d4ca3739a4b9b7456d, type: 2}
-  CanCancel: 1
+  Behavior: {fileID: 11400000, guid: b7fcd60bbf133404f8080cbb197dd85f, type: 2}
+  CanCancel: 0

@@ -34,13 +34,13 @@ namespace Ability
 
         public virtual void Enter(AbilityBehaviorTree tree)
         {
-            Debugger.Log($"Enter {name} {GetType()}", LogDomain.AbilityBehavior);
             this.tree = tree;
+            Debugger.Log($"Enter {tree.ActorModel.name} {name} {GetType()}", LogDomain.AbilityBehavior);
         }
 
         public virtual void Exit()
         {
-            Debugger.Log($"Exit {name} {GetType()}", LogDomain.AbilityBehavior);
+            // Debugger.Log($"Exit {tree.ActorModel.name} {name} {GetType()}", LogDomain.AbilityBehavior);
             this.tree = null;
         }
 

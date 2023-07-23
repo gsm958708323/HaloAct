@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 880855b932f659e42b9338a5c530c8dc, type: 3}
-  m_Name: HurtNormal
+  m_Name: HurtFly
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -60,10 +60,10 @@ MonoBehaviour:
       Data: 0
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 20
     - Name: 
       Entry: 4
-      Data: -10
+      Data: -30
     - Name: 
       Entry: 8
       Data: 
@@ -92,4 +92,4 @@ MonoBehaviour:
   FrameLength: 10
   IsLoop: 0
   InputKey: 0
-  AttackType: 0
+  AttackType: 2
