@@ -12,7 +12,7 @@ namespace Ability
             base.OnTick(frame);
 
             var model = tree.ActorModel;
-            if (model == null) return;
+            if (model.Target == null) return;
 
             var dir = model.Target.transform.position - model.transform.position;
             dir.y = 0;
