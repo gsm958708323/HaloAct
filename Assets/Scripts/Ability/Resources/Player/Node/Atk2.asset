@@ -41,6 +41,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   Id: 3
-  Childs: 0400000005000000
+  Childs: 0400000005000000090000000a000000
   Priority: 0
-  BehaviorIndex: 1
+  Behavior: {fileID: 11400000, guid: acde160ece5277243976ef0ddde88aba, type: 2}
+  CanCancel: 1

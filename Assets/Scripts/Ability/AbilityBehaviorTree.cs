@@ -91,7 +91,7 @@ namespace Ability
             }
             nodeList.Sort((x, y) => x.Id.CompareTo(y.Id));
 
-            //设置Node和Behavior的对应关系 
+            //设置Node和Behavior的对应关系，通过node的名字找到behavior
             var name2Index = new Dictionary<string, int>();
             for (int i = 0; i < behaviorsList.Count; i++)
             {
@@ -168,6 +168,7 @@ namespace Ability
         private void EndBehavior()
         {
             StartBehavior(GetBehaviorById(0));
+            ActorModel.Target = null; // 重置目标
         }
 
         private AbilityNode GetBehaviorById(int id)

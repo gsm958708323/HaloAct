@@ -12,7 +12,7 @@ namespace Ability
     public class AbilityNode : SerializedScriptableObject, ILogicT<AbilityBehaviorTree>
     {
         /// <summary>
-        /// 当前节点的唯一标识，BehaviorIndex可重复，但IId是唯一的
+        /// 当前节点的唯一标识（自己定义的，不是索引），但是可以引用同一个行为
         /// </summary>
         public int Id;
         /// <summary>

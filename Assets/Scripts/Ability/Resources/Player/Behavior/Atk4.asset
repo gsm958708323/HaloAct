@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 880855b932f659e42b9338a5c530c8dc, type: 3}
-  m_Name: HurtFly
+  m_Script: {fileID: 11500000, guid: 2945f8a4668b6e54880eec96b440fd99, type: 3}
+  m_Name: Atk4
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -27,58 +27,28 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 7
-      Data: 1|Ability.FaceTargetAction, Assembly-CSharp
+      Data: 1|Ability.CancelAction, Assembly-CSharp
     - Name: StartFrame
       Entry: 3
-      Data: 1
+      Data: 20
     - Name: EndFrame
       Entry: 3
-      Data: 10
-    - Name: rotationRatio
-      Entry: 4
-      Data: 0.2
+      Data: 30
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 2|Ability.ResetVelocityAction, Assembly-CSharp
+      Data: 2|Ability.AddVelocityAction, Assembly-CSharp
     - Name: StartFrame
       Entry: 3
-      Data: 5
+      Data: 20
     - Name: EndFrame
       Entry: 3
-      Data: 5
-    - Name: Reset
-      Entry: 7
-      Data: UnityEngine.Vector3, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 3|Ability.AddVelocityAction, Assembly-CSharp
-    - Name: StartFrame
-      Entry: 3
-      Data: 5
-    - Name: EndFrame
-      Entry: 3
-      Data: 5
+      Data: 20
     - Name: Velocity
       Entry: 7
       Data: UnityEngine.Vector3, UnityEngine.CoreModule
@@ -103,9 +73,100 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: HurtEvents
+    - Name: Attacks
       Entry: 7
-      Data: 4|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
+      Data: 3|System.Collections.Generic.List`1[[Ability.AbilityAttack, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 4|Ability.AbilityAttack, Assembly-CSharp
+    - Name: AttackType
+      Entry: 3
+      Data: 2
+    - Name: FrameInfo
+      Entry: 7
+      Data: 5|Ability.FrameInfo, Assembly-CSharp
+    - Name: StartFrame
+      Entry: 3
+      Data: 20
+    - Name: EndFrame
+      Entry: 3
+      Data: 30
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: HitBoxInfo
+      Entry: 7
+      Data: 6|Ability.HitBoxInfo, Assembly-CSharp
+    - Name: HitBoxPos
+      Entry: 7
+      Data: UnityEngine.Vector3, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: HitBoxRot
+      Entry: 7
+      Data: UnityEngine.Quaternion, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: HitBoxScale
+      Entry: 7
+      Data: UnityEngine.Vector3, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 5
+    - Name: 
+      Entry: 4
+      Data: 3
+    - Name: 
+      Entry: 4
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: CurAttack
+      Entry: 6
+      Data: 
+    - Name: BlockEvents
+      Entry: 7
+      Data: 7|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -116,7 +177,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  FrameLength: 10
+  FrameLength: 30
   IsLoop: 0
-  InputKey: 0
-  AttackType: 2
+  InputKey: 49
