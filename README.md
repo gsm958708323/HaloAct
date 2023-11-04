@@ -1,4 +1,4 @@
-# AbilityBehaviorTree 基于帧计数的技能系统
+# AbilityBehaviorTree 基于帧驱动的技能系统
 
 ### 支持连招派生
 ### 支持动态挂载各种能力
