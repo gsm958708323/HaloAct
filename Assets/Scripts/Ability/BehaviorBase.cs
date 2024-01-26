@@ -10,23 +10,13 @@ namespace Ability
     /// <summary>
     /// 存储行为数据：定义此行为将要执行的动作
     /// </summary>
-    public abstract class AbilityBehavior : SerializedScriptableObject, ILogicT<AbilityBehaviorTree>
+    public abstract class BehaviorBase : SerializedScriptableObject, ILogicT<AbilityBehaviorTree>
     {
         /// <summary>
         /// 动作列表
         /// </summary>
         /// <returns></returns>
         public List<AbilityAction> Actions = new();
-
-        public int FrameLength = 60;
-        public bool IsLoop;
-        public KeyCode InputKey;
-        /// <summary>
-        /// 格挡角度
-        /// </summary>
-        /// <value></value>
-        public float BlockAngle { get; internal set; }
-
         protected AbilityBehaviorTree tree;
 
         public virtual void Init()
