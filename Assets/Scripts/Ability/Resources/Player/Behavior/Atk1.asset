@@ -88,10 +88,10 @@ MonoBehaviour:
       Data: 4|Ability.BulletLaunchAction, Assembly-CSharp
     - Name: StartFrame
       Entry: 3
-      Data: 1
+      Data: 30
     - Name: EndFrame
       Entry: 3
-      Data: 60
+      Data: 30
     - Name: bullet
       Entry: 10
       Data: 0

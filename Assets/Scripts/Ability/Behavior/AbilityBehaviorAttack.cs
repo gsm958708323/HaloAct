@@ -11,11 +11,6 @@ namespace Ability
     public class AbilityBehaviorAttack : AbilityBehavior
     {
         /// <summary>
-        /// 格挡角度
-        /// </summary>
-        /// <value></value>
-        public float BlockAngle { get; internal set; }
-        /// <summary>
         /// 攻击列表
         /// </summary>
         /// <returns></returns>
