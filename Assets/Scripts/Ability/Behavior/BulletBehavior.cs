@@ -14,5 +14,11 @@ namespace Ability
         public BulletAction OnAddAction;
         public BulletAction OnHitAction;
         public BulletAction OnRemoveAction;
+
+        public List<AbilityAttack> Attacks = new();
+
+        /*
+        如何驱动behaviour
+        */
     }
 }

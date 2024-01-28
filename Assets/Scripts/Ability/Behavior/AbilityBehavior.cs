@@ -12,7 +12,6 @@ namespace Ability
     /// </summary>
     public abstract class AbilityBehavior : BehaviorBase
     {
-        public int FrameLength = 60;
         public bool IsLoop;
         public KeyCode InputKey;
         /// <summary>

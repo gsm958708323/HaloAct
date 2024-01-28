@@ -8,6 +8,16 @@ namespace Ability
     {
         public BulletBehavior bullet;
 
+        protected override void OnEnter()
+        {
+            base.OnEnter();
+            if (StartFrame != EndFrame)
+            {
+                Debugger.LogError($"连续多帧创建子弹 ", LogDomain.Bullet);
+                EndFrame = StartFrame;
+            }
+        }
+
         protected override void OnTick(int curFrame)
         {
             base.OnTick(curFrame);

@@ -12,6 +12,8 @@ namespace Ability
     /// </summary>
     public abstract class BehaviorBase : SerializedScriptableObject, ILogicT<AbilityBehaviorTree>
     {
+        public int FrameLength = 60;
+
         /// <summary>
         /// 动作列表
         /// </summary>

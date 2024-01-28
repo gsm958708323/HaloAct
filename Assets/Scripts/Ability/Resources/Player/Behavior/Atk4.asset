@@ -27,7 +27,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 7
       Data: 1|Ability.CancelAction, Assembly-CSharp
@@ -42,7 +42,34 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 2|Ability.AddVelocityAction, Assembly-CSharp
+      Data: 2|Ability.ResetVelocityAction, Assembly-CSharp
+    - Name: StartFrame
+      Entry: 3
+      Data: 5
+    - Name: EndFrame
+      Entry: 3
+      Data: 10
+    - Name: Reset
+      Entry: 7
+      Data: UnityEngine.Vector3, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 3|Ability.AddVelocityAction, Assembly-CSharp
     - Name: StartFrame
       Entry: 3
       Data: 20
@@ -75,20 +102,20 @@ MonoBehaviour:
       Data: 
     - Name: Attacks
       Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[Ability.AbilityAttack, Assembly-CSharp]],
+      Data: 4|System.Collections.Generic.List`1[[Ability.AbilityAttack, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 4|Ability.AbilityAttack, Assembly-CSharp
+      Data: 5|Ability.AbilityAttack, Assembly-CSharp
     - Name: AttackType
       Entry: 3
       Data: 2
     - Name: FrameInfo
       Entry: 7
-      Data: 5|Ability.FrameInfo, Assembly-CSharp
+      Data: 6|Ability.FrameInfo, Assembly-CSharp
     - Name: StartFrame
       Entry: 3
       Data: 20
@@ -100,7 +127,7 @@ MonoBehaviour:
       Data: 
     - Name: HitBoxInfo
       Entry: 7
-      Data: 6|Ability.HitBoxInfo, Assembly-CSharp
+      Data: 7|Ability.HitBoxInfo, Assembly-CSharp
     - Name: HitBoxPos
       Entry: 7
       Data: UnityEngine.Vector3, UnityEngine.CoreModule
@@ -166,7 +193,7 @@ MonoBehaviour:
       Data: 
     - Name: BlockEvents
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
+      Data: 8|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
