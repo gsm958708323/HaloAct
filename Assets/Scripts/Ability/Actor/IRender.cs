@@ -17,8 +17,6 @@ namespace Ability
             OnAwake();
         }
 
-
-
         public void Bind(int entityId)
         {
             actorId = entityId;
