@@ -12,6 +12,9 @@ namespace Ability
         public ActorType ActorType;
         public GameObject Prefab;
         public Vector3 BornPos;
+        public Vector3 Frictional = new Vector3(0.5f, 1, 0.5f);
+        public float Gravity = -20f;
+        public float DelayAerialTime = 0.5f;
 
         [FolderPath] public string NodePath;
         [FolderPath] public string BehaviorPath;

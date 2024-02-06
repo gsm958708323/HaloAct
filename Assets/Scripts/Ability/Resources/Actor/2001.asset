@@ -25,6 +25,9 @@ MonoBehaviour:
   ActorType: 1
   Prefab: {fileID: 4208836142680026184, guid: e0d051ff6edc2aa47b0e03e5a8ecae9a, type: 3}
   BornPos: {x: 4.85, y: 1, z: -3.65}
+  Frictional: {x: 0.5, y: 1, z: 0.5}
+  Gravity: -9.8
+  DelayAerialTime: 0.5
   NodePath: Ability/2001/Node
   BehaviorPath: Ability/2001/Behavior
   CheckerData:

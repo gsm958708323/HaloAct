@@ -25,11 +25,6 @@ namespace Ability
             tree.ActorModel.Velocity.x = moveDir.x * moveSpeed;
             tree.ActorModel.Velocity.z = moveDir.z * moveSpeed;
 
-            if (tree.ActorModel.Velocity != Vector3.zero)
-            {
-                Debug.Log($"{11111111111}{inputDir} {tree.ActorModel.Velocity}");
-            }
-
             Rotation(inputDir);
         }
 

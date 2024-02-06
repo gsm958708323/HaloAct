@@ -31,10 +31,7 @@ namespace Ability
         public bool IsGround;
         public bool IsAerial;
         float cacheAerialTime;
-        float delayAerialTime = 0.5f;
 
-        public float Gravity = -9.8f;
-        public Vector3 Frictional;
         public Vector2 InputDir;
         public Quaternion Rotation;
         public Vector3 Velocity;
@@ -101,7 +98,7 @@ namespace Ability
                     cacheAerialTime += Time.deltaTime;
                 }
 
-                if (cacheAerialTime > delayAerialTime)
+                if (cacheAerialTime > ActorData.DelayAerialTime)
                 {
                     IsAerial = true;
                 }
@@ -110,11 +107,11 @@ namespace Ability
 
         private void UpdateVelocity()
         {
-            Velocity.y += Gravity * Time.deltaTime;
+            Velocity.y += ActorData.Gravity * Time.deltaTime;
             Velocity.y = Mathf.Clamp(Velocity.y, -20, 20);
 
             // 用来处理速度的衰减，速度不断变小并无限接近0
-            Velocity.Scale(Frictional);
+            Velocity.Scale(ActorData.Frictional);
         }
 
         internal void DeathCheck()

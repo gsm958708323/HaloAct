@@ -15,10 +15,6 @@ namespace Ability
 
         protected override void OnUpdate(ActorModel actorModel)
         {
-            if (actorModel.Velocity != Vector3.zero)
-            {
-                Debug.Log(actorModel.Velocity);
-            }
             controller.Move(actorModel.Velocity * GameManager.Instance.FrameRate);
             controller.transform.rotation = actorModel.Rotation;
         }
