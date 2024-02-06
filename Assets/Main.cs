@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Ability;
 using UnityEngine;
 
 public class Main : MonoBehaviour
@@ -7,7 +8,8 @@ public class Main : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameManager.ActorManager.AddActor(1001);
+        GameManager.ActorManager.AddActor(2001);
     }
 
     // Update is called once per frame
@@ -26,5 +28,6 @@ public class Main : MonoBehaviour
             characterController 从actorModel中分离
             ActorRender
             ActorModel
+        tick时间统一驱动
     */
 }

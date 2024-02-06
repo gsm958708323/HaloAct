@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e35d79ad4237aa4ea35df0d231e9449, type: 3}
+  m_Name: 1001
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  id: 1001
+  ActorType: 0
+  Prefab: {fileID: 3337772918101513652, guid: 2dcfcd6cf2dd5c648a75ce8e940e6e5a, type: 3}
+  BornPos: {x: 0, y: 1, z: -3.65}
+  NodePath: Ability/1001/Node
+  BehaviorPath: Ability/1001/Behavior
+  CheckerData:
+    GroundSetting: {x: 0.5, y: -0.7}
+    GroundLayer:
+      serializedVersion: 2
+      m_Bits: 64

@@ -19,7 +19,7 @@ public interface ILogic
 {
     void Init();
     void Enter();
-    void Tick();
+    void Tick(int frame);
     void Exit();
 }
 

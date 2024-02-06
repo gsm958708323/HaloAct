@@ -43,6 +43,9 @@ public class CameraMgr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (input is null)
+            return;
+            
         HandleInput();
         Rotate();
     }

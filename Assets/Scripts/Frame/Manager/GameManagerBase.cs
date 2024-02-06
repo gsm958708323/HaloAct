@@ -7,31 +7,56 @@ namespace Frame
     /// <summary>
     /// 游戏入口
     /// </summary>
-    public class Entry : MonoSingleton<Entry>
+    public class GameManagerBase : MonoSingleton<GameManagerBase>
     {
         /// <summary>
         /// 管理器组成的链表，优先级高的排在前面
         /// </summary>
         private LinkedList<IManager> managerLinked;
+        public readonly int TargetFrameRate = 60;
+
+        float cacheTime;
+        public int CurFrame;
+        public float FrameRate;
 
         protected override void Awake()
         {
             base.Awake();
             managerLinked = new();
-
+            InitFrame();
             InitManager();
         }
 
-        private void InitManager()
+        void InitFrame()
+        {
+            Application.targetFrameRate = TargetFrameRate;
+            FrameRate = 1.0f / TargetFrameRate;
+            CurFrame = 1;
+            cacheTime = 0;
+        }
+
+        protected virtual void InitManager()
         {
         }
 
         private void Update()
         {
+            var deltaTime = Time.deltaTime;
             //更新：优先级高的先更新
             foreach (var item in managerLinked)
             {
-                item.Update(Time.deltaTime);
+                item.Update(deltaTime);
+            }
+
+            cacheTime += deltaTime;
+            while (cacheTime > FrameRate)
+            {
+                foreach (var item in managerLinked)
+                {
+                    item.Tick(CurFrame);
+                }
+                CurFrame += 1;
+                cacheTime -= FrameRate;
             }
         }
 

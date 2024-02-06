@@ -18,7 +18,7 @@ namespace Frame
         {
         }
 
-        public virtual void Tick()
+        public virtual void Tick(int frame)
         {
         }
 
