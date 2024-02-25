@@ -7,9 +7,9 @@ namespace Ability
     {
         public float rotationRatio = 0.2f;
 
-        protected override void OnTick(int frame)
+        protected override void OnTick(float deltaTime)
         {
-            base.OnTick(frame);
+            base.OnTick(deltaTime);
 
             var model = tree.ActorModel;
             if (model.Target == null) return;

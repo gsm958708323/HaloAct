@@ -44,7 +44,7 @@ namespace Ability
             this.model = null;
         }
 
-        public virtual void Tick(int frame)
+        public virtual void Tick(float deltaTime)
         {
 
         }

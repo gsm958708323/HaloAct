@@ -33,11 +33,11 @@ namespace Ability
             isEnter = false;
         }
 
-        public void Tick(int frame)
+        public void Tick(float deltaTime)
         {
             // 防止运行时动态添加action报错
             if (tree == null) return;
-            OnTick(frame);
+            OnTick(deltaTime);
         }
 
         public bool IsEnter()
@@ -53,7 +53,7 @@ namespace Ability
         {
         }
 
-        protected virtual void OnTick(int frame)
+        protected virtual void OnTick(float deltaTime)
         {
         }
     }

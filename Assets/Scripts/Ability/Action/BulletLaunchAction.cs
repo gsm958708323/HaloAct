@@ -18,9 +18,9 @@ namespace Ability
             }
         }
 
-        protected override void OnTick(int curFrame)
+        protected override void OnTick(float deltaTime)
         {
-            base.OnTick(curFrame);
+            base.OnTick(deltaTime);
 
         }
     }

@@ -10,9 +10,9 @@ public class TestAction : AbilityAction
         base.OnEnter();
     }
 
-    override protected void OnTick(int curFrame)
+    override protected void OnTick(float deltaTime)
     {
-        base.OnTick(curFrame);
+        base.OnTick(deltaTime);
     }
 
     override protected void OnExit()

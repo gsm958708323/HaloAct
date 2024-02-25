@@ -22,10 +22,10 @@ namespace Ability
         /// <returns></returns>
         public List<AbilityUnderAttack> BlockEvents = new();
 
-        public override void Tick(int frame)
+        public override void Tick(float deltaTime)
         {
-            base.Tick(frame);
-            UpdateAttack(frame);
+            base.Tick(deltaTime);
+            UpdateAttack(tree.curFrame);
         }
 
         public override void Exit()

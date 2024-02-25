@@ -51,7 +51,7 @@ MonoBehaviour:
       Data: 60
     - Name: moveSpeed
       Entry: 4
-      Data: 30
+      Data: 15
     - Name: rotationRatio
       Entry: 4
       Data: 0.2

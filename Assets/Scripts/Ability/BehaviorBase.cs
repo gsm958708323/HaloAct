@@ -44,9 +44,9 @@ namespace Ability
             this.tree = null;
         }
 
-        public virtual void Tick(int curFrame)
+        public virtual void Tick(float deltaTime)
         {
-            UpdateActions(curFrame);
+            UpdateActions(tree.curFrame);
             // UpdateAttack(curFrame);
         }
 

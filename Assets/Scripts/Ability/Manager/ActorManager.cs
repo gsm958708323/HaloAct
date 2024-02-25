@@ -74,13 +74,13 @@ public class ActorManager : IManager
         return actorDict[id];
     }
 
-    public override void Tick(int frame)
+    public override void Tick(float deltaTime)
     {
-        base.Tick(frame);
+        base.Tick(deltaTime);
 
         foreach (var item in actorDict)
         {
-            item.Value.Tick(frame);
+            item.Value.Tick(deltaTime);
         }
     }
 }

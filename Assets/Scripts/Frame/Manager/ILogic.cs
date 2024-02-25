@@ -19,7 +19,7 @@ public interface ILogic
 {
     void Init();
     void Enter();
-    void Tick(int frame);
+    void Tick(float deltaTime);
     void Exit();
 }
 
@@ -27,6 +27,6 @@ public interface ILogicT<T>
 {
     void Init();
     void Enter(T t);
-    void Tick(int frame);
+    void Tick(float deltaTime);
     void Exit();
 }

@@ -53,7 +53,7 @@ namespace Frame
             {
                 foreach (var item in managerLinked)
                 {
-                    item.Tick(CurFrame);
+                    item.Tick(FrameInterval);
                 }
                 CurFrame += 1;
                 cacheTime -= FrameInterval;

@@ -62,9 +62,9 @@ namespace Ability
             isEnter = false;
         }
 
-        public virtual void Tick(int frame)
+        public virtual void Tick(float deltaTime)
         {
-            hitBox.Tick(frame);
+            hitBox.Tick(deltaTime);
         }
 
         internal bool IsEnter()

@@ -19,7 +19,7 @@ namespace Ability
         /// <summary>
         /// 当前行为的帧计数
         /// </summary>
-        int curFrame;
+        public int curFrame;
         /// <summary>
         /// 当前执行的行为节点的索引（这里Index和Id是相等的）
         /// </summary>
@@ -55,7 +55,7 @@ namespace Ability
             ActorModel = null;
         }
 
-        public void Tick(int frame)
+        public void Tick(float deltaTime)
         {
             AbilityNode nextBehavior = TryGetNextBehavior();
             if (nextBehavior != null)

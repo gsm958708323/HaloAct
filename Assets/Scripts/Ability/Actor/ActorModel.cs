@@ -72,9 +72,9 @@ namespace Ability
             groundChecker.Init(actorData.CheckerData, this);
         }
 
-        public void Tick(int frame)
+        public void Tick(float deltaTime)
         {
-            tree.Tick(frame);
+            tree.Tick(deltaTime);
 
             UpdateVelocity();
             CheckGround();

@@ -8,9 +8,9 @@ namespace Ability
     {
         public Vector3 Velocity;
 
-        protected override void OnTick(int frame)
+        protected override void OnTick(float deltaTime)
         {
-            base.OnTick(frame);
+            base.OnTick(deltaTime);
 
             var transform = tree.ActorModel.transform;
             var add = transform.forward * Velocity.z + transform.right * Velocity.x + transform.up * Velocity.y;

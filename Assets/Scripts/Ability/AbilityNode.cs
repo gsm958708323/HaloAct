@@ -58,10 +58,10 @@ namespace Ability
             this.tree = null;
         }
 
-        public virtual void Tick(int curFrame)
+        public virtual void Tick(float deltaTime)
         {
             CanCancel = false;
-            Behavior?.Tick(curFrame);
+            Behavior?.Tick(deltaTime);
         }
 
         internal bool CheckCondition(AbilityBehaviorTree tree)
