@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 4208836143123442307}
   - component: {fileID: 4208836143123442305}
   - component: {fileID: 4208836143123442306}
+  - component: {fileID: 4556267786777592172}
   m_Layer: 8
   m_Name: HurtBox
   m_TagString: Untagged
@@ -112,6 +113,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d69cf96f78bf2d342a1f7089a6827e74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4556267786777592172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4208836143123442332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 013c58c763cd1d54a862aaee85cdbf6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lineColor: {r: 0, g: 0, b: 1, a: 0.3882353}
+  lineWidth: 0.3
 --- !u!1 &4208836143210526652
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,6 +138,7 @@ GameObject:
   - component: {fileID: 4208836143210526627}
   - component: {fileID: 4208836143210526625}
   - component: {fileID: 4208836143210526626}
+  - component: {fileID: 4538927057367332023}
   m_Layer: 7
   m_Name: HitBox
   m_TagString: Untagged
@@ -170,6 +186,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6995dfb29e8d7584bb1fb385d1cd4a12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4538927057367332023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4208836143210526652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 013c58c763cd1d54a862aaee85cdbf6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lineColor: {r: 1, g: 0.35963035, b: 0, a: 0.3529412}
+  lineWidth: 0.3
 --- !u!1 &4208836143591137332
 GameObject:
   m_ObjectHideFlags: 0

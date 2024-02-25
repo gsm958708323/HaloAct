@@ -95,7 +95,7 @@ namespace Ability
                 // 延迟一段时间后才算空中
                 if (!IsAerial)
                 {
-                    cacheAerialTime += Time.deltaTime;
+                    cacheAerialTime += GameManager.Instance.FrameInterval;
                 }
 
                 if (cacheAerialTime > ActorData.DelayAerialTime)
@@ -107,7 +107,11 @@ namespace Ability
 
         private void UpdateVelocity()
         {
-            Velocity.y += ActorData.Gravity * Time.deltaTime;
+            var characterController = GetComponent<CharacterController>();
+            characterController.Move(Velocity * GameManager.Instance.FrameInterval);
+            characterController.transform.rotation = Rotation;
+
+            Velocity.y += ActorData.Gravity * GameManager.Instance.FrameInterval;
             Velocity.y = Mathf.Clamp(Velocity.y, -20, 20);
 
             // 用来处理速度的衰减，速度不断变小并无限接近0

@@ -5,17 +5,21 @@ using UnityEngine;
 
 public class Main : MonoBehaviour
 {
+    public CameraMgr cameraMgr;
+
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.ActorManager.AddActor(1001);
+        var actor = GameManager.ActorManager.AddActor(1001);
         GameManager.ActorManager.AddActor(2001);
+
+        cameraMgr.BindInput(actor.GameInput);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     /*
         BulletManager

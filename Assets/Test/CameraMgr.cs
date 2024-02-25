@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CameraMgr : MonoBehaviour
 {
-    public PlayerGameInput input;
+    private PlayerGameInput input;
 
     Vector3 targetCameraEulers;
     Vector3 curCameraEulers;
@@ -45,9 +45,14 @@ public class CameraMgr : MonoBehaviour
     {
         if (input is null)
             return;
-            
+
         HandleInput();
         Rotate();
+    }
+
+    public void BindInput(PlayerGameInput playerGameInput)
+    {
+        input = playerGameInput;
     }
 
     void HandleInput()

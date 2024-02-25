@@ -17,7 +17,7 @@ namespace Frame
 
         float cacheTime;
         public int CurFrame;
-        public float FrameRate;
+        public float FrameInterval;
 
         protected override void Awake()
         {
@@ -30,7 +30,7 @@ namespace Frame
         void InitFrame()
         {
             Application.targetFrameRate = TargetFrameRate;
-            FrameRate = 1.0f / TargetFrameRate;
+            FrameInterval = 1.0f / TargetFrameRate;
             CurFrame = 1;
             cacheTime = 0;
         }
@@ -48,15 +48,15 @@ namespace Frame
                 item.Update(deltaTime);
             }
 
-            cacheTime += deltaTime;
-            while (cacheTime > FrameRate)
+            cacheTime += FrameInterval;
+            while (cacheTime > FrameInterval)
             {
                 foreach (var item in managerLinked)
                 {
                     item.Tick(CurFrame);
                 }
                 CurFrame += 1;
-                cacheTime -= FrameRate;
+                cacheTime -= FrameInterval;
             }
         }
 

@@ -266,7 +266,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc10bc3b39639d044a0eb94d24ef33c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: {fileID: 0}
   cameraRotSpeed: 0.5
   cameraSmoothTime: 0.1
   maxVerticalAngle: {x: -10, y: 30}
@@ -331,6 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb598bc2087f99b45aa68d973e0a95f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraMgr: {fileID: 438924517}
 --- !u!114 &611954324
 MonoBehaviour:
   m_ObjectHideFlags: 0

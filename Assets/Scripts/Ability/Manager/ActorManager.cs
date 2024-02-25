@@ -25,12 +25,12 @@ public class ActorManager : IManager
         base.Exit();
     }
 
-    public void AddActor(int id)
+    public ActorModel AddActor(int id)
     {
         if (actorDict.ContainsKey(id))
         {
             Debugger.LogError($"actor id 重复", LogDomain.Actor);
-            return;
+            return actorDict[id];
         }
 
         var path = $"Actor/{id}";
@@ -38,7 +38,7 @@ public class ActorManager : IManager
         if (actorData is null)
         {
             Debugger.LogError($"actor配置不存在 {path}", LogDomain.Actor);
-            return;
+            return null;
         }
 
         var actorGo = GameObject.Instantiate(actorData.Prefab);
@@ -50,6 +50,7 @@ public class ActorManager : IManager
 
         var actorRender = actorGo.AddComponent<ActorRender>();
         actorRender.Bind(id);
+        return actorModel;
     }
 
     public void RemoveActor(int id)

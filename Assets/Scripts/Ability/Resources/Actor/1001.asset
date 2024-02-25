@@ -26,7 +26,7 @@ MonoBehaviour:
   Prefab: {fileID: 3337772918101513652, guid: 2dcfcd6cf2dd5c648a75ce8e940e6e5a, type: 3}
   BornPos: {x: 0, y: 1, z: -3.65}
   Frictional: {x: 0.5, y: 1, z: 0.5}
-  Gravity: -9.8
+  Gravity: -20
   DelayAerialTime: 0.5
   NodePath: Ability/1001/Node
   BehaviorPath: Ability/1001/Behavior

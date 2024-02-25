@@ -17,7 +17,7 @@ namespace Ability
             if (other.GetComponentInChildren<HurtBox>().gameObject.layer != LayerMask.NameToLayer("HurtBox"))
                 return; // 只检测HurtBox
 
-            if (model.ActorType == otherModel.ActorType)
+            if (model.ActorData.ActorType == otherModel.ActorData.ActorType)
                 return; // 排除同类
 
             OnHit(otherModel);
