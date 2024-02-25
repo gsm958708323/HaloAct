@@ -16,16 +16,8 @@ namespace Ability
 
         protected override void OnUpdate(ActorModel actorModel)
         {
-            // controller.transform.position = actorModel.Position;
-            // controller.Move(actorModel.Velocity * GameManager.Instance.FrameRate);
-            // controller.transform.rotation = actorModel.Rotation;
-
-            // if (groundChecker == null)
-            // {
-            //     groundChecker = gameObject.AddComponent<GroundChecker>();
-            //     groundChecker.Init(actorModel.ActorData.CheckerData);
-            // }
-            // actorModel.IsGround = groundChecker.CheckGround();
+            controller.transform.position = actorModel.Position;
+            controller.transform.rotation = actorModel.Rotation;
         }
     }
 

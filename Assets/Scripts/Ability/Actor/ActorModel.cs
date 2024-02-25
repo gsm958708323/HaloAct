@@ -34,6 +34,13 @@ namespace Ability
 
         public Vector2 InputDir;
         public Quaternion Rotation;
+        /// <summary>
+        /// 外部不能直接设置位置，通过设置Velocity来改变位置 
+        /// </summary>
+        public Vector3 Position { private set; get; }
+        /// <summary>
+        /// 外部设置方向时调用
+        /// </summary>
         public Vector3 Velocity;
 
         private int id;
@@ -47,7 +54,7 @@ namespace Ability
         public void Enter(ActorData actorData)
         {
             ActorData = actorData;
-
+            Position = actorData.BornPos;
             tree = new AbilityBehaviorTree();
             tree.Init(actorData.NodePath, actorData.BehaviorPath);
             tree.Enter(this);
@@ -62,7 +69,7 @@ namespace Ability
 
             GameInput = gameObject.AddComponent<PlayerGameInput>();
             groundChecker = gameObject.AddComponent<GroundChecker>();
-            groundChecker.Init(actorData.CheckerData);
+            groundChecker.Init(actorData.CheckerData, this);
         }
 
         public void Tick(int frame)
@@ -107,9 +114,7 @@ namespace Ability
 
         private void UpdateVelocity()
         {
-            var characterController = GetComponent<CharacterController>();
-            characterController.Move(Velocity * GameManager.Instance.FrameInterval);
-            characterController.transform.rotation = Rotation;
+            Position += Velocity * GameManager.Instance.FrameInterval;
 
             Velocity.y += ActorData.Gravity * GameManager.Instance.FrameInterval;
             Velocity.y = Mathf.Clamp(Velocity.y, -20, 20);
