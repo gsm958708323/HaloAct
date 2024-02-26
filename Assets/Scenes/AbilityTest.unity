@@ -344,7 +344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurFrame: 0
-  FrameRate: 0
+  FrameInterval: 0
 --- !u!1 &824733558
 GameObject:
   m_ObjectHideFlags: 0

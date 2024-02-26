@@ -43,4 +43,5 @@ MonoBehaviour:
   Id: 7
   Childs: 08000000
   Priority: 0
-  BehaviorIndex: 6
+  Behavior: {fileID: 11400000, guid: 27d5c2ededeaf8b41a5fed1ec68e796d, type: 2}
+  CanCancel: 0

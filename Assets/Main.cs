@@ -7,22 +7,23 @@ using UnityEngine;
 public class Main : MonoBehaviour
 {
     public CameraMgr cameraMgr;
+    const int PLAYER = 1001;
+    const int MONSTER = 2001;
 
     // Start is called before the first frame update
     void Start()
     {
-        // 下一帧才添加成功，
+        // 下一帧才添加成功
         GameManager.ActorManager.OnAddActorEvent += OnAddActorEvent;
-        GameManager.ActorManager.AddActor(1001);
-        GameManager.ActorManager.AddActor(2001);
+        GameManager.ActorManager.AddActor(PLAYER);
+        GameManager.ActorManager.AddActor(MONSTER);
     }
 
-    private void OnAddActorEvent(int actorId)
+    private void OnAddActorEvent(ActorModel actorModel)
     {
-        if (actorId == 1001)
+        if (actorModel.ActorData.Id == PLAYER)
         {
-            var actor = GameManager.ActorManager.GetActor(actorId);
-            cameraMgr.BindInput(actor.GameInput);
+            cameraMgr.BindInput(actorModel.GameInput);
         }
     }
 

@@ -14,7 +14,7 @@ namespace Ability
             var model = tree.ActorModel;
             if (model.Target == null) return;
 
-            var dir = model.Target.transform.position - model.transform.position;
+            var dir = model.Target.Position - model.Position;
             dir.y = 0;
             var targetRot = Quaternion.LookRotation(dir);
             model.Rotation = Quaternion.Slerp(model.Rotation, targetRot, rotationRatio);

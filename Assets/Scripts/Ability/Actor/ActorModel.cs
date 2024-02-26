@@ -18,12 +18,28 @@ namespace Ability
     /// </summary>
     public class ActorModel : MonoBehaviour, ILogicT<ActorData>
     {
-        public AbilityBehaviorTree tree;
+        [HideInInspector] public AbilityBehaviorTree tree;
         [HideInInspector] GroundChecker groundChecker;
         [HideInInspector] public PlayerGameInput GameInput;
         [HideInInspector] public HitBox HitBox;
         [HideInInspector] public HurtBox HurtBox;
 
+        /// <summary>
+        /// 创建者
+        /// </summary>
+        public ActorModel Owner
+        {
+            get { return owner; }
+            set
+            {
+                owner = value;
+                TryFollowOwner();
+            }
+        }
+        ActorModel owner;
+        /// <summary>
+        /// 目标
+        /// </summary>
         public ActorModel Target;
 
         public bool IsDead;
@@ -31,8 +47,6 @@ namespace Ability
         public bool IsGround;
         public bool IsAerial;
         float cacheAerialTime;
-
-        public Vector2 InputDir;
         public Quaternion Rotation;
         /// <summary>
         /// 外部不能直接设置位置，通过设置Velocity来改变位置 
@@ -42,8 +56,6 @@ namespace Ability
         /// 外部设置方向时调用
         /// </summary>
         public Vector3 Velocity;
-
-        private int id;
         public ActorData ActorData;
 
         public void Init()
@@ -54,7 +66,8 @@ namespace Ability
         public void Enter(ActorData actorData)
         {
             ActorData = actorData;
-            Position = actorData.BornPos;
+            LoadData();
+
             tree = new AbilityBehaviorTree();
             tree.Init(actorData.NodePath, actorData.BehaviorPath);
             tree.Enter(this);
@@ -70,6 +83,29 @@ namespace Ability
             GameInput = gameObject.AddComponent<PlayerGameInput>();
             groundChecker = gameObject.AddComponent<GroundChecker>();
             groundChecker.Init(actorData.CheckerData, this);
+        }
+
+        void LoadData()
+        {
+            var bornInfo = ActorData.BornPosInfo;
+            if (bornInfo.BornPosEnum == BornPosEnum.FixedPosition)
+            {
+                Position = bornInfo.Pos;
+            }
+        }
+
+        void TryFollowOwner()
+        {
+            var bornInfo = ActorData.BornPosInfo;
+            if (bornInfo.BornPosEnum == BornPosEnum.FollowOwner)
+            {
+                if (Owner == null)
+                {
+                    Debugger.LogError($"[出生位置] 跟随创建者时获取Owner失败 {ActorData.Id}", LogDomain.Actor);
+                    return;
+                }
+                Position = Owner.Position + bornInfo.Pos;
+            }
         }
 
         public void Tick(float deltaTime)

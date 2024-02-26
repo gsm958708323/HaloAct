@@ -8,7 +8,7 @@ public class ActorManager : IManager
 {
     private SortedDictionary<int, ActorModel> actorDict;
     Queue<int> addQue;
-    public Action<int> OnAddActorEvent;
+    public Action<ActorModel> OnAddActorEvent;
 
     public override void Enter()
     {
@@ -51,7 +51,6 @@ public class ActorManager : IManager
         }
 
         var actorGo = GameObject.Instantiate(actorData.Prefab);
-        actorGo.transform.position = actorData.BornPos;
         var actorModel = actorGo.AddComponent<ActorModel>();
         actorModel.Init();
         actorModel.Enter(actorData);
@@ -60,7 +59,7 @@ public class ActorManager : IManager
         var actorRender = actorGo.AddComponent<ActorRender>();
         actorRender.Bind(id);
 
-        OnAddActorEvent?.Invoke(id);
+        OnAddActorEvent?.Invoke(actorModel);
     }
 
     public void RemoveActor(int id)

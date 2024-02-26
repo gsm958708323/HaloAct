@@ -21,7 +21,6 @@ namespace Ability
                 moveDir = camera.forward * inputDir.y + camera.right * inputDir.x;
             }
 
-            tree.ActorModel.InputDir = inputDir;
             tree.ActorModel.Velocity.x = moveDir.x * moveSpeed;
             tree.ActorModel.Velocity.z = moveDir.z * moveSpeed;
 

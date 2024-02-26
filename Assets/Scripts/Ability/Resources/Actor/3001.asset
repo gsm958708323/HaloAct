@@ -21,12 +21,14 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  id: 3001
+  Id: 3001
   ActorType: 2
   Prefab: {fileID: 3337772918101513652, guid: 2dcfcd6cf2dd5c648a75ce8e940e6e5a, type: 3}
-  BornPos: {x: 4.85, y: 1, z: -3.65}
-  Frictional: {x: 0.5, y: 1, z: 0.5}
-  Gravity: -20
+  BornPosInfo:
+    BornPosEnum: 1
+    Pos: {x: 0, y: 0, z: 0}
+  Frictional: {x: 0, y: 0, z: 0}
+  Gravity: 0
   DelayAerialTime: 0.5
   NodePath: Ability/3001/Node
   BehaviorPath: Ability/3001/Behavior

@@ -5,12 +5,14 @@ using UnityEngine;
 
 namespace Ability
 {
+    [Serializable]
     public class FrameInfo
     {
         public int StartFrame = 1;
         public int EndFrame = 60;
     }
 
+    [Serializable]
     public class HitBoxInfo
     {
         public Vector3 HitBoxPos;
@@ -35,8 +37,8 @@ namespace Ability
     public class AbilityAttack : ILogicT<ActorModel>
     {
         public AttackType AttackType;
-        public FrameInfo FrameInfo = new FrameInfo();
-        public HitBoxInfo HitBoxInfo = new HitBoxInfo();
+        public FrameInfo FrameInfo;
+        public HitBoxInfo HitBoxInfo;
 
         HitBox hitBox;
         bool isEnter;

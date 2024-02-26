@@ -30,13 +30,16 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|Ability.FaceTargetAction, Assembly-CSharp
+      Data: 1|Ability.MoveTargetAction, Assembly-CSharp
     - Name: StartFrame
       Entry: 3
       Data: 1
     - Name: EndFrame
       Entry: 3
       Data: 60
+    - Name: moveSpeed
+      Entry: 4
+      Data: 10
     - Name: rotationRatio
       Entry: 4
       Data: 0.2
@@ -138,8 +141,8 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: CurAttack
-      Entry: 6
-      Data: 
+      Entry: 9
+      Data: 3
     - Name: BlockEvents
       Entry: 7
       Data: 6|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
