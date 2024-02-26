@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Ability;
@@ -10,10 +11,19 @@ public class Main : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var actor = GameManager.ActorManager.AddActor(1001);
+        // 下一帧才添加成功，
+        GameManager.ActorManager.OnAddActorEvent += OnAddActorEvent;
+        GameManager.ActorManager.AddActor(1001);
         GameManager.ActorManager.AddActor(2001);
+    }
 
-        cameraMgr.BindInput(actor.GameInput);
+    private void OnAddActorEvent(int actorId)
+    {
+        if (actorId == 1001)
+        {
+            var actor = GameManager.ActorManager.GetActor(actorId);
+            cameraMgr.BindInput(actor.GameInput);
+        }
     }
 
     // Update is called once per frame

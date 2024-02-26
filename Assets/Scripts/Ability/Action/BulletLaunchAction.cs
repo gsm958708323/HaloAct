@@ -6,7 +6,7 @@ namespace Ability
 {
     public class BulletLaunchAction : AbilityAction
     {
-        public BulletBehavior bullet;
+        public int bullet;
 
         protected override void OnEnter()
         {
@@ -16,12 +16,8 @@ namespace Ability
                 Debugger.LogError($"连续多帧创建子弹 ", LogDomain.Bullet);
                 EndFrame = StartFrame;
             }
-        }
 
-        protected override void OnTick(float deltaTime)
-        {
-            base.OnTick(deltaTime);
-
+            GameManager.ActorManager.AddActor(bullet);
         }
     }
 }

@@ -9,16 +9,10 @@ namespace Ability
     /// 负责子弹的行为
     /// </summary>
     [CreateAssetMenu(fileName = "NewBehavior", menuName = "AbilityTree/BulletBehavior")]
-    public class BulletBehavior : BehaviorBase
+    public class BulletBehavior : AbilityBehaviorAttack
     {
         public BulletAction OnAddAction;
         public BulletAction OnHitAction;
         public BulletAction OnRemoveAction;
-
-        public List<AbilityAttack> Attacks = new();
-
-        /*
-        如何驱动behaviour
-        */
     }
 }

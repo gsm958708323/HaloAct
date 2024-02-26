@@ -15,7 +15,7 @@ namespace Ability
     {
         public Vector3 HitBoxPos;
         public Quaternion HitBoxRot;
-        public Vector3 HitBoxScale;
+        public Vector3 HitBoxScale = Vector3.one;
     }
 
     public enum AttackType
@@ -35,8 +35,8 @@ namespace Ability
     public class AbilityAttack : ILogicT<ActorModel>
     {
         public AttackType AttackType;
-        public FrameInfo FrameInfo;
-        public HitBoxInfo HitBoxInfo;
+        public FrameInfo FrameInfo = new FrameInfo();
+        public HitBoxInfo HitBoxInfo = new HitBoxInfo();
 
         HitBox hitBox;
         bool isEnter;

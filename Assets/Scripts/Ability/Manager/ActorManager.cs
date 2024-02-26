@@ -6,12 +6,16 @@ using UnityEngine;
 
 public class ActorManager : IManager
 {
-    public SortedDictionary<int, ActorModel> actorDict;
+    private SortedDictionary<int, ActorModel> actorDict;
+    Queue<int> addQue;
+    public Action<int> OnAddActorEvent;
+
     public override void Enter()
     {
         base.Enter();
 
         actorDict = new SortedDictionary<int, ActorModel>();
+        addQue = new Queue<int>();
     }
 
     public override void Exit()
@@ -25,20 +29,25 @@ public class ActorManager : IManager
         base.Exit();
     }
 
-    public ActorModel AddActor(int id)
+    public void AddActor(int id)
     {
         if (actorDict.ContainsKey(id))
         {
             Debugger.LogError($"actor id 重复", LogDomain.Actor);
-            return actorDict[id];
+            return;
         }
 
+        addQue.Enqueue(id);
+    }
+
+    public void OnAddActor(int id)
+    {
         var path = $"Actor/{id}";
         var actorData = Resources.Load<ActorData>(path);
         if (actorData is null)
         {
             Debugger.LogError($"actor配置不存在 {path}", LogDomain.Actor);
-            return null;
+            return;
         }
 
         var actorGo = GameObject.Instantiate(actorData.Prefab);
@@ -50,7 +59,8 @@ public class ActorManager : IManager
 
         var actorRender = actorGo.AddComponent<ActorRender>();
         actorRender.Bind(id);
-        return actorModel;
+
+        OnAddActorEvent?.Invoke(id);
     }
 
     public void RemoveActor(int id)
@@ -78,9 +88,16 @@ public class ActorManager : IManager
     {
         base.Tick(deltaTime);
 
+        // action在tick时可能会创建子弹，执行AddActor方法，这是不允许的
         foreach (var item in actorDict)
         {
             item.Value.Tick(deltaTime);
+        }
+
+        while (addQue.Count > 0)
+        {
+            var actorId = addQue.Dequeue();
+            OnAddActor(actorId);
         }
     }
 }

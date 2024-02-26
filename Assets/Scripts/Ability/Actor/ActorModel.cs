@@ -10,6 +10,7 @@ namespace Ability
     {
         PLAYER,
         Enemy,
+        Bullet,
     }
 
     /// <summary>
@@ -23,7 +24,6 @@ namespace Ability
         [HideInInspector] public HitBox HitBox;
         [HideInInspector] public HurtBox HurtBox;
 
-        public ActorType ActorType;
         public ActorModel Target;
 
         public bool IsDead;

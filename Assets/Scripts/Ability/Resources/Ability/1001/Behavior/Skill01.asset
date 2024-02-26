@@ -30,13 +30,16 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|TestAction, Assembly-CSharp
+      Data: 1|Ability.BulletLaunchAction, Assembly-CSharp
     - Name: StartFrame
       Entry: 3
       Data: 1
     - Name: EndFrame
       Entry: 3
-      Data: 60
+      Data: 1
+    - Name: bullet
+      Entry: 3
+      Data: 3001
     - Name: 
       Entry: 8
       Data: 
