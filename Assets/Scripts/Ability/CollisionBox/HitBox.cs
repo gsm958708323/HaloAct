@@ -13,6 +13,7 @@ namespace Ability
 
             var otherModel = other.GetComponent<ActorModel>();
             if (otherModel == model) return; // 排除自己
+            if(model.Owner == otherModel) return; // 排除创建者
 
             if (other.GetComponentInChildren<HurtBox>().gameObject.layer != LayerMask.NameToLayer("HurtBox"))
                 return; // 只检测HurtBox

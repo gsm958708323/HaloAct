@@ -6,60 +6,55 @@ using UnityEngine;
 
 public class ActorManager : IManager
 {
-    private SortedDictionary<int, ActorModel> actorDict;
-    Queue<int> addQue;
-    public Action<ActorModel> OnAddActorEvent;
+    private LinkedList<ActorModel> actorList;
+    private Dictionary<int, ActorModel> actorDict;
 
     public override void Enter()
     {
         base.Enter();
 
-        actorDict = new SortedDictionary<int, ActorModel>();
-        addQue = new Queue<int>();
+        actorList = new();
+        actorDict = new();
     }
 
     public override void Exit()
     {
-        foreach (var item in actorDict)
+        foreach (var item in actorList)
         {
-            item.Value.Exit();
+            item.Exit();
         }
+        actorList.Clear();
         actorDict.Clear();
 
         base.Exit();
     }
 
-    public void AddActor(int id)
+    public ActorModel AddActor(int id)
     {
         if (actorDict.ContainsKey(id))
         {
-            Debugger.LogError($"actor id 重复", LogDomain.Actor);
-            return;
+            return actorDict[id];
         }
 
-        addQue.Enqueue(id);
-    }
-
-    public void OnAddActor(int id)
-    {
         var path = $"Actor/{id}";
         var actorData = Resources.Load<ActorData>(path);
         if (actorData is null)
         {
             Debugger.LogError($"actor配置不存在 {path}", LogDomain.Actor);
-            return;
+            return null;
         }
 
         var actorGo = GameObject.Instantiate(actorData.Prefab);
         var actorModel = actorGo.AddComponent<ActorModel>();
         actorModel.Init();
         actorModel.Enter(actorData);
-        actorDict.Add(id, actorModel);
-
         var actorRender = actorGo.AddComponent<ActorRender>();
         actorRender.Bind(id);
 
-        OnAddActorEvent?.Invoke(actorModel);
+        actorDict.Add(id, actorModel);
+        actorList.AddLast(new LinkedListNode<ActorModel>(actorModel));
+
+        return actorModel;
     }
 
     public void RemoveActor(int id)
@@ -72,8 +67,8 @@ public class ActorManager : IManager
 
         var actorModel = actorDict[id];
         actorModel.Exit();
-
         actorDict.Remove(id);
+        actorList.Remove(actorModel);
     }
 
     public ActorModel GetActor(int id)
@@ -87,16 +82,16 @@ public class ActorManager : IManager
     {
         base.Tick(deltaTime);
 
-        // action在tick时可能会创建子弹，执行AddActor方法，这是不允许的
-        foreach (var item in actorDict)
-        {
-            item.Value.Tick(deltaTime);
-        }
+        // foreach (var actor in actorList)
+        // {
+        //     actor.Tick(deltaTime);
+        // }
 
-        while (addQue.Count > 0)
+        var node = actorList.First;
+        while(node != null)
         {
-            var actorId = addQue.Dequeue();
-            OnAddActor(actorId);
+            node.Value.Tick(deltaTime);
+            node = node.Next;
         }
     }
 }

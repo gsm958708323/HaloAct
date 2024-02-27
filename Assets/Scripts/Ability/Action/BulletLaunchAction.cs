@@ -19,23 +19,9 @@ namespace Ability
                 EndFrame = StartFrame;
             }
 
-            GameManager.ActorManager.OnAddActorEvent += OnAddActorEvent;
-            GameManager.ActorManager.AddActor(bullet);
-        }
-
-        // todo 生命周期只有1帧，回调回来时已经销毁
-        private void OnAddActorEvent(ActorModel actor)
-        {
-            if (actor.ActorData.Id == bullet)
-            {
+            var actor = GameManager.ActorManager.AddActor(bullet);
+            if (actor)
                 actor.Owner = tree.ActorModel;
-            }
-        }
-
-        protected override void OnExit()
-        {
-            GameManager.ActorManager.OnAddActorEvent -= OnAddActorEvent;
-            base.OnExit();
         }
     }
 }

@@ -13,18 +13,9 @@ public class Main : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // 下一帧才添加成功
-        GameManager.ActorManager.OnAddActorEvent += OnAddActorEvent;
-        GameManager.ActorManager.AddActor(PLAYER);
+        var player = GameManager.ActorManager.AddActor(PLAYER);
+        cameraMgr.BindInput(player.GameInput);
         GameManager.ActorManager.AddActor(MONSTER);
-    }
-
-    private void OnAddActorEvent(ActorModel actorModel)
-    {
-        if (actorModel.ActorData.Id == PLAYER)
-        {
-            cameraMgr.BindInput(actorModel.GameInput);
-        }
     }
 
     // Update is called once per frame

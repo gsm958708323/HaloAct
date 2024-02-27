@@ -185,7 +185,7 @@ namespace Ability
 
         public AbilityNode GetHurtBehavior(AttackType attackType)
         {
-            return hurtNodeDict[attackType];
+            return hurtNodeDict.GetValueOrDefault(attackType);
         }
 
         public AbilityBehavior GetCurAbilityBehavior()

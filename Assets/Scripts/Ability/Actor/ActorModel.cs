@@ -105,6 +105,7 @@ namespace Ability
                     return;
                 }
                 Position = Owner.Position + bornInfo.Pos;
+                Rotation = Owner.Rotation;
             }
         }
 
