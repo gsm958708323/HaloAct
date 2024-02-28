@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: Actions
       Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[Ability.AbilityAction, Assembly-CSharp]],
+      Data: 0|System.Collections.Generic.List`1[[Ability.IAbilityAction, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -33,7 +33,7 @@ MonoBehaviour:
       Data: 1|Ability.AddVelocityAction, Assembly-CSharp
     - Name: StartFrame
       Entry: 3
-      Data: 5
+      Data: 1
     - Name: EndFrame
       Entry: 3
       Data: 5

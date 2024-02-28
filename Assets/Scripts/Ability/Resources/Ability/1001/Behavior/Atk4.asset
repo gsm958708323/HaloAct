@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: Actions
       Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[Ability.AbilityAction, Assembly-CSharp]],
+      Data: 0|System.Collections.Generic.List`1[[Ability.IAbilityAction, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
