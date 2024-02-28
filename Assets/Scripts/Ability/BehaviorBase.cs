@@ -7,6 +7,11 @@ using UnityEngine.AI;
 
 namespace Ability
 {
+    public interface IAbilityAction
+    {
+        public void Enter(AbilityBehaviorTree tree);
+    }
+
     /// <summary>
     /// 存储行为数据：定义此行为将要执行的动作
     /// </summary>
@@ -18,7 +23,7 @@ namespace Ability
         /// 动作列表
         /// </summary>
         /// <returns></returns>
-        public List<AbilityAction> Actions = new();
+        public List<IAbilityAction> Actions = new();
         protected AbilityBehaviorTree tree;
 
         public virtual void Init()
@@ -34,11 +39,16 @@ namespace Ability
         public virtual void Exit()
         {
             Debugger.Log($"Exit {tree.ActorModel.name} {name} {GetType()}", LogDomain.AbilityBehavior);
-            foreach (var action in Actions)
+            foreach (var actionT in Actions)
             {
-                if (action.IsEnter())
+                if (actionT is null) continue;
+                if (actionT is AbilityAction)
                 {
-                    action.Exit();
+                    var action = actionT as AbilityAction;
+                    if (action.IsEnter())
+                    {
+                        action.Exit();
+                    }
                 }
             }
             this.tree = null;
@@ -52,10 +62,12 @@ namespace Ability
 
         private void UpdateActions(int curFrame)
         {
-            foreach (var action in Actions)
+            foreach (var actionT in Actions)
             {
-                if (action != null)
+                if (actionT is null) continue;
+                if (actionT is AbilityAction)
                 {
+                    var action = actionT as AbilityAction;
                     int startFrame = action.StartFrame;
                     int endFrame = action.EndFrame;
 
@@ -70,6 +82,15 @@ namespace Ability
                     if (curFrame == endFrame)
                     {
                         action.Exit();
+                    }
+                }
+                else if (actionT is AbilitySimpleAction)
+                {
+                    var action = actionT as AbilitySimpleAction;
+                    int startFrame = action.StartFrame;
+                    if (curFrame == startFrame)
+                    {
+                        action.Enter(tree);
                     }
                 }
             }

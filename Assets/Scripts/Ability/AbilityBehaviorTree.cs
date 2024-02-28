@@ -140,9 +140,13 @@ namespace Ability
             foreach (var behavior in behaviorsList)
             {
                 behavior?.Init();
-                foreach (var action in behavior.Actions)
+                foreach (var actionT in behavior.Actions)
                 {
-                    action?.Init();
+                    if (actionT is AbilityAction)
+                    {
+                        var action = actionT as AbilityAction;
+                        action?.Init();
+                    }
                 }
 
                 if (behavior is AbilityBehaviorAttack attackBehavior)
@@ -243,9 +247,13 @@ namespace Ability
 
         private void ResetBehavior(AbilityBehavior behavior)
         {
-            foreach (var item in behavior.Actions)
+            foreach (var actionT in behavior.Actions)
             {
-                item.Exit();
+                if (actionT is AbilityAction)
+                {
+                    var action = actionT as AbilityAction;
+                    action.Exit();
+                }
             }
         }
 

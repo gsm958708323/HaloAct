@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
@@ -11,8 +12,27 @@ namespace Ability
     [CreateAssetMenu(fileName = "NewBehavior", menuName = "AbilityTree/BulletBehavior")]
     public class BulletBehavior : AbilityBehaviorAttack
     {
-        public BulletAction OnAddAction;
-        public BulletAction OnHitAction;
-        public BulletAction OnRemoveAction;
+        public float Lifetime;
+        public AbilitySimpleAction OnAddAction;
+        public AbilitySimpleAction OnHitAction;
+        public AbilitySimpleAction OnRemoveAction;
+
+        public override void Init()
+        {
+            base.Init();
+            FrameLength = (int)Math.Ceiling(Lifetime * GameManager.Instance.TargetFrameRate);
+        }
+
+        public override void Enter(AbilityBehaviorTree tree)
+        {
+            base.Enter(tree);
+            OnAddAction?.Enter(tree);
+        }
+
+        public override void Exit()
+        {
+            OnRemoveAction?.Enter(tree);
+            base.Exit();
+        }
     }
 }

@@ -6,7 +6,11 @@ using System;
 
 namespace Ability
 {
-    public abstract class AbilityAction : ILogicT<AbilityBehaviorTree>
+    /// <summary>
+    /// 动态行为，可以定义执行过程
+    /// </summary>
+    [Serializable]
+    public abstract class AbilityAction : IAbilityAction, ILogicT<AbilityBehaviorTree>
     {
         public int StartFrame = 1;
         public int EndFrame = 60;
@@ -58,4 +62,3 @@ namespace Ability
         }
     }
 }
-
