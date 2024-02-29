@@ -23,7 +23,7 @@ namespace Ability
             FrameLength = (int)Math.Ceiling(Lifetime * GameManager.Instance.TargetFrameRate);
         }
 
-        public override void Enter(AbilityBehaviorTree tree)
+        public override void Enter(ActorBehaviorComp tree)
         {
             base.Enter(tree);
             OnAddAction?.Enter(tree);

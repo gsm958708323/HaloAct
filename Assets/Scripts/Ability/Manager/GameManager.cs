@@ -4,7 +4,6 @@ namespace Ability
 {
     public class GameManager : GameManagerBase
     {
-        public static BulletManager BulletManager;
         public static DriverManager DriverManager;
         public static ActorManager ActorManager;
 
@@ -12,7 +11,6 @@ namespace Ability
         {
             base.InitManager();
 
-            BulletManager = GetManager<BulletManager>();
             DriverManager = GetManager<DriverManager>();
             ActorManager = GetManager<ActorManager>();
         }

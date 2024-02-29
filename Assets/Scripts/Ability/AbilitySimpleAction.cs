@@ -12,11 +12,11 @@ namespace Ability
     [Serializable]
     public abstract class AbilitySimpleAction : IAbilityAction
     {
-        protected AbilityBehaviorTree tree;
+        protected ActorBehaviorComp tree;
 
         public int StartFrame;
 
-        public void Enter(AbilityBehaviorTree tree)
+        public void Enter(ActorBehaviorComp tree)
         {
             Debugger.Log($"Enter {GetType()}", LogDomain.AbilityAction);
             this.tree = tree;

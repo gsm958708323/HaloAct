@@ -13,7 +13,7 @@ namespace Ability
 
             var otherModel = other.GetComponent<ActorModel>();
             if (otherModel == model) return; // 排除自己
-            if(model.Owner == otherModel) return; // 排除创建者
+            if(model.Creater == otherModel) return; // 排除创建者
 
             if (other.GetComponentInChildren<HurtBox>().gameObject.layer != LayerMask.NameToLayer("HurtBox"))
                 return; // 只检测HurtBox
@@ -27,10 +27,10 @@ namespace Ability
         private void OnHit(ActorModel otherModel)
         {
             var otherHurtBox = otherModel.HurtBox;
-            if (model.tree.GetCurAbilityBehavior() is not AbilityBehaviorAttack)
+            if (model.Behavior.GetCurAbilityBehavior() is not AbilityBehaviorAttack)
                 return;
 
-            AbilityBehaviorAttack attackBehavior = model.tree.GetCurAbilityBehavior() as AbilityBehaviorAttack;
+            AbilityBehaviorAttack attackBehavior = model.Behavior.GetCurAbilityBehavior() as AbilityBehaviorAttack;
             model.Target = otherModel;
             otherModel.Target = model;
             otherHurtBox.HitPoint = model.HitBox.transform.position;

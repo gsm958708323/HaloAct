@@ -10,18 +10,18 @@ namespace Ability
     /// 动态行为，可以定义执行过程
     /// </summary>
     [Serializable]
-    public abstract class AbilityAction : IAbilityAction, ILogicT<AbilityBehaviorTree>
+    public abstract class AbilityAction : IAbilityAction, ILogicT<ActorBehaviorComp>
     {
         public int StartFrame = 1;
         public int EndFrame = 60;
-        protected AbilityBehaviorTree tree;
+        protected ActorBehaviorComp tree;
         private bool isEnter = false;
 
         public virtual void Init()
         {
         }
 
-        public void Enter(AbilityBehaviorTree tree)
+        public void Enter(ActorBehaviorComp tree)
         {
             Debugger.Log($"Enter {GetType()}", LogDomain.AbilityAction);
             this.tree = tree;

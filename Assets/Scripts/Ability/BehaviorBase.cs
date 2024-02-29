@@ -9,13 +9,13 @@ namespace Ability
 {
     public interface IAbilityAction
     {
-        public void Enter(AbilityBehaviorTree tree);
+        public void Enter(ActorBehaviorComp tree);
     }
 
     /// <summary>
     /// 存储行为数据：定义此行为将要执行的动作
     /// </summary>
-    public abstract class BehaviorBase : SerializedScriptableObject, ILogicT<AbilityBehaviorTree>
+    public abstract class BehaviorBase : SerializedScriptableObject, ILogicT<ActorBehaviorComp>
     {
         public int FrameLength = 60;
 
@@ -24,13 +24,13 @@ namespace Ability
         /// </summary>
         /// <returns></returns>
         public List<IAbilityAction> Actions = new();
-        protected AbilityBehaviorTree tree;
+        protected ActorBehaviorComp tree;
 
         public virtual void Init()
         {
         }
 
-        public virtual void Enter(AbilityBehaviorTree tree)
+        public virtual void Enter(ActorBehaviorComp tree)
         {
             this.tree = tree;
             Debugger.Log($"Enter {tree.ActorModel.name} {name} {GetType()}", LogDomain.AbilityBehavior);
@@ -42,9 +42,8 @@ namespace Ability
             foreach (var actionT in Actions)
             {
                 if (actionT is null) continue;
-                if (actionT is AbilityAction)
+                if (actionT is AbilityAction action)
                 {
-                    var action = actionT as AbilityAction;
                     if (action.IsEnter())
                     {
                         action.Exit();
@@ -65,9 +64,8 @@ namespace Ability
             foreach (var actionT in Actions)
             {
                 if (actionT is null) continue;
-                if (actionT is AbilityAction)
+                if (actionT is AbilityAction action)
                 {
-                    var action = actionT as AbilityAction;
                     int startFrame = action.StartFrame;
                     int endFrame = action.EndFrame;
 
@@ -84,13 +82,12 @@ namespace Ability
                         action.Exit();
                     }
                 }
-                else if (actionT is AbilitySimpleAction)
+                else if (actionT is AbilitySimpleAction simpleAction)
                 {
-                    var action = actionT as AbilitySimpleAction;
-                    int startFrame = action.StartFrame;
+                    int startFrame = simpleAction.StartFrame;
                     if (curFrame == startFrame)
                     {
-                        action.Enter(tree);
+                        simpleAction.Enter(tree);
                     }
                 }
             }

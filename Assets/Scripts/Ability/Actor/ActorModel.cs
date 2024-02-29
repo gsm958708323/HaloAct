@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
+using Unity.VisualScripting;
 
 namespace Ability
 {
@@ -18,25 +19,27 @@ namespace Ability
     /// </summary>
     public class ActorModel : MonoBehaviour, ILogicT<ActorData>
     {
-        [HideInInspector] public AbilityBehaviorTree tree;
+        [HideInInspector] public ActorBehaviorComp Behavior;
+        [HideInInspector] public ActorBuffComp Buff;
         [HideInInspector] GroundChecker groundChecker;
         [HideInInspector] public PlayerGameInput GameInput;
         [HideInInspector] public HitBox HitBox;
         [HideInInspector] public HurtBox HurtBox;
+        List<ILogicT<ActorModel>> compList;
 
         /// <summary>
         /// 创建者
         /// </summary>
-        public ActorModel Owner
+        public ActorModel Creater
         {
-            get { return owner; }
+            get { return creater; }
             set
             {
-                owner = value;
+                creater = value;
                 TryFollowOwner();
             }
         }
-        ActorModel owner;
+        ActorModel creater;
         /// <summary>
         /// 目标
         /// </summary>
@@ -63,15 +66,33 @@ namespace Ability
 
         }
 
+        T AddComp<T>(T comp) where T : ILogicT<ActorModel>
+        {
+            compList.Add(comp);
+            return comp;
+        }
+
+        void InitComp()
+        {
+            Behavior = AddComp(new ActorBehaviorComp());
+            Buff = AddComp(new ActorBuffComp());
+            foreach (var item in compList)
+            {
+                if (item is ActorBehaviorComp behaviorComp)
+                {
+                    behaviorComp.Init(ActorData.NodePath, ActorData.BehaviorPath);
+                }
+                item.Init();
+                item.Enter(this);
+            }
+        }
+
         public void Enter(ActorData actorData)
         {
             ActorData = actorData;
             LoadData();
 
-            tree = new AbilityBehaviorTree();
-            tree.Init(actorData.NodePath, actorData.BehaviorPath);
-            tree.Enter(this);
-
+            InitComp();
             HitBox = GetComponentInChildren<HitBox>();
             HitBox.Init();
             HitBox.Exit(); // 默认隐藏
@@ -99,19 +120,22 @@ namespace Ability
             var bornInfo = ActorData.BornPosInfo;
             if (bornInfo.BornPosEnum == BornPosEnum.FollowOwner)
             {
-                if (Owner == null)
+                if (Creater == null)
                 {
                     Debugger.LogError($"[出生位置] 跟随创建者时获取Owner失败 {ActorData.Id}", LogDomain.Actor);
                     return;
                 }
-                Position = Owner.Position + bornInfo.Pos;
-                Rotation = Owner.Rotation;
+                Position = Creater.Position + bornInfo.Pos;
+                Rotation = Creater.Rotation;
             }
         }
 
         public void Tick(float deltaTime)
         {
-            tree.Tick(deltaTime);
+            foreach (var item in compList)
+            {
+                item.Tick(deltaTime);
+            }
 
             UpdateVelocity();
             CheckGround();
@@ -119,8 +143,11 @@ namespace Ability
 
         public void Exit()
         {
-            tree.Exit();
-            tree = null;
+            foreach (var item in compList)
+            {
+                item.Exit();
+            }
+            compList.Clear();
 
             ActorData = null;
         }

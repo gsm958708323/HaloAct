@@ -14,7 +14,7 @@ namespace Ability
     /// 管理关系：AbilityBehaviorTree -> AbilityNode -> AbilityBehavior 
     ///                                                               -> AbilityCondition
     /// </summary>
-    public class AbilityBehaviorTree : ILogicT<ActorModel>
+    public class ActorBehaviorComp : ILogicT<ActorModel>
     {
         /// <summary>
         /// 当前行为的帧计数
@@ -38,7 +38,6 @@ namespace Ability
 
         public void Init(string nodePath, string behaviorPath)
         {
-
             LoadBehavior(behaviorPath);
             LoadNode(nodePath);
         }
@@ -142,9 +141,8 @@ namespace Ability
                 behavior?.Init();
                 foreach (var actionT in behavior.Actions)
                 {
-                    if (actionT is AbilityAction)
+                    if (actionT is AbilityAction action)
                     {
-                        var action = actionT as AbilityAction;
                         action?.Init();
                     }
                 }
@@ -249,9 +247,8 @@ namespace Ability
         {
             foreach (var actionT in behavior.Actions)
             {
-                if (actionT is AbilityAction)
+                if (actionT is AbilityAction action)
                 {
-                    var action = actionT as AbilityAction;
                     action.Exit();
                 }
             }

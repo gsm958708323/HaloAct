@@ -9,7 +9,7 @@ namespace Ability
     /// <summary>
     /// 记录行为节点的连招过渡关系和其他拓展信息
     /// </summary>
-    public class AbilityNode : SerializedScriptableObject, ILogicT<AbilityBehaviorTree>
+    public class AbilityNode : SerializedScriptableObject, ILogicT<ActorBehaviorComp>
     {
         /// <summary>
         /// 当前节点的唯一标识（自己定义的，不是索引），但是可以引用同一个行为
@@ -31,7 +31,7 @@ namespace Ability
         /// 当前引用的行为节点
         /// </summary>
         public AbilityBehavior Behavior;
-        protected AbilityBehaviorTree tree;
+        protected ActorBehaviorComp tree;
 
         /// <summary>
         /// 当前行为是否可以打断
@@ -41,7 +41,7 @@ namespace Ability
         public virtual void Init()
         {
         }
-        public virtual void Enter(AbilityBehaviorTree tree)
+        public virtual void Enter(ActorBehaviorComp tree)
         {
             Debugger.Log($"Enter {name} {GetType()}", LogDomain.AbilityNode);
             this.tree = tree;
@@ -64,7 +64,7 @@ namespace Ability
             Behavior?.Tick(deltaTime);
         }
 
-        internal bool CheckCondition(AbilityBehaviorTree tree)
+        internal bool CheckCondition(ActorBehaviorComp tree)
         {
             foreach (var item in conditions)
             {

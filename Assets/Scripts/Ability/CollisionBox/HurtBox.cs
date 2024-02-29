@@ -19,7 +19,7 @@ namespace Ability
         {
             // todo 状态统一管理
             if (atkModel.IsDead || atkModel.IsInvincible) return;
-            var curBehavior = model.tree.GetCurAbilityBehavior();
+            var curBehavior = model.Behavior.GetCurAbilityBehavior();
             if (curBehavior == null) return;
 
             // 判断格挡成功：双方都是执行攻击行为，并且格挡角度符合条件
@@ -43,9 +43,9 @@ namespace Ability
 
         private void ApplyHurtInfo(ActorModel atkModel, Transform atkTrans, AbilityBehaviorAttack attackBehavior)
         {
-            AbilityNode node = model.tree.GetHurtBehavior(attackBehavior.CurAttack.AttackType);
+            AbilityNode node = model.Behavior.GetHurtBehavior(attackBehavior.CurAttack.AttackType);
             if (node == null) return;
-            model.tree.StartBehavior(node);
+            model.Behavior.StartBehavior(node);
         }
     }
 }
