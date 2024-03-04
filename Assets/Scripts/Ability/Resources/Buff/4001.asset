@@ -33,7 +33,7 @@ MonoBehaviour:
     - Name: onOccur
       Entry: 6
       Data: 
-  BuffId: 0
+  Id: 0
   Priority: 0
   MaxStack: 0
   TickTime: 0

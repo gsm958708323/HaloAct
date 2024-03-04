@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Ability;
 using Frame;
+using UnityEditor;
 using UnityEngine;
 
 namespace Ability
@@ -9,6 +10,7 @@ namespace Ability
     {
         List<BuffModel> buffList;
         Dictionary<int, BuffModel> buffDict;
+        ActorModel actor;
 
         public void Init()
         {
@@ -18,6 +20,7 @@ namespace Ability
         {
             buffList = new();
             buffDict = new();
+            actor = t;
         }
 
         public void Exit()
@@ -28,30 +31,31 @@ namespace Ability
 
         public void Tick(float deltaTime)
         {
+            for (int i = 0; i < buffList.Count; i++)
+            {
+                var buffModel = buffList[i];
+                buffModel.Tick(deltaTime);
+            }
         }
 
-        public BuffModel AddBuff(int buffId)
+        public BuffModel AddBuff(AddBuffInfo addInfo)
         {
-            var path = $"Actor/{buffId}";
-            var buffData = Resources.Load<BuffData>(path);
-            if (buffData is null)
-            {
-                Debugger.LogError($"actor配置不存在 {path}", LogDomain.Buff);
-                return null;
-            }
+            var buffId = addInfo.Id;
 
+            // buff静态配置，buff添加时的动态配置
 
-            /*
-            判断buff是否存在
-                存在，则更新相应的buff对象
-                不存在，则创建一个新的
-                buff的堆叠逻辑：相同施法者，相同buffid，堆叠次数+1，超出maxStack时，则没有效果
-
-                相同id的buff只存在一个，后面只增加堆叠次数
-            */
-            var buffModel = buffDict.GetValueOrDefault(buffId);
+            // 同一个角色身上，只有有一个id相同的buff实例
+            var buffModel = GetBuffById(addInfo.Id);
             if (buffModel is null)
             {
+                var path = $"Actor/{buffId}";
+                var buffData = Resources.Load<BuffData>(path);
+                if (buffData is null)
+                {
+                    Debugger.LogError($"actor配置不存在 {path}", LogDomain.Buff);
+                    return null;
+                }
+
                 buffModel = new BuffModel();
                 buffModel.Init();
                 buffModel.Enter(buffData);
@@ -65,10 +69,56 @@ namespace Ability
             }
             else
             {
+                // 处理堆叠逻辑
+                var buffData = buffModel.BuffData;
+                buffModel.ModLifetime(addInfo.ModLifetime);
+                buffModel.ModStack(addInfo.ModStack);
+                buffModel.Permanent = addInfo.Permanent;
 
+                if (buffModel.Stack > 0)
+                {
+                    buffData?.onOccur.Enter(actor.Behavior);
+                }
             }
 
             return buffModel;
         }
+
+        /// <summary>
+        /// 判断是否拥有某个buff： buffId相同，施法者相同
+        /// todo：测试buffid相同，但是施法者不同的情况
+        /// </summary>
+        /// <param name="buffInfo"></param>
+        /// <returns></returns>
+        private BuffModel GetBuffById(int buffId)
+        {
+            for (int i = 0; i < buffList.Count; i++)
+            {
+                var buff = buffList[i];
+                if (buff.BuffData.Id == buffId)
+                {
+                    return buff;
+                }
+            }
+            return null;
+        }
+    }
+
+
+    /// <summary>
+    /// 存放添加buff时的环境数据
+    /// </summary>
+    public struct AddBuffInfo
+    {
+        public int Id;
+        public ActorModel Creater;
+        public int Target;
+
+        /// <summary>
+        /// 修改堆叠次数，正负数
+        /// </summary>
+        public int ModStack { get; internal set; }
+        public float ModLifetime { get; internal set; }
+        public bool Permanent { get; internal set; }
     }
 }

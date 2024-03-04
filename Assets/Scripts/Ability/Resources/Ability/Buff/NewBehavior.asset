@@ -22,10 +22,40 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: onCast
+      Entry: 7
+      Data: 0|Ability.AddBuffAction, Assembly-CSharp
+    - Name: StartFrame
+      Entry: 3
+      Data: 0
+    - Name: buffInfo
+      Entry: 7
+      Data: Ability.BuffInfo, Assembly-CSharp
+    - Name: Id
+      Entry: 3
+      Data: 0
+    - Name: Creater
       Entry: 6
       Data: 
+    - Name: Target
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: onTick
-      Entry: 6
+      Entry: 7
+      Data: 1|Ability.CreateBulletAction, Assembly-CSharp
+    - Name: StartFrame
+      Entry: 3
+      Data: 0
+    - Name: bullet
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
       Data: 
     - Name: onRemoved
       Entry: 6
@@ -33,7 +63,7 @@ MonoBehaviour:
     - Name: onOccur
       Entry: 6
       Data: 
-  BuffId: 0
+  Id: 0
   Priority: 0
   MaxStack: 0
   TickTime: 0

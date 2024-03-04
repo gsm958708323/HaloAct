@@ -8,16 +8,15 @@ namespace Ability
 {
     public class AddBuffAction : AbilitySimpleAction
     {
-        public int BuffId;
-
-        public int Target;
+        public AddBuffInfo buffInfo;
 
         protected override void OnEnter()
         {
-            var actor = GameManager.ActorManager.GetActor(Target);
+            var actor = GameManager.ActorManager.GetActor(buffInfo.Target);
             if (actor)
             {
-                actor.Buff.AddBuff(BuffId);
+                buffInfo.Creater = tree.ActorModel;
+                actor.Buff.AddBuff(buffInfo);
             }
         }
     }

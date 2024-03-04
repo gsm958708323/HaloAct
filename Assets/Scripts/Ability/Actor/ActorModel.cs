@@ -74,6 +74,7 @@ namespace Ability
 
         void InitComp()
         {
+            compList = new();
             Behavior = AddComp(new ActorBehaviorComp());
             Buff = AddComp(new ActorBuffComp());
             foreach (var item in compList)
@@ -147,7 +148,7 @@ namespace Ability
             {
                 item.Exit();
             }
-            compList.Clear();
+            compList = null;
 
             ActorData = null;
         }

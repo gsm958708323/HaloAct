@@ -14,7 +14,9 @@ namespace Ability
         {
             var actor = GameManager.ActorManager.AddActor(bullet);
             if (actor)
+            {
                 actor.Creater = tree.ActorModel;
+            }
         }
     }
 }
