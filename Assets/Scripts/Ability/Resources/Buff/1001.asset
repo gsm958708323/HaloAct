@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a38dfdfe1ff95ff418a5a45106f0e9e1, type: 3}
-  m_Name: NewBehavior
+  m_Name: 1001
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -22,40 +22,10 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: onCast
-      Entry: 7
-      Data: 0|Ability.AddBuffAction, Assembly-CSharp
-    - Name: StartFrame
-      Entry: 3
-      Data: 0
-    - Name: buffInfo
-      Entry: 7
-      Data: Ability.BuffInfo, Assembly-CSharp
-    - Name: Id
-      Entry: 3
-      Data: 0
-    - Name: Creater
       Entry: 6
       Data: 
-    - Name: Target
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: onTick
-      Entry: 7
-      Data: 1|Ability.CreateBulletAction, Assembly-CSharp
-    - Name: StartFrame
-      Entry: 3
-      Data: 0
-    - Name: bullet
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
+      Entry: 6
       Data: 
     - Name: onRemoved
       Entry: 6
@@ -63,8 +33,9 @@ MonoBehaviour:
     - Name: onOccur
       Entry: 6
       Data: 
-  Id: 0
+  Id: 1001
+  Name: 
   Priority: 0
   MaxStack: 0
   TickTime: 0
-  Tag: 
+  Tag: []

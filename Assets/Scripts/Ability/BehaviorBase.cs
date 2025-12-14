@@ -82,14 +82,6 @@ namespace Ability
                         action.Exit();
                     }
                 }
-                else if (actionT is AbilitySimpleAction simpleAction)
-                {
-                    int startFrame = simpleAction.StartFrame;
-                    if (curFrame == startFrame)
-                    {
-                        simpleAction.Enter(tree);
-                    }
-                }
             }
         }
     }

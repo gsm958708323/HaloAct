@@ -56,9 +56,15 @@ namespace Ability
 
         public void Tick(float deltaTime)
         {
+            if (ActorModel.IsDead)
+            {
+                return;
+            }
+
             AbilityNode nextBehavior = TryGetNextBehavior();
             if (nextBehavior != null)
             {
+                nextBehavior = ActorModel.Buff.OnStartBehavior(nextBehavior);
                 StartBehavior(nextBehavior);
             }
 

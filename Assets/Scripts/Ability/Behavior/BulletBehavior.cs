@@ -26,12 +26,12 @@ namespace Ability
         public override void Enter(ActorBehaviorComp tree)
         {
             base.Enter(tree);
-            OnAddAction?.Enter(tree);
+            // OnAddAction?.Enter(tree);
         }
 
         public override void Exit()
         {
-            OnRemoveAction?.Enter(tree);
+            // OnRemoveAction?.Enter(tree);
             base.Exit();
         }
     }

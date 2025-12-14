@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3337772916551700063}
   - component: {fileID: 3337772916551700061}
   - component: {fileID: 3337772916551700062}
-  - component: {fileID: 943686156950152120}
+  - component: {fileID: 6946537192577927476}
   m_Layer: 7
   m_Name: HitBox
   m_TagString: Untagged
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6995dfb29e8d7584bb1fb385d1cd4a12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &943686156950152120
+--- !u!114 &6946537192577927476
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68,10 +68,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3337772916551700032}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 013c58c763cd1d54a862aaee85cdbf6b, type: 3}
+  m_Script: {fileID: 11500000, guid: a5d873a5971d82344b16d842ae4fcc48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineColor: {r: 1, g: 0.35963035, b: 0, a: 0.3529412}
+  lineColor: {r: 1, g: 0.02745098, b: 0, a: 1}
   lineWidth: 0.3
 --- !u!1 &3337772916930222536
 GameObject:
@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 3337772918475723647}
   - component: {fileID: 3337772918475723645}
   - component: {fileID: 3337772918475723646}
-  - component: {fileID: 8648090132324678338}
+  - component: {fileID: 7748641141515457068}
   m_Layer: 8
   m_Name: HurtBox
   m_TagString: Untagged
@@ -352,7 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d69cf96f78bf2d342a1f7089a6827e74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8648090132324678338
+--- !u!114 &7748641141515457068
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -361,8 +361,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 3337772918475723616}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 013c58c763cd1d54a862aaee85cdbf6b, type: 3}
+  m_Script: {fileID: 11500000, guid: a5d873a5971d82344b16d842ae4fcc48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineColor: {r: 0, g: 0, b: 1, a: 0.3882353}
+  lineColor: {r: 0, g: 0.07450981, b: 1, a: 1}
   lineWidth: 0.3

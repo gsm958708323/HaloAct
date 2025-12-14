@@ -14,8 +14,8 @@ public enum LogDomain
     HurtBox,
     Bullet,
     Actor,
+    Config,
     Buff,
-
 }
 
 public class Debugger : MonoSingleton<Debugger>

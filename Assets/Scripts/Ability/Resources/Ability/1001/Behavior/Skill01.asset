@@ -27,7 +27,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: 1|Ability.CreateBulletAction, Assembly-CSharp
@@ -41,6 +41,33 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 2|Ability.AddBuffAction, Assembly-CSharp
+    - Name: StartFrame
+      Entry: 3
+      Data: 0
+    - Name: buffInfo
+      Entry: 7
+      Data: Ability.AddBuffInfo, Assembly-CSharp
+    - Name: BuffId
+      Entry: 3
+      Data: 0
+    - Name: Creater
+      Entry: 6
+      Data: 
+    - Name: Target
+      Entry: 3
+      Data: 0
+    - Name: Duration
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -48,7 +75,7 @@ MonoBehaviour:
       Data: 
     - Name: Attacks
       Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[Ability.AbilityAttack, Assembly-CSharp]],
+      Data: 3|System.Collections.Generic.List`1[[Ability.AbilityAttack, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -64,7 +91,7 @@ MonoBehaviour:
       Data: 
     - Name: BlockEvents
       Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
+      Data: 4|System.Collections.Generic.List`1[[Ability.AbilityUnderAttack, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -77,4 +104,4 @@ MonoBehaviour:
       Data: 
   FrameLength: 60
   IsLoop: 0
-  InputKey: 282
+  InputKey: 49

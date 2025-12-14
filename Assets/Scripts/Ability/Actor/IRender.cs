@@ -13,7 +13,7 @@ namespace Ability
 
         private void Awake()
         {
-            actorManager = GameManager.ActorManager;
+            actorManager = GameManager.Actor;
             OnAwake();
         }
 

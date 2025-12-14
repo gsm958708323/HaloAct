@@ -43,6 +43,5 @@ MonoBehaviour:
   Id: 2
   Childs: 0300000005000000
   Priority: 0
-  BehaviorIndex: 0
-  curBehavior: {fileID: 0}
+  Behavior: {fileID: 11400000, guid: 7dff995c17001fc4fbf6c46d450486ce, type: 2}
   CanCancel: 1

@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Ability
 {
@@ -10,12 +8,11 @@ namespace Ability
     {
         public AddBuffInfo buffInfo;
 
-        protected override void OnEnter()
+        protected override void OnExecute()
         {
-            var actor = GameManager.ActorManager.GetActor(buffInfo.Target);
+            var actor = GameManager.Actor.GetActor(buffInfo.Target);
             if (actor)
             {
-                buffInfo.Creater = tree.ActorModel;
                 actor.Buff.AddBuff(buffInfo);
             }
         }

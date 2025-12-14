@@ -36,11 +36,9 @@ public class ActorManager : IManager
             return actorDict[id];
         }
 
-        var path = $"Actor/{id}";
-        var actorData = Resources.Load<ActorData>(path);
+        var actorData = GameManager.Config.LoadActor(id);
         if (actorData is null)
         {
-            Debugger.LogError($"actor配置不存在 {path}", LogDomain.Actor);
             return null;
         }
 

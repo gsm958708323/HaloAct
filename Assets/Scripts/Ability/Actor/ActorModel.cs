@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Sirenix.OdinInspector;
 using System;
-using Unity.VisualScripting;
 
 namespace Ability
 {
@@ -75,17 +73,14 @@ namespace Ability
         void InitComp()
         {
             compList = new();
+
             Behavior = AddComp(new ActorBehaviorComp());
+            Behavior.Init(ActorData.NodePath, ActorData.BehaviorPath);
+            Behavior.Enter(this);
+
             Buff = AddComp(new ActorBuffComp());
-            foreach (var item in compList)
-            {
-                if (item is ActorBehaviorComp behaviorComp)
-                {
-                    behaviorComp.Init(ActorData.NodePath, ActorData.BehaviorPath);
-                }
-                item.Init();
-                item.Enter(this);
-            }
+            Buff.Init();
+            Buff.Enter(this);
         }
 
         public void Enter(ActorData actorData)

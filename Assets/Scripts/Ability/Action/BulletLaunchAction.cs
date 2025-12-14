@@ -19,7 +19,7 @@ namespace Ability
                 EndFrame = StartFrame;
             }
 
-            var actor = GameManager.ActorManager.AddActor(bullet);
+            var actor = GameManager.Actor.AddActor(bullet);
             if (actor)
                 actor.Creater = tree.ActorModel;
         }

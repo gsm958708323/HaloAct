@@ -1,68 +1,98 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Sirenix.OdinInspector;
 using System;
-using Unity.VisualScripting;
 
 namespace Ability
 {
     /// <summary>
-    /// buff数据处理，存储动态数据
+    /// buff数据处理，存储动态数据和配置
     /// </summary>
-    public class BuffModel : ILogicT<BuffData>
+    public class BuffModel : ILogicT<BuffBehavior>
     {
-        public BuffData BuffData;
+        public BuffBehavior BuffData;
         public ActorModel Creater;
         public ActorModel Target;
 
         public bool Permanent;
-        public float Lifetime { get; private set; }
         public int Stack { get; private set; }
 
-        public void Enter(BuffData t)
+        /// <summary>
+        /// 用来计算每次OnTick调用
+        /// </summary>
+        private float tickTime;
+
+        /// <summary>
+        /// 运行时间
+        /// </summary>
+        private float timeElapsed;
+        /// <summary>
+        /// 剩余多久失效
+        /// </summary>
+        private float duration;
+
+        public void Enter(BuffBehavior t)
         {
             BuffData = t;
-            Stack = 1;
-            Lifetime = BuffData.Lifetime;
-            Permanent = BuffData.Permanent;
         }
 
         public void Exit()
         {
             BuffData = null;
-            Lifetime = 0;
         }
 
         public void Init()
         {
-            throw new NotImplementedException();
+
         }
 
-        public void Tick(float deltaTime)
-        {
-            throw new NotImplementedException();
-        }
+        public void Tick(float deltaTime) { }
 
-        internal void ModLifetime(float modLifetime)
+        /// <summary>
+        /// 生命周期是否结束
+        /// </summary>
+        /// <param name="deltaTime"></param>
+        /// <returns></returns>
+        public bool TickFinish(float deltaTime)
         {
-            Lifetime += modLifetime;
-            if (Lifetime < 0)
+            if (!Permanent)
             {
-                Lifetime = 0;
+                duration -= deltaTime;
+            }
+            timeElapsed += deltaTime;
+            tickTime += deltaTime;
+            if (tickTime >= BuffData.TickTimeInterval)
+            {
+                tickTime -= BuffData.TickTimeInterval;
+                BuffData.OnTick.Execute(this);
+            }
+
+            if (duration <= 0 || Stack <= 0)
+            {
+                BuffData.OnRemoved?.Execute(this);
+                return true;
+            }
+            return false;
+        }
+
+        internal void ModDuration(float add, bool isOveriDuration)
+        {
+            duration = isOveriDuration ? add : duration + add;
+            if (duration < 0)
+            {
+                duration = 0;
             }
         }
-
 
         /// <summary>
         /// 修改堆叠次数，返回值
         /// </summary>
-        /// <param name="modStack"></param>
+        /// <param name="add"></param>
         /// <returns></returns>
-        internal int ModStack(int modStack)
+        internal int ModStack(int add)
         {
             // 分别考虑modStack正负，finalStack是否大于max和小于0
-            var finalStack = Stack + modStack;
+            var finalStack = Stack + add;
             finalStack = Math.Clamp(finalStack, 0, BuffData.MaxStack);
 
             var oldStack = Stack;
