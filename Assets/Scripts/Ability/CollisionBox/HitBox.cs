@@ -32,10 +32,13 @@ namespace Ability
         private void OnHit(ActorModel otherModel)
         {
             var otherHurtBox = otherModel.HurtBox;
-            if (model.Behavior.GetCurAbilityBehavior() is not AbilityBehaviorAttack)
+            var behaviorComp = model.GetComp<ActorBehaviorComp>();
+            if (behaviorComp is null)
+                return;
+            if (behaviorComp.GetCurAbilityBehavior() is not AbilityBehaviorAttack)
                 return;
 
-            AbilityBehaviorAttack attackBehavior = model.Behavior.GetCurAbilityBehavior() as AbilityBehaviorAttack;
+            AbilityBehaviorAttack attackBehavior = behaviorComp.GetCurAbilityBehavior() as AbilityBehaviorAttack;
             model.Target = otherModel;
             otherModel.Target = model;
             otherHurtBox.HitPoint = model.HitBox.transform.position;

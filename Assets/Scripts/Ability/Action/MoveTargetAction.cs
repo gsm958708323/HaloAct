@@ -19,14 +19,20 @@ namespace Ability
 
             // 设置朝向
             var model = tree.ActorModel;
-            var dir = Vector3.zero;
+            var trans1 = model.GetComp<TransfromComp>();
+            if (trans1 is null)
+            {
+                return;
+            }
+
+            var dir = trans1.Rotation * Vector3.forward;
             if (model.Target != null)
             {
-                dir = model.Target.Position - model.Position;
-            }
-            else
-            {
-                dir = model.Rotation * Vector3.forward;
+                var trans2 = model.Target.GetComp<TransfromComp>();
+                if (trans2 != null)
+                {
+                    dir = trans2.Position - trans1.Position;
+                }
             }
 
             if (dir == Vector3.zero)
@@ -36,11 +42,11 @@ namespace Ability
 
             // 设置朝向
             var targetRot = Quaternion.LookRotation(dir);
-            model.Rotation = Quaternion.Slerp(model.Rotation, targetRot, rotationRatio);
+            trans1.Rotation = Quaternion.Slerp(trans1.Rotation, targetRot, rotationRatio);
 
             // 设置位置偏移
-            tree.ActorModel.Velocity.x = dir.x * moveSpeed;
-            tree.ActorModel.Velocity.z = dir.z * moveSpeed;
+            trans1.Velocity.x = dir.x * moveSpeed;
+            trans1.Velocity.z = dir.z * moveSpeed;
         }
     }
 }

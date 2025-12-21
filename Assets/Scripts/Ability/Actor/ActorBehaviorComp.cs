@@ -61,11 +61,16 @@ namespace Ability
             AbilityNode nextBehavior = TryGetNextBehavior();
             if (nextBehavior != null)
             {
-                var newBehavior = ActorModel.Buff.OnStartBehavior(nextBehavior);
-                if (newBehavior is not null)
+                var buffComp = ActorModel.GetComp<ActorBuffComp>();
+                if (buffComp is not null)
                 {
-                    nextBehavior = newBehavior;
+                    var newBehavior = buffComp.OnStartBehavior(nextBehavior);
+                    if (newBehavior is not null)
+                    {
+                        nextBehavior = newBehavior;
+                    }
                 }
+
                 StartBehavior(nextBehavior);
             }
 

@@ -9,6 +9,13 @@ namespace Ability
     {
         public float moveSpeed = 10;
         public float rotationRatio = 0.2f;
+        TransfromComp transComp;
+
+        protected override void OnEnter()
+        {
+            base.OnEnter();
+            transComp = tree.ActorModel.GetComp<TransfromComp>();
+        }
 
         protected override void OnTick(float deltaTime)
         {
@@ -21,8 +28,8 @@ namespace Ability
                 moveDir = camera.forward * inputDir.y + camera.right * inputDir.x;
             }
 
-            tree.ActorModel.Velocity.x = moveDir.x * moveSpeed;
-            tree.ActorModel.Velocity.z = moveDir.z * moveSpeed;
+            transComp.Velocity.x = moveDir.x * moveSpeed;
+            transComp.Velocity.z = moveDir.z * moveSpeed;
 
             Rotation(inputDir);
         }
@@ -34,7 +41,7 @@ namespace Ability
                 var angle = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 
                 var targetRotation = Quaternion.Euler(0, angle, 0);
-                tree.ActorModel.Rotation = Quaternion.Slerp(tree.ActorModel.Rotation, targetRotation, rotationRatio);
+                transComp.Rotation = Quaternion.Slerp(transComp.Rotation, targetRotation, rotationRatio);
             }
         }
     }

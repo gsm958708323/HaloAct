@@ -9,22 +9,24 @@ public class GroundChecker : MonoBehaviour
 
     GroundCheckData checkerData;
     ActorModel actorModel;
+    TransfromComp transfromComp;
 
     public void Init(ActorModel actorModel)
     {
         this.actorModel = actorModel;
         this.checkerData = actorModel.ActorData.CheckerData;
+        transfromComp = actorModel.GetComp<TransfromComp>();
     }
 
     public bool CheckGround()
     {
-        checkGroundPos.Set(actorModel.Position.x, actorModel.Position.y + checkerData.GroundSetting.y, actorModel.Position.z);
+        checkGroundPos.Set(transfromComp.Position.x, transfromComp.Position.y + checkerData.GroundSetting.y, transfromComp.Position.z);
         return Physics.CheckSphere(checkGroundPos, checkerData.GroundSetting.x, checkerData.GroundLayer, QueryTriggerInteraction.Ignore);
     }
 
     private void OnDrawGizmos()
     {
-        checkGroundPos.Set(actorModel.Position.x, actorModel.Position.y + checkerData.GroundSetting.y, actorModel.Position.z);
+        checkGroundPos.Set(transfromComp.Position.x, transfromComp.Position.y + checkerData.GroundSetting.y, transfromComp.Position.z);
         Gizmos.DrawWireSphere(checkGroundPos, checkerData.GroundSetting.x);
     }
 }

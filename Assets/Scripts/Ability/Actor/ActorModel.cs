@@ -18,24 +18,6 @@ namespace Ability
     public class ActorModel : ILogicT<ActorData>
     {
         [HideInInspector]
-        public ActorBehaviorComp Behavior
-        {
-            get { return GetComp<ActorBehaviorComp>(); }
-        }
-        [HideInInspector]
-        public ActorBuffComp Buff
-        {
-            get { return GetComp<ActorBuffComp>(); }
-        }
-        [HideInInspector]
-        GroundChecker groundChecker
-        {
-            get
-            {
-                return gameObject.GetComponent<GroundChecker>();
-            }
-        }
-        [HideInInspector]
         public PlayerGameInput GameInput
         {
             get
@@ -62,20 +44,8 @@ namespace Ability
 
         List<IComponent> compList;
         public int Uid;
-        private GameObject gameObject;
+        public GameObject gameObject;
 
-        /// <summary>
-        /// 创建者
-        /// </summary>
-        public ActorModel Creater
-        {
-            get { return creater; }
-            set
-            {
-                creater = value;
-                TryFollowOwner();
-            }
-        }
         ActorModel creater;
         /// <summary>
         /// 目标
@@ -84,26 +54,8 @@ namespace Ability
 
         public bool IsDead;
         public bool IsInvincible;
-        public bool IsGround;
-        public bool IsAerial;
-        float cacheAerialTime;
-        public Quaternion Rotation;
-        /// <summary>
-        /// 外部不能直接设置位置，通过设置Velocity来改变位置 
-        /// </summary>
-        public Vector3 Position { private set; get; }
-        /// <summary>
-        /// 外部设置方向时调用
-        /// </summary>
-        public Vector3 Velocity;
+
         public ActorData ActorData;
-        public Transform transform
-        {
-            get
-            {
-                return gameObject.transform;
-            }
-        }
 
         public void Init()
         {
@@ -141,34 +93,6 @@ namespace Ability
             this.ActorData = data;
             this.Uid = uid;
             this.gameObject = actorGo;
-
-            Debugger.Log(this.HitBox.gameObject.name);
-
-            LoadData();
-        }
-
-        void LoadData()
-        {
-            var bornInfo = ActorData.BornPosInfo;
-            if (bornInfo.BornPosEnum == BornPosEnum.FixedPosition)
-            {
-                Position = bornInfo.Pos;
-            }
-        }
-
-        void TryFollowOwner()
-        {
-            var bornInfo = ActorData.BornPosInfo;
-            if (bornInfo.BornPosEnum == BornPosEnum.FollowOwner)
-            {
-                if (Creater == null)
-                {
-                    Debugger.LogError($"[出生位置] 跟随创建者时获取Owner失败 {ActorData.Id}", LogDomain.Actor);
-                    return;
-                }
-                Position = Creater.Position + bornInfo.Pos;
-                Rotation = Creater.Rotation;
-            }
         }
 
         public void Tick(float deltaTime)
@@ -177,9 +101,6 @@ namespace Ability
             {
                 item.Tick(deltaTime);
             }
-
-            UpdateVelocity();
-            CheckGround();
         }
 
         public void Exit()
@@ -193,45 +114,9 @@ namespace Ability
             ActorData = null;
         }
 
-        private void CheckGround()
-        {
-            IsGround = groundChecker.CheckGround();
-            if (IsGround)
-            {
-                Velocity.y = 0;
-                IsAerial = false;
-                cacheAerialTime = 0;
-            }
-            else
-            {
-                // 延迟一段时间后才算空中
-                if (!IsAerial)
-                {
-                    cacheAerialTime += GameManager.Instance.FrameInterval;
-                }
-
-                if (cacheAerialTime > ActorData.DelayAerialTime)
-                {
-                    IsAerial = true;
-                }
-            }
-        }
-
-        private void UpdateVelocity()
-        {
-            Position += Velocity * GameManager.Instance.FrameInterval;
-
-            Velocity.y += ActorData.Gravity * GameManager.Instance.FrameInterval;
-            Velocity.y = Mathf.Clamp(Velocity.y, -20, 20);
-
-            // 用来处理速度的衰减，速度不断变小并无限接近0
-            Velocity.Scale(ActorData.Frictional);
-        }
-
         internal void DeathCheck()
         {
 
         }
-
     }
 }

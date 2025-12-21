@@ -15,8 +15,14 @@ namespace Ability
 
         protected override void OnUpdate(ActorModel actorModel)
         {
-            controller.transform.position = actorModel.Position;
-            controller.transform.rotation = actorModel.Rotation;
+            var transComp = actorModel.GetComp<TransfromComp>();
+            if(transComp is null)
+            {
+                return;
+            }
+
+            controller.transform.position = transComp.Position;
+            controller.transform.rotation = transComp.Rotation;
         }
     }
 

@@ -13,11 +13,17 @@ namespace Ability
 
             var model = tree.ActorModel;
             if (model.Target == null) return;
+            var trans1 = model.GetComp<TransfromComp>();
+            var trans2 = model.Target.GetComp<TransfromComp>();
+            if (trans1 == null || trans2 == null)
+            {
+                return;
+            }
 
-            var dir = model.Target.Position - model.Position;
+            var dir = trans2.Position - trans1.Position;
             dir.y = 0;
             var targetRot = Quaternion.LookRotation(dir);
-            model.Rotation = Quaternion.Slerp(model.Rotation, targetRot, rotationRatio);
+            trans1.Rotation = Quaternion.Slerp(trans1.Rotation, targetRot, rotationRatio);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Frame
         public readonly int TargetFrameRate = 60;
 
         float cacheTime;
-        public int CurFrame;
+        private int CurFrame;
         public float FrameInterval;
 
         protected override void Awake()

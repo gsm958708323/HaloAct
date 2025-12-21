@@ -12,9 +12,9 @@ namespace Ability
         {
             base.OnTick(deltaTime);
 
-            var transform = tree.ActorModel.transform;
-            var add = transform.forward * Velocity.z + transform.right * Velocity.x + transform.up * Velocity.y;
-            tree.ActorModel.Velocity += add;
+            var transformComp = tree.ActorModel.GetComp<TransfromComp>();
+            var add = transformComp.forward * Velocity.z + transformComp.right * Velocity.x + transformComp.up * Velocity.y;
+            transformComp.Velocity += add;
         }
     }
 }

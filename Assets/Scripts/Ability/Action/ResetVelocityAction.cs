@@ -15,19 +15,20 @@ namespace Ability
         {
             base.OnEnter();
 
+            var transComp = tree.ActorModel.GetComp<TransfromComp>();
             if (Reset.x != 0)
             {
-                tree.ActorModel.Velocity.x = 0;
+                transComp.Velocity.x = 0;
             }
 
             if (Reset.y != 0)
             {
-                tree.ActorModel.Velocity.y = 0;
+                transComp.Velocity.y = 0;
             }
 
             if (Reset.z != 0)
             {
-                tree.ActorModel.Velocity.z = 0;
+                transComp.Velocity.z = 0;
             }
         }
     }
