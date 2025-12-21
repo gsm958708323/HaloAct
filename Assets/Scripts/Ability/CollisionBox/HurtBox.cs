@@ -15,11 +15,11 @@ namespace Ability
         /// <param name="atk"></param>
         /// <param name="atkTrans"></param>
         /// <param name="atk"></param>
-        internal void OnHurt(ActorModel atkModel, Transform atkTrans, AbilityBehaviorAttack atk)
+        internal void OnHurt(Entity atkModel, Transform atkTrans, AbilityBehaviorAttack atk)
         {
             // todo 状态统一管理
             if (atkModel.IsDead || atkModel.IsInvincible) return;
-            var behaviorComp = model.GetComp<ActorBehaviorComp>();
+            var behaviorComp = model.GetComp<BehaviorComp>();
             if (behaviorComp is null)
                 return;
 
@@ -48,9 +48,9 @@ namespace Ability
             model.DeathCheck();
         }
 
-        private void ApplyHurtInfo(ActorModel atkModel, Transform atkTrans, AbilityBehaviorAttack attackBehavior)
+        private void ApplyHurtInfo(Entity atkModel, Transform atkTrans, AbilityBehaviorAttack attackBehavior)
         {
-            var behaviorComp = model.GetComp<ActorBehaviorComp>();
+            var behaviorComp = model.GetComp<BehaviorComp>();
             if (behaviorComp is null)
                 return;
 

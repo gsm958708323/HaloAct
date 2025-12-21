@@ -9,13 +9,13 @@ namespace Ability
 {
     public interface IAbilityAction
     {
-        public void Enter(ActorBehaviorComp tree);
+        public void Enter(BehaviorComp tree);
     }
 
     /// <summary>
     /// 存储行为数据：定义此行为将要执行的动作
     /// </summary>
-    public abstract class BehaviorBase : SerializedScriptableObject, ILogicT<ActorBehaviorComp>
+    public abstract class BehaviorBase : SerializedScriptableObject, ILogicT<BehaviorComp>
     {
         public int FrameLength = 60;
 
@@ -24,13 +24,13 @@ namespace Ability
         /// </summary>
         /// <returns></returns>
         public List<IAbilityAction> Actions = new();
-        protected ActorBehaviorComp tree;
+        protected BehaviorComp tree;
 
         public virtual void Init()
         {
         }
 
-        public virtual void Enter(ActorBehaviorComp tree)
+        public virtual void Enter(BehaviorComp tree)
         {
             this.tree = tree;
             Debugger.Log($"Enter {tree.ActorModel.Uid} {name} {GetType()}", LogDomain.AbilityBehavior);

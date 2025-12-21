@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Ability
 {
-    public class ActorDataComp : IComponent
+    public class PlayerDataComp : IComponent
     {
         public ActorData Data;
     }

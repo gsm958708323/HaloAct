@@ -7,7 +7,7 @@ namespace Ability
 {
     public class CancelCondition : AbilityCondition
     {
-        override public bool Check(ActorBehaviorComp tree)
+        override public bool Check(BehaviorComp tree)
         {
             return tree.curNode.CanCancel;
         }

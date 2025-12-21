@@ -2,7 +2,7 @@
 {
     public class TestCondition : AbilityCondition
     {
-        public override bool Check(ActorBehaviorComp tree)
+        public override bool Check(BehaviorComp tree)
         {
             return true;
         }

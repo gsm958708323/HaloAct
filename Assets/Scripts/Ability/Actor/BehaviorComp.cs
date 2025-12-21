@@ -13,7 +13,7 @@ namespace Ability
     /// 管理关系：AbilityBehaviorTree -> AbilityNode -> AbilityBehavior 
     ///                                                               -> AbilityCondition
     /// </summary>
-    public class ActorBehaviorComp : IComponent
+    public class BehaviorComp : IComponent
     {
         /// <summary>
         /// 当前行为的帧计数
@@ -29,17 +29,17 @@ namespace Ability
         // /// 当前行为是否可以打断
         // /// </summary>
         // public bool CanCancel;
-        public ActorModel ActorModel;
+        public Entity ActorModel;
         public AbilityNode curNode;
         Dictionary<AttackType, AbilityNode> hurtNodeDict = new();
 
         public override void Init() { }
 
 
-        public override void Enter(ActorModel model)
+        public override void Enter(Entity model)
         {
             this.ActorModel = model;
-            var data = model.GetComp<ActorDataComp>().Data;
+            var data = model.GetComp<PlayerDataComp>().Data;
             LoadBehavior(data.BehaviorPath);
             LoadNode(data.NodePath);
 
@@ -61,7 +61,7 @@ namespace Ability
             AbilityNode nextBehavior = TryGetNextBehavior();
             if (nextBehavior != null)
             {
-                var buffComp = ActorModel.GetComp<ActorBuffComp>();
+                var buffComp = ActorModel.GetComp<EffectComp>();
                 if (buffComp is not null)
                 {
                     var newBehavior = buffComp.OnStartBehavior(nextBehavior);

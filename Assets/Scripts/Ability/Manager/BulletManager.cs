@@ -7,8 +7,8 @@ namespace Ability
 {
     public class BulletManager : IManager
     {
-        private LinkedList<BulletModel> actorList;
-        private Dictionary<int, BulletModel> actorDict;
+        private LinkedList<BulletObj> actorList;
+        private Dictionary<int, BulletObj> actorDict;
 
         public override void Enter()
         {
@@ -45,7 +45,7 @@ namespace Ability
             actorList.Remove(actorModel);
         }
 
-        public BulletModel GetActor(int id)
+        public BulletObj GetActor(int id)
         {
             if (!actorDict.ContainsKey(id))
                 return null;

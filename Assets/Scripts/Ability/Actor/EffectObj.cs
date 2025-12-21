@@ -8,11 +8,11 @@ namespace Ability
     /// <summary>
     /// buff数据处理，存储动态数据和配置
     /// </summary>
-    public class BuffModel : ILogicT<BuffData>
+    public class EffectObj : ILogicT<BuffData>
     {
         public BuffData BuffData;
-        public ActorModel Creater;
-        public ActorModel Target;
+        public Entity Creater;
+        public Entity Target;
 
         public bool Permanent;
         public int Stack { get; private set; }

@@ -6,10 +6,10 @@ namespace Ability
 {
     public class BuffCastAction
     {
-        private BuffModel buff;
+        private EffectObj buff;
         private AbilityNode abilityNode;
 
-        public AbilityNode Execute(BuffModel buff, AbilityNode node)
+        public AbilityNode Execute(EffectObj buff, AbilityNode node)
         {
             Debugger.Log($"Enter {GetType()}", LogDomain.Buff);
             this.buff = buff;

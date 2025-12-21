@@ -4,15 +4,15 @@ using UnityEngine;
 
 namespace Ability
 {
-    public abstract class AbilityBox : MonoBehaviour, ILogicT<ActorModel>
+    public abstract class AbilityBox : MonoBehaviour, ILogicT<Entity>
     {
-        protected ActorModel model;
+        protected Entity model;
         public virtual void Init()
         {
 
         }
 
-        public virtual void Enter(ActorModel model)
+        public virtual void Enter(Entity model)
         {
             Debugger.Log($"Enter {GetType()}", LogDomain.AbilityBox);
 
@@ -21,7 +21,7 @@ namespace Ability
             gameObject.SetActive(true);
         }
 
-        public virtual void Enter(ActorModel model, Vector3 pos, Vector3 scale, Quaternion rot)
+        public virtual void Enter(Entity model, Vector3 pos, Vector3 scale, Quaternion rot)
         {
             Debugger.Log($"Enter {GetType()}", LogDomain.AbilityBox);
 

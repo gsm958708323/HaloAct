@@ -15,7 +15,7 @@ namespace Ability
     /// <summary>
     /// 理论上这里不应该使用unity相关代码，这里快速实现功能使用unity的API
     /// </summary>
-    public class ActorModel : ILogicT<object>
+    public class Entity : ILogicT<object>
     {
         [HideInInspector]
         public PlayerGameInput GameInput
@@ -48,11 +48,11 @@ namespace Ability
         public int Uid;
         public GameObject gameObject;
 
-        ActorModel creater;
+        Entity creater;
         /// <summary>
         /// 目标
         /// </summary>
-        public ActorModel Target;
+        public Entity Target;
 
         public bool IsDead;
         public bool IsInvincible;

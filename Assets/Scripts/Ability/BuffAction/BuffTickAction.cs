@@ -6,9 +6,9 @@ namespace Ability
 {
     public class BuffTickAction
     {
-        protected BuffModel buff;
+        protected EffectObj buff;
 
-        public void Execute(BuffModel buff)
+        public void Execute(EffectObj buff)
         {
             Debugger.Log($"Enter {GetType()}", LogDomain.Buff);
             this.buff = buff;

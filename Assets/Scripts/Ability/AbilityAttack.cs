@@ -34,7 +34,7 @@ namespace Ability
     /// AbilityAttack ->
     ///                 -> HurtBox
     /// </summary>
-    public class AbilityAttack : ILogicT<ActorModel>
+    public class AbilityAttack : ILogicT<Entity>
     {
         public AttackType AttackType;
         public FrameInfo FrameInfo;
@@ -48,7 +48,7 @@ namespace Ability
 
         }
 
-        public virtual void Enter(ActorModel model)
+        public virtual void Enter(Entity model)
         {
             Debugger.Log($"Enter {GetType()}", LogDomain.AbilityAttack);
             isEnter = true;

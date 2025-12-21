@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Ability
 {
-    public class ActorRender : IRender
+    public class EntityRender : IRender
     {
         CharacterController controller;
 
@@ -13,7 +13,7 @@ namespace Ability
             controller = gameObject.GetComponent<CharacterController>();
         }
 
-        protected override void OnUpdate(ActorModel actorModel)
+        protected override void OnUpdate(Entity actorModel)
         {
             var transComp = actorModel.GetComp<TransfromComp>();
             if(transComp is null)

@@ -11,9 +11,9 @@ public class GroundChecker : MonoBehaviour
 
     TransfromComp transfromComp;
 
-    public void Init(ActorModel actorModel)
+    public void Init(Entity actorModel)
     {
-        this.checkerData = actorModel.GetComp<ActorDataComp>().Data.CheckerData;
+        this.checkerData = actorModel.GetComp<PlayerDataComp>().Data.CheckerData;
         transfromComp = actorModel.GetComp<TransfromComp>();
     }
 

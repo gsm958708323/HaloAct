@@ -5,7 +5,7 @@ namespace Ability
 {
     public abstract class IComponent : ILogic
     {
-        public virtual void Enter(ActorModel actor)
+        public virtual void Enter(Entity actor)
         {
 
         }

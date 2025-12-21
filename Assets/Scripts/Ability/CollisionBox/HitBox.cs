@@ -11,7 +11,7 @@ namespace Ability
         {
             if (model == null) return;
 
-            var otherRender = other.GetComponent<ActorRender>();
+            var otherRender = other.GetComponent<EntityRender>();
             if (otherRender.uid == model.Uid) return; // 排除自己
             // if (model.Creater.Uid == otherRender.uid) return; // 排除创建者
 
@@ -22,16 +22,16 @@ namespace Ability
             if (otherModel is null)
                 return;
 
-            if (model.GetComp<ActorDataComp>().Data.ActorType == otherModel.GetComp<ActorDataComp>().Data.ActorType)
+            if (model.GetComp<PlayerDataComp>().Data.ActorType == otherModel.GetComp<PlayerDataComp>().Data.ActorType)
                 return; // 排除同类
 
             OnHit(otherModel);
         }
 
-        private void OnHit(ActorModel otherModel)
+        private void OnHit(Entity otherModel)
         {
             var otherHurtBox = otherModel.HurtBox;
-            var behaviorComp = model.GetComp<ActorBehaviorComp>();
+            var behaviorComp = model.GetComp<BehaviorComp>();
             if (behaviorComp is null)
                 return;
             if (behaviorComp.GetCurAbilityBehavior() is not AbilityBehaviorAttack)

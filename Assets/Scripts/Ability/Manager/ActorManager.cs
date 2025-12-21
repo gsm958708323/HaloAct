@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class ActorManager : IManager
 {
-    private LinkedList<ActorModel> actorList;
-    private Dictionary<int, ActorModel> actorDict;
+    private LinkedList<Entity> actorList;
+    private Dictionary<int, Entity> actorDict;
     private IdCreate idCreate = new();
 
     public override void Enter()
@@ -31,16 +31,16 @@ public class ActorManager : IManager
         base.Exit();
     }
 
-    ActorModel AddActor()
+    Entity AddActor()
     {
         var id = idCreate.Get();
-        var actor = new ActorModel() { Uid = id };
-        actorList.AddLast(new LinkedListNode<ActorModel>(actor));
+        var actor = new Entity() { Uid = id };
+        actorList.AddLast(new LinkedListNode<Entity>(actor));
         actorDict.Add(id, actor);
         return actor;
     }
 
-    public ActorModel CreatePlayer(int cfgId)
+    public Entity CreatePlayer(int cfgId)
     {
         var data = GameManager.Config.LoadActor(cfgId);
         if (data is null)
@@ -53,13 +53,13 @@ public class ActorManager : IManager
         actor.Init();
         actor.Enter(data, actorGo);
 
-        var dataComp = actor.AddComp<ActorDataComp>();
+        var dataComp = actor.AddComp<PlayerDataComp>();
         dataComp.Data = data;
         actor.AddComp<TransfromComp>();
-        actor.AddComp<ActorBehaviorComp>();
-        actor.AddComp<ActorBuffComp>();
+        actor.AddComp<BehaviorComp>();
+        actor.AddComp<EffectComp>();
 
-        var render = actorGo.AddComponent<ActorRender>();
+        var render = actorGo.AddComponent<EntityRender>();
         render.Bind(actor.Uid);
         render.AddComponent<PlayerGameInput>();
         var checker = render.AddComponent<GroundChecker>();
@@ -74,7 +74,7 @@ public class ActorManager : IManager
     }
 
 
-    public ActorModel CreateBullet(BulletLauncher launcher)
+    public Entity CreateBullet(BulletLauncher launcher)
     {
         var id = launcher.BulletId;
         var data = GameManager.Config.LoadBullet(id);
@@ -89,7 +89,7 @@ public class ActorManager : IManager
         var dataComp = actor.AddComp<BulletDataComp>();
         dataComp.Data = data;
 
-        var actorRender = actorGo.AddComponent<ActorRender>();
+        var actorRender = actorGo.AddComponent<EntityRender>();
         actorRender.Bind(actor.Uid);
 
         return actor;
@@ -109,7 +109,7 @@ public class ActorManager : IManager
         actorList.Remove(actorModel);
     }
 
-    public ActorModel GetActor(int uid)
+    public Entity GetActor(int uid)
     {
         if (!actorDict.ContainsKey(uid))
             return null;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Ability
 {
-    public class BulletModel : ILogicT<BulletData>
+    public class BulletObj : ILogicT<BulletData>
     {
         public void Enter(BulletData t)
         {

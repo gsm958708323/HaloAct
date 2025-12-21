@@ -5,6 +5,6 @@
     /// </summary>
     public abstract class AbilityCondition
     {
-        public virtual bool Check(ActorBehaviorComp tree) { return true; }
+        public virtual bool Check(BehaviorComp tree) { return true; }
     }
 }

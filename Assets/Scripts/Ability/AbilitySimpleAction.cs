@@ -12,9 +12,9 @@ namespace Ability
     [Serializable]
     public abstract class AbilitySimpleAction
     {
-        protected BuffModel buff;
+        protected EffectObj buff;
 
-        public void Execute(BuffModel buff)
+        public void Execute(EffectObj buff)
         {
             Debugger.Log($"Enter {GetType()}", LogDomain.Buff);
             this.buff = buff;

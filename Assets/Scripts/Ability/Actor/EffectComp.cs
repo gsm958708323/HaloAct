@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Ability
 {
-    public class ActorBuffComp : IComponent
+    public class EffectComp : IComponent
     {
-        List<BuffModel> buffList;
-        Dictionary<int, BuffModel> buffDict;
-        ActorModel actor;
+        List<EffectObj> buffList;
+        Dictionary<int, EffectObj> buffDict;
+        Entity actor;
 
         public override void Init()
         {
         }
 
-        public override void Enter(ActorModel t)
+        public override void Enter(Entity t)
         {
             buffList = new();
             buffDict = new();
@@ -33,7 +33,7 @@ namespace Ability
                 return;
             }
 
-            var removeList = new List<BuffModel>();
+            var removeList = new List<EffectObj>();
             for (int i = 0; i < buffList.Count; i++)
             {
                 var buff = buffList[i];
@@ -71,7 +71,7 @@ namespace Ability
             return newNode;
         }
 
-        public BuffModel AddBuff(AddBuffInfo addInfo)
+        public EffectObj AddBuff(AddBuffInfo addInfo)
         {
             var buffId = addInfo.BuffId;
 
@@ -87,7 +87,7 @@ namespace Ability
                     return null;
                 }
 
-                buff = new BuffModel();
+                buff = new EffectObj();
                 buff.Init();
                 buff.Enter(buffData);
 
@@ -130,7 +130,7 @@ namespace Ability
         /// </summary>
         /// <param name="buffInfo"></param>
         /// <returns></returns>
-        private BuffModel GetBuffById(int buffId)
+        private EffectObj GetBuffById(int buffId)
         {
             for (int i = 0; i < buffList.Count; i++)
             {
@@ -157,7 +157,7 @@ namespace Ability
         /// <summary>
         /// buff创建者 todo
         /// </summary>
-        public ActorModel Creater;
+        public Entity Creater;
         /// <summary>
         /// buff目标
         /// </summary>

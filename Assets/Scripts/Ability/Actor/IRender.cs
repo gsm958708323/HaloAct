@@ -8,7 +8,7 @@ namespace Ability
     public class IRender : MonoBehaviour
     {
         public int uid;
-        public ActorModel actorModel;
+        public Entity actorModel;
 
         private void Awake()
         {
@@ -40,7 +40,7 @@ namespace Ability
             actorModel = actor;
         }
 
-        protected virtual void OnUpdate(ActorModel model)
+        protected virtual void OnUpdate(Entity model)
         {
         }
 
