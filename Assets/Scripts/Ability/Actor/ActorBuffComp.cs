@@ -3,30 +3,30 @@ using UnityEngine;
 
 namespace Ability
 {
-    public class ActorBuffComp : ILogicT<ActorModel>
+    public class ActorBuffComp : IComponent
     {
         List<BuffModel> buffList;
         Dictionary<int, BuffModel> buffDict;
         ActorModel actor;
 
-        public void Init()
+        public override void Init()
         {
         }
 
-        public void Enter(ActorModel t)
+        public override void Enter(ActorModel t)
         {
             buffList = new();
             buffDict = new();
             actor = t;
         }
 
-        public void Exit()
+        public override void Exit()
         {
             buffList = null;
             buffDict = null;
         }
 
-        public void Tick(float deltaTime)
+        public override void Tick(float deltaTime)
         {
             if (actor.IsDead)
             {
@@ -78,7 +78,7 @@ namespace Ability
             // todo 相同配置id的buff，但是creater不同，是否可以堆叠
             // 同一个角色身上，只有一个id相同的buff实例，然后堆叠
             var buff = GetBuffById(buffId);
-            BuffBehavior buffData;
+            BuffData buffData;
             if (buff is null)
             {
                 buffData = GameManager.Config.LoadBuff(buffId);

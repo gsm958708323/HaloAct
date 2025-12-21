@@ -5,8 +5,9 @@ namespace Ability
     public class GameManager : GameManagerBase
     {
         public static DriverManager DriverManager;
-        public static ActorManager Actor;
         public static ConfigManager Config;
+        public static ActorManager Actor;
+        public static BulletManager Bullet;
 
         protected override void InitManager()
         {
@@ -15,6 +16,7 @@ namespace Ability
             Config = GetManager<ConfigManager>();
             DriverManager = GetManager<DriverManager>();
             Actor = GetManager<ActorManager>();
+            Bullet = GetManager<BulletManager>();
         }
     }
 }

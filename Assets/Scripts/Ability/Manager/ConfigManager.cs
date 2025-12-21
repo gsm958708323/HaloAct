@@ -23,9 +23,14 @@ public class ConfigManager : IManager
         return Load<ActorData>($"Actor/{actorId}");
     }
 
-    public BuffBehavior LoadBuff(int buffId)
+    public BuffData LoadBuff(int buffId)
     {
-        return Load<BuffBehavior>($"Buff/{buffId}");
+        return Load<BuffData>($"Buff/{buffId}");
+    }
+
+    internal BulletData LoadBullet(int bulletId)
+    {
+        return Load<BulletData>($"Bullet/{bulletId}");
     }
 }
 

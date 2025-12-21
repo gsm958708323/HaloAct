@@ -7,25 +7,23 @@ namespace Ability
 {
     public class IRender : MonoBehaviour
     {
-        protected int actorId;
-        protected ActorManager actorManager;
-        private ActorModel actorModel;
+        public int uid;
+        public ActorModel actorModel;
 
         private void Awake()
         {
-            actorManager = GameManager.Actor;
             OnAwake();
         }
 
         public void Bind(int entityId)
         {
-            actorId = entityId;
+            uid = entityId;
         }
 
         // Update is called once per frame
         void Update()
         {
-            var actor = actorManager.GetActor(actorId);
+            var actor = GameManager.Actor.GetActor(uid);
             if (actor == null)
             {
                 // 之前有数据，现在没有数据，需要调用销毁逻辑

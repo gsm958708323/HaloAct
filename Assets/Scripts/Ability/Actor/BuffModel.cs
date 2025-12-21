@@ -8,9 +8,9 @@ namespace Ability
     /// <summary>
     /// buff数据处理，存储动态数据和配置
     /// </summary>
-    public class BuffModel : ILogicT<BuffBehavior>
+    public class BuffModel : ILogicT<BuffData>
     {
-        public BuffBehavior BuffData;
+        public BuffData BuffData;
         public ActorModel Creater;
         public ActorModel Target;
 
@@ -31,7 +31,7 @@ namespace Ability
         /// </summary>
         private float duration;
 
-        public void Enter(BuffBehavior t)
+        public void Enter(BuffData t)
         {
             BuffData = t;
         }

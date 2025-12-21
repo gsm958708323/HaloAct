@@ -6,7 +6,6 @@ namespace Ability
     public class ActorRender : IRender
     {
         CharacterController controller;
-        GroundChecker groundChecker;
 
         protected override void OnAwake()
         {

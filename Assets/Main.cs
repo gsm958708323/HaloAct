@@ -13,9 +13,9 @@ public class Main : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var player = GameManager.Actor.AddActor(PLAYER);
+        var player = GameManager.Actor.CreatePlayer(PLAYER);
         cameraMgr.BindInput(player.GameInput);
-        GameManager.Actor.AddActor(MONSTER);
+        GameManager.Actor.CreatePlayer(MONSTER);
     }
 
     // Update is called once per frame

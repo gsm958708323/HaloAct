@@ -10,10 +10,10 @@ public class GroundChecker : MonoBehaviour
     GroundCheckData checkerData;
     ActorModel actorModel;
 
-    public void Init(GroundCheckData data, ActorModel actorModel)
+    public void Init(ActorModel actorModel)
     {
-        this.checkerData = data;
         this.actorModel = actorModel;
+        this.checkerData = actorModel.ActorData.CheckerData;
     }
 
     public bool CheckGround()

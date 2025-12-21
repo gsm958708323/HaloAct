@@ -13,17 +13,56 @@ namespace Ability
     }
 
     /// <summary>
-    /// 理论上这个代码不应该继承与mono，这里继承是因为有些检测逻辑是用的unity的API
+    /// 理论上这里不应该使用unity相关代码，这里快速实现功能使用unity的API
     /// </summary>
-    public class ActorModel : MonoBehaviour, ILogicT<ActorData>
+    public class ActorModel : ILogicT<ActorData>
     {
-        [HideInInspector] public ActorBehaviorComp Behavior;
-        [HideInInspector] public ActorBuffComp Buff;
-        [HideInInspector] GroundChecker groundChecker;
-        [HideInInspector] public PlayerGameInput GameInput;
-        [HideInInspector] public HitBox HitBox;
-        [HideInInspector] public HurtBox HurtBox;
-        List<ILogicT<ActorModel>> compList;
+        [HideInInspector]
+        public ActorBehaviorComp Behavior
+        {
+            get { return GetComp<ActorBehaviorComp>(); }
+        }
+        [HideInInspector]
+        public ActorBuffComp Buff
+        {
+            get { return GetComp<ActorBuffComp>(); }
+        }
+        [HideInInspector]
+        GroundChecker groundChecker
+        {
+            get
+            {
+                return gameObject.GetComponent<GroundChecker>();
+            }
+        }
+        [HideInInspector]
+        public PlayerGameInput GameInput
+        {
+            get
+            {
+                return gameObject.GetComponent<PlayerGameInput>();
+            }
+        }
+        [HideInInspector]
+        public HitBox HitBox
+        {
+            get
+            {
+                return gameObject.GetComponentInChildren<HitBox>(true);
+            }
+        }
+        [HideInInspector]
+        public HurtBox HurtBox
+        {
+            get
+            {
+                return gameObject.GetComponentInChildren<HurtBox>(true);
+            }
+        }
+
+        List<IComponent> compList;
+        public int Uid;
+        private GameObject gameObject;
 
         /// <summary>
         /// 创建者
@@ -58,48 +97,54 @@ namespace Ability
         /// </summary>
         public Vector3 Velocity;
         public ActorData ActorData;
+        public Transform transform
+        {
+            get
+            {
+                return gameObject.transform;
+            }
+        }
 
         public void Init()
         {
 
         }
 
-        T AddComp<T>(T comp) where T : ILogicT<ActorModel>
+        public T AddComp<T>() where T : IComponent, new()
         {
+            var comp = new T();
             compList.Add(comp);
+
+            comp.Init();
+            comp.Enter(this);
             return comp;
         }
 
-        void InitComp()
+        public T GetComp<T>() where T : IComponent
         {
-            compList = new();
-
-            Behavior = AddComp(new ActorBehaviorComp());
-            Behavior.Init(ActorData.NodePath, ActorData.BehaviorPath);
-            Behavior.Enter(this);
-
-            Buff = AddComp(new ActorBuffComp());
-            Buff.Init();
-            Buff.Enter(this);
+            var type = typeof(T);
+            for (int i = 0; i < compList.Count; i++)
+            {
+                if (compList[i].GetType() == type)
+                {
+                    return (T)compList[i];
+                }
+            }
+            return null;
         }
 
-        public void Enter(ActorData actorData)
+        public void Enter(ActorData t) { }
+
+        public void Enter(ActorData data, int uid, GameObject actorGo)
         {
-            ActorData = actorData;
+            compList = new();
+            this.ActorData = data;
+            this.Uid = uid;
+            this.gameObject = actorGo;
+
+            Debugger.Log(this.HitBox.gameObject.name);
+
             LoadData();
-
-            InitComp();
-            HitBox = GetComponentInChildren<HitBox>();
-            HitBox.Init();
-            HitBox.Exit(); // 默认隐藏
-
-            HurtBox = GetComponentInChildren<HurtBox>();
-            HurtBox.Init();
-            HurtBox.Enter(this);
-
-            GameInput = gameObject.AddComponent<PlayerGameInput>();
-            groundChecker = gameObject.AddComponent<GroundChecker>();
-            groundChecker.Init(actorData.CheckerData, this);
         }
 
         void LoadData()
@@ -187,7 +232,6 @@ namespace Ability
         {
 
         }
-
 
     }
 }

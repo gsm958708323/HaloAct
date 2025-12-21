@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using UnityEditor;
 using UnityEngine;
 
 namespace Ability
@@ -14,7 +13,7 @@ namespace Ability
     /// 管理关系：AbilityBehaviorTree -> AbilityNode -> AbilityBehavior 
     ///                                                               -> AbilityCondition
     /// </summary>
-    public class ActorBehaviorComp : ILogicT<ActorModel>
+    public class ActorBehaviorComp : IComponent
     {
         /// <summary>
         /// 当前行为的帧计数
@@ -34,27 +33,25 @@ namespace Ability
         public AbilityNode curNode;
         Dictionary<AttackType, AbilityNode> hurtNodeDict = new();
 
-        public void Init() { }
-
-        public void Init(string nodePath, string behaviorPath)
-        {
-            LoadBehavior(behaviorPath);
-            LoadNode(nodePath);
-        }
+        public override void Init() { }
 
 
-        public void Enter(ActorModel model)
+        public override void Enter(ActorModel model)
         {
             this.ActorModel = model;
+            var data = model.ActorData;
+            LoadBehavior(data.BehaviorPath);
+            LoadNode(data.NodePath);
+
             StartBehavior(GetBehaviorById(0));
         }
 
-        public void Exit()
+        public override void Exit()
         {
             ActorModel = null;
         }
 
-        public void Tick(float deltaTime)
+        public override void Tick(float deltaTime)
         {
             if (ActorModel.IsDead)
             {
@@ -64,7 +61,11 @@ namespace Ability
             AbilityNode nextBehavior = TryGetNextBehavior();
             if (nextBehavior != null)
             {
-                nextBehavior = ActorModel.Buff.OnStartBehavior(nextBehavior);
+                var newBehavior = ActorModel.Buff.OnStartBehavior(nextBehavior);
+                if (newBehavior is not null)
+                {
+                    nextBehavior = newBehavior;
+                }
                 StartBehavior(nextBehavior);
             }
 

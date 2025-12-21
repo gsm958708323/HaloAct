@@ -10,11 +10,6 @@ namespace Ability
 
         protected override void OnExecute()
         {
-            var actor = GameManager.Actor.GetActor(buffInfo.Target);
-            if (actor)
-            {
-                actor.Buff.AddBuff(buffInfo);
-            }
         }
     }
 }

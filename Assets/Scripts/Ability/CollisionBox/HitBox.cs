@@ -7,17 +7,22 @@ namespace Ability
 {
     public class HitBox : AbilityBox
     {
-        private void OnTriggerEnter(Collider other)     
+        private void OnTriggerEnter(Collider other)
         {
             if (model == null) return;
 
-            var otherModel = other.GetComponent<ActorModel>();
-            if (otherModel == model) return; // 排除自己
-            if(model.Creater == otherModel) return; // 排除创建者
+            var otherRender = other.GetComponent<ActorRender>();
+            if (otherRender.uid == model.Uid) return; // 排除自己
+            // if (model.Creater.Uid == otherRender.uid) return; // 排除创建者
 
             if (other.GetComponentInChildren<HurtBox>().gameObject.layer != LayerMask.NameToLayer("HurtBox"))
                 return; // 只检测HurtBox
 
+            var otherModel = otherRender.actorModel;
+            if (otherModel is null)
+            {
+                return;
+            }
             if (model.ActorData.ActorType == otherModel.ActorData.ActorType)
                 return; // 排除同类
 

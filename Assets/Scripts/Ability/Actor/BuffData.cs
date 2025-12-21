@@ -9,8 +9,8 @@ namespace Ability
     /// <summary>
     /// buff数据，存储静态数据
     /// </summary>
-    [CreateAssetMenu(fileName = "NewBehavior", menuName = "AbilityTree/BuffBehavior")]
-    public class BuffBehavior : SerializedScriptableObject
+    [CreateAssetMenu(fileName = "NewBehavior", menuName = "AbilityTree/BuffData")]
+    public class BuffData : SerializedScriptableObject
     {
         public int Id;
         public string Name;

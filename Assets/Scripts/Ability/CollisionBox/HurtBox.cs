@@ -22,8 +22,9 @@ namespace Ability
             var curBehavior = model.Behavior.GetCurAbilityBehavior();
             if (curBehavior == null) return;
 
+        
             // 判断格挡成功：双方都是执行攻击行为，并且格挡角度符合条件
-            var attackDir = (atkModel.transform.position - model.transform.position).normalized;
+            var attackDir = (atkModel.Position - model.Position).normalized;
             float angle = Vector3.Angle(model.transform.forward, attackDir) * 2;
             if (angle <= curBehavior.BlockAngle && curBehavior is AbilityBehaviorAttack attackBehavior)
             {

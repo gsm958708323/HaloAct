@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Ability
 {
@@ -19,9 +18,6 @@ namespace Ability
                 EndFrame = StartFrame;
             }
 
-            var actor = GameManager.Actor.AddActor(bullet);
-            if (actor)
-                actor.Creater = tree.ActorModel;
         }
     }
 }

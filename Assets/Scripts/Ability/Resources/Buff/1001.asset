@@ -21,21 +21,21 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: onCast
+    - Name: OnCast
       Entry: 6
       Data: 
-    - Name: onTick
+    - Name: OnTick
       Entry: 6
       Data: 
-    - Name: onRemoved
+    - Name: OnRemoved
       Entry: 6
       Data: 
-    - Name: onOccur
+    - Name: OnOccur
       Entry: 6
       Data: 
   Id: 1001
   Name: 
   Priority: 0
   MaxStack: 0
-  TickTime: 0
+  TickTimeInterval: 0
   Tag: []
