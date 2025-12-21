@@ -31,6 +31,15 @@ public class ActorManager : IManager
         base.Exit();
     }
 
+    ActorModel AddActor()
+    {
+        var id = idCreate.Get();
+        var actor = new ActorModel() { Uid = id };
+        actorList.AddLast(new LinkedListNode<ActorModel>(actor));
+        actorDict.Add(id, actor);
+        return actor;
+    }
+
     public ActorModel CreatePlayer(int cfgId)
     {
         var data = GameManager.Config.LoadActor(cfgId);
@@ -39,18 +48,19 @@ public class ActorManager : IManager
             return null;
         }
 
-        var uid = idCreate.Get();
+        var actor = AddActor();
         var actorGo = GameObject.Instantiate(data.Prefab);
-        var actor = new ActorModel();
         actor.Init();
-        actor.Enter(data, uid, actorGo);
+        actor.Enter(data, actorGo);
 
+        var dataComp = actor.AddComp<ActorDataComp>();
+        dataComp.Data = data;
         actor.AddComp<TransfromComp>();
         actor.AddComp<ActorBehaviorComp>();
         actor.AddComp<ActorBuffComp>();
 
         var render = actorGo.AddComponent<ActorRender>();
-        render.Bind(uid);
+        render.Bind(actor.Uid);
         render.AddComponent<PlayerGameInput>();
         var checker = render.AddComponent<GroundChecker>();
         checker.Init(actor);
@@ -60,9 +70,28 @@ public class ActorManager : IManager
         var hurtBox = render.GetComponentInChildren<HurtBox>();
         hurtBox.Init();
         hurtBox.Enter(actor);
+        return actor;
+    }
 
-        actorDict.Add(uid, actor);
-        actorList.AddLast(new LinkedListNode<ActorModel>(actor));
+
+    public ActorModel CreateBullet(BulletLauncher launcher)
+    {
+        var id = launcher.BulletId;
+        var data = GameManager.Config.LoadBullet(id);
+        if (data is null)
+        {
+            return null;
+        }
+
+        var actorGo = GameObject.Instantiate(data.Prefab);
+        var actor = AddActor();
+        actor.Enter(data, actorGo);
+        var dataComp = actor.AddComp<BulletDataComp>();
+        dataComp.Data = data;
+
+        var actorRender = actorGo.AddComponent<ActorRender>();
+        actorRender.Bind(actor.Uid);
+
         return actor;
     }
 

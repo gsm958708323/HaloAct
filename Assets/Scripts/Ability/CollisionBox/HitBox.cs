@@ -20,10 +20,9 @@ namespace Ability
 
             var otherModel = otherRender.actorModel;
             if (otherModel is null)
-            {
                 return;
-            }
-            if (model.ActorData.ActorType == otherModel.ActorData.ActorType)
+
+            if (model.GetComp<ActorDataComp>().Data.ActorType == otherModel.GetComp<ActorDataComp>().Data.ActorType)
                 return; // 排除同类
 
             OnHit(otherModel);

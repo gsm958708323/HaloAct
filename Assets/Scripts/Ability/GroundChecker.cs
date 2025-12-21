@@ -8,13 +8,12 @@ public class GroundChecker : MonoBehaviour
     Vector3 checkGroundPos;
 
     GroundCheckData checkerData;
-    ActorModel actorModel;
+
     TransfromComp transfromComp;
 
     public void Init(ActorModel actorModel)
     {
-        this.actorModel = actorModel;
-        this.checkerData = actorModel.ActorData.CheckerData;
+        this.checkerData = actorModel.GetComp<ActorDataComp>().Data.CheckerData;
         transfromComp = actorModel.GetComp<TransfromComp>();
     }
 

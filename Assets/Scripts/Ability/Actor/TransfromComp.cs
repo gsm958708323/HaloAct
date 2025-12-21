@@ -56,7 +56,7 @@ namespace Ability
         public override void Enter(ActorModel actor)
         {
             gameObject = actor.gameObject;
-            data = actor.ActorData;
+            data = actor.GetComp<ActorDataComp>().Data;
 
             var bornInfo = data.BornPosInfo;
             if (bornInfo.BornPosEnum == BornPosEnum.FixedPosition)

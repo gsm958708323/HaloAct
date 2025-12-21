@@ -30,33 +30,6 @@ namespace Ability
             base.Exit();
         }
 
-        public BulletModel CreateBullet(BulletLauncher launcher)
-        {
-            var id = launcher.BulletId;
-            if (actorDict.ContainsKey(id))
-            {
-                return actorDict[id];
-            }
-
-            var data = GameManager.Config.LoadBullet(id);
-            if (data is null)
-            {
-                return null;
-            }
-
-            var actorGo = GameObject.Instantiate(data.Prefab);
-            var model = new BulletModel();
-            model.Init();
-            model.Enter(data);
-
-            var actorRender = actorGo.AddComponent<ActorRender>();
-            actorRender.Bind(id);
-
-            actorDict.Add(id, model);
-            actorList.AddLast(new LinkedListNode<BulletModel>(model));
-
-            return model;
-        }
 
         public void RemoveActor(int id)
         {

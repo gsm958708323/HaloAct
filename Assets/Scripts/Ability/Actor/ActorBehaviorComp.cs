@@ -39,7 +39,7 @@ namespace Ability
         public override void Enter(ActorModel model)
         {
             this.ActorModel = model;
-            var data = model.ActorData;
+            var data = model.GetComp<ActorDataComp>().Data;
             LoadBehavior(data.BehaviorPath);
             LoadNode(data.NodePath);
 

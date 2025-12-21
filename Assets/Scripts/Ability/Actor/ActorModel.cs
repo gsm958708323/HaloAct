@@ -15,7 +15,7 @@ namespace Ability
     /// <summary>
     /// 理论上这里不应该使用unity相关代码，这里快速实现功能使用unity的API
     /// </summary>
-    public class ActorModel : ILogicT<ActorData>
+    public class ActorModel : ILogicT<object>
     {
         [HideInInspector]
         public PlayerGameInput GameInput
@@ -43,6 +43,8 @@ namespace Ability
         }
 
         List<IComponent> compList;
+        Dictionary<Type, IComponent> compDic;
+
         public int Uid;
         public GameObject gameObject;
 
@@ -55,7 +57,13 @@ namespace Ability
         public bool IsDead;
         public bool IsInvincible;
 
-        public ActorData ActorData;
+        public Transform transform
+        {
+            get
+            {
+                return gameObject.transform;
+            }
+        }
 
         public void Init()
         {
@@ -66,6 +74,7 @@ namespace Ability
         {
             var comp = new T();
             compList.Add(comp);
+            compDic.Add(typeof(T), comp);
 
             comp.Init();
             comp.Enter(this);
@@ -75,23 +84,19 @@ namespace Ability
         public T GetComp<T>() where T : IComponent
         {
             var type = typeof(T);
-            for (int i = 0; i < compList.Count; i++)
+            if (compDic.ContainsKey(type))
             {
-                if (compList[i].GetType() == type)
-                {
-                    return (T)compList[i];
-                }
+                return compDic[type] as T;
             }
             return null;
         }
 
-        public void Enter(ActorData t) { }
+        public void Enter(object t) { }
 
-        public void Enter(ActorData data, int uid, GameObject actorGo)
+        public void Enter(object data, GameObject actorGo)
         {
             compList = new();
-            this.ActorData = data;
-            this.Uid = uid;
+            compDic = new();
             this.gameObject = actorGo;
         }
 
@@ -110,8 +115,7 @@ namespace Ability
                 item.Exit();
             }
             compList = null;
-
-            ActorData = null;
+            compDic = new();
         }
 
         internal void DeathCheck()
