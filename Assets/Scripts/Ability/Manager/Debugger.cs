@@ -16,6 +16,8 @@ public enum LogDomain
     Actor,
     Config,
     Buff,
+    ReferencePool,
+    UI,
 }
 
 public class Debugger : MonoSingleton<Debugger>

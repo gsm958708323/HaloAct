@@ -39,39 +39,39 @@ namespace Ability
         public AttackType AttackType;
         public FrameInfo FrameInfo;
         public HitBoxInfo HitBoxInfo;
-
-        HitBox hitBox;
         bool isEnter;
+        Entity entity;
 
         public virtual void Init()
         {
 
         }
 
-        public virtual void Enter(Entity model)
+        public virtual void Enter(Entity entity)
         {
             Debugger.Log($"Enter {GetType()}", LogDomain.AbilityAttack);
             isEnter = true;
-            this.hitBox = model.HitBox;
-            hitBox.Enter(model, HitBoxInfo.HitBoxPos, HitBoxInfo.HitBoxScale, HitBoxInfo.HitBoxRot);
+
+            this.entity = entity;
+            var comp = entity.AddComp<AttackComp>();
+            comp.Enter(HitBoxInfo);
         }
 
         public virtual void Exit()
         {
             Debugger.Log($"Exit {GetType()}", LogDomain.AbilityAttack);
-            hitBox.Exit();
-            hitBox = null;
+            entity.RemoveComp<AttackComp>();
             isEnter = false;
-        }
-
-        public virtual void Tick(float deltaTime)
-        {
-            hitBox.Tick(deltaTime);
         }
 
         internal bool IsEnter()
         {
             return isEnter;
+        }
+
+        public void Tick(float deltaTime)
+        {
+            
         }
     }
 }

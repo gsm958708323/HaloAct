@@ -20,7 +20,7 @@ namespace Ability
         protected override void OnTick(float deltaTime)
         {
             base.OnTick(deltaTime);
-            var inputDir = tree.ActorModel.GameInput.GetPlayerInput().Movement.ReadValue<Vector2>();
+            var inputDir = GameManager.GameInput.GetPlayerInput().Movement.ReadValue<Vector2>();
             Vector3 moveDir = Vector3.zero;
             if (inputDir != Vector2.zero)
             {

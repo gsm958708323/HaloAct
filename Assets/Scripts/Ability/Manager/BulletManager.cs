@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Frame;
+using HaloFrame;
 using UnityEngine;
 
 namespace Ability

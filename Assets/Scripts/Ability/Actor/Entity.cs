@@ -18,14 +18,6 @@ namespace Ability
     public class Entity : ILogicT<object>
     {
         [HideInInspector]
-        public PlayerGameInput GameInput
-        {
-            get
-            {
-                return gameObject.GetComponent<PlayerGameInput>();
-            }
-        }
-        [HideInInspector]
         public HitBox HitBox
         {
             get
@@ -57,14 +49,6 @@ namespace Ability
         public bool IsDead;
         public bool IsInvincible;
 
-        public Transform transform
-        {
-            get
-            {
-                return gameObject.transform;
-            }
-        }
-
         public void Init()
         {
 
@@ -79,6 +63,18 @@ namespace Ability
             comp.Init();
             comp.Enter(this);
             return comp;
+        }
+
+        public void RemoveComp<T>() where T : IComponent
+        {
+            var type = typeof(T);
+            compDic.TryGetValue(type, out var comp);
+            if (comp == null)
+                return;
+
+            comp.Exit();
+            compDic.Remove(type);
+            compList.Remove(comp);
         }
 
         public T GetComp<T>() where T : IComponent

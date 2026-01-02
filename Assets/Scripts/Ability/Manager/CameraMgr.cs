@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Ability;
 using UnityEngine;
 
 public class CameraMgr : MonoBehaviour
 {
     private PlayerGameInput input;
+    int playerUid;
 
     Vector3 targetCameraEulers;
     Vector3 curCameraEulers;
@@ -36,7 +38,7 @@ public class CameraMgr : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        input = GameManager.GameInput;
     }
 
     // Update is called once per frame
@@ -49,9 +51,9 @@ public class CameraMgr : MonoBehaviour
         Rotate();
     }
 
-    public void BindInput(PlayerGameInput playerGameInput)
+    public void Bind(int uid)
     {
-        input = playerGameInput;
+        playerUid = uid;
     }
 
     void HandleInput()
@@ -61,6 +63,13 @@ public class CameraMgr : MonoBehaviour
 
     private void Rotate()
     {
+        var entity = GameManager.LogicEntity.GetEntity(playerUid);
+        if (entity is null)
+            return;
+        var comp = entity.GetComp<TransfromComp>();
+        if (comp is null)
+            return;
+
         //设置旋转(摄像机水平方向的旋转是围绕世界Y轴)
         targetCameraEulers.y += cameraLook.x * cameraRotSpeed;
         targetCameraEulers.x -= cameraLook.y * cameraRotSpeed;
@@ -71,7 +80,7 @@ public class CameraMgr : MonoBehaviour
         transform.eulerAngles = curCameraEulers;
 
         // 设置位置（将原始向量偏移）
-        var pos = input.transform.position + (transform.forward * cameraOffset.z + transform.right * cameraOffset.x + transform.up * cameraOffset.y) * cameraZoom;
+        var pos = comp.Position + (transform.forward * cameraOffset.z + transform.right * cameraOffset.x + transform.up * cameraOffset.y) * cameraZoom;
         // transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * posSmoothTime); Vector3.Lerp方法是线性插值，它会在相机移动过程中产生不连续的变化，从而导致抖动
         transform.position = Vector3.SmoothDamp(transform.position, pos, ref posDampVelocity, posSmoothTime);
     }
