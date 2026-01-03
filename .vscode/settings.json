@@ -52,5 +52,5 @@
         "Temp/": true
     },
     "svn.ignoreMissingSvnWarning": true,
-    "dotnet.defaultSolution": "HaloAct.sln"
+    "dotnet.defaultSolution": "HaloAct.slnx"
 }

@@ -13,11 +13,11 @@ namespace Ability
         {
         }
 
-        public override void Enter(Entity t)
+        public override void Enter(IEntity t)
         {
             buffList = new();
             buffDict = new();
-            actor = t;
+            actor = t as Entity;
         }
 
         public override void Exit()
@@ -81,7 +81,7 @@ namespace Ability
             BuffData buffData;
             if (buff is null)
             {
-                buffData = GameManager.Config.LoadBuff(buffId);
+                buffData = FightManager.Config.LoadBuff(buffId);
                 if (buffData is null)
                 {
                     return null;

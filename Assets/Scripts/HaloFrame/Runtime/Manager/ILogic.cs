@@ -1,19 +1,4 @@
 ﻿
-using UnityEngine;
-// public abstract class ILogic<A, B> : MonoBehaviour
-// {
-//     protected A ctrl;
-//     protected B parent;
-
-//     public virtual void OnStart() { }
-//     public virtual void OnUpdate() { }
-//     public virtual void OnExit() { }
-//     public virtual void Bind(A ctrl, B parent)
-//     {
-//         this.ctrl = ctrl;
-//         this.parent = parent;
-//     }
-// }
 
 public interface ILogic
 {
@@ -21,6 +6,7 @@ public interface ILogic
     void Enter();
     void Tick(float deltaTime);
     void Exit();
+    void Destroy();
 }
 
 public interface ILogicT<T>

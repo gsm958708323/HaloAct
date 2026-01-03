@@ -36,9 +36,9 @@ namespace Ability
         public override void Init() { }
 
 
-        public override void Enter(Entity model)
+        public override void Enter(IEntity model)
         {
-            this.ActorModel = model;
+            this.ActorModel = model as Entity;
             var data = model.GetComp<PlayerDataComp>().Data;
             LoadBehavior(data.BehaviorPath);
             LoadNode(data.NodePath);

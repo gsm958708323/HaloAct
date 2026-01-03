@@ -11,10 +11,11 @@ public class GroundChecker : MonoBehaviour
 
     TransfromComp transfromComp;
 
-    public void Init(Entity actorModel)
+    public void Init(int uid)
     {
-        this.checkerData = actorModel.GetComp<PlayerDataComp>().Data.CheckerData;
-        transfromComp = actorModel.GetComp<TransfromComp>();
+        var enitty = FightManager.LogicEntity.GetEntity(uid);
+        this.checkerData = enitty.GetComp<PlayerDataComp>().Data.CheckerData;
+        transfromComp = enitty.GetComp<TransfromComp>();
     }
 
     public bool CheckGround()

@@ -2,7 +2,7 @@
 
 namespace HaloFrame
 {
-    public abstract class IDriver : ILogic
+    public abstract class IDriver
     {
         public virtual void Enter()
         {

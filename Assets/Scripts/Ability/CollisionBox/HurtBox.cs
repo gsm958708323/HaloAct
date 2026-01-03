@@ -37,7 +37,7 @@ namespace Ability
                 //格挡成功
                 foreach (var item in attackBehavior.BlockEvents)
                 {
-                    item.OnHurt(atkModel, model, atk, atkTrans);
+                    item.OnHurt(atkModel, model, atk);
                 }
             }
             else

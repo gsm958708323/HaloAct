@@ -3,16 +3,11 @@ using System.Collections.Generic;
 
 namespace Ability
 {
-    public abstract class IComponent : ILogic
+    public abstract class IComponent
     {
-        public virtual void Enter(Entity actor)
+        public virtual void Enter(IEntity entity)
         {
 
-        }
-
-        public virtual void Enter()
-        {
-            
         }
 
         public virtual void Exit()
@@ -23,6 +18,11 @@ namespace Ability
         public virtual void Init()
         {
 
+        }
+
+        public void Destroy()
+        {
+            
         }
 
         public virtual void Tick(float deltaTime)

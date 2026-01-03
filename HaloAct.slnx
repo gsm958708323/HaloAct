@@ -1,0 +1,8 @@
+﻿<Solution>
+  <Project Path="NodeCanvas.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="ParadoxNotion.csproj" />
+  <Project Path="Assembly-CSharp-firstpass.csproj" />
+  <Project Path="LitJson.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+</Solution>

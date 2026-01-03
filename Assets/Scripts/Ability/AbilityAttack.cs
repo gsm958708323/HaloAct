@@ -54,7 +54,7 @@ namespace Ability
 
             this.entity = entity;
             var comp = entity.AddComp<AttackComp>();
-            comp.Enter(HitBoxInfo);
+            comp.Enter(entity, HitBoxInfo);
         }
 
         public virtual void Exit()

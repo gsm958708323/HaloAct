@@ -40,23 +40,13 @@ namespace Ability
                 return Rotation * Vector3.up;
             }
         }
-
-
-        private GameObject gameObject;
         private ActorData data;
+        Entity entity;
 
-        GroundChecker groundChecker
+        public override void Enter(IEntity actor)
         {
-            get
-            {
-                return gameObject.GetComponent<GroundChecker>();
-            }
-        }
-
-        public override void Enter(Entity actor)
-        {
-            gameObject = actor.gameObject;
-            data = actor.GetComp<PlayerDataComp>().Data;
+            entity = actor as Entity;
+            data = entity.GetComp<PlayerDataComp>().Data;
 
             var bornInfo = data.BornPosInfo;
             if (bornInfo.BornPosEnum == BornPosEnum.FixedPosition)
@@ -73,7 +63,7 @@ namespace Ability
 
         private void CheckGround()
         {
-            IsGround = groundChecker.CheckGround();
+            IsGround = UnityGameAPI.CheckGround(entity.Uid);
             if (IsGround)
             {
                 Velocity.y = 0;

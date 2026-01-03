@@ -38,7 +38,7 @@ public class CameraMgr : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        input = GameManager.GameInput;
+        input = FightManager.GameInput;
     }
 
     // Update is called once per frame
@@ -63,7 +63,7 @@ public class CameraMgr : MonoBehaviour
 
     private void Rotate()
     {
-        var entity = GameManager.LogicEntity.GetEntity(playerUid);
+        var entity = FightManager.LogicEntity.GetEntity(playerUid);
         if (entity is null)
             return;
         var comp = entity.GetComp<TransfromComp>();

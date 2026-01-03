@@ -23,7 +23,7 @@ namespace Ability
         // Update is called once per frame
         void Update()
         {
-            var actor = GameManager.LogicEntity.GetEntity(uid);
+            var actor = FightManager.LogicEntity.GetEntity(uid);
             if (actor == null)
             {
                 // 之前有数据，现在没有数据，需要调用销毁逻辑

@@ -51,7 +51,7 @@ namespace Ability
                 if (curFrame == startFrame)
                 {
                     CurAttack = attack;
-                    attack.Enter(tree.ActorModel);
+                    attack.Enter(tree.ActorModel as Entity);
                 }
 
                 if (curFrame >= startFrame && curFrame <= endFrame)

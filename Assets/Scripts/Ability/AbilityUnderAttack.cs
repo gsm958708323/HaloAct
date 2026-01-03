@@ -11,7 +11,7 @@ namespace Ability
     /// </summary>
     public class AbilityUnderAttack
     {
-        internal void OnHurt(Entity atkModel, Entity model, AbilityBehaviorAttack atk, Transform atkTrans)
+        internal void OnHurt(Entity atkModel, Entity model, AbilityBehaviorAttack atk)
         {
             Debugger.Log($"OnHurt {GetType()}", LogDomain.AbilityUnderAttack);
 

@@ -3,27 +3,23 @@ using UnityEngine;
 
 namespace Ability
 {
-    public class EntityRender : IRender
+    public class EntityRender : IEntity
     {
-        CharacterController controller;
-
-        protected override void OnAwake()
+        public Entity LogicEntity;
+        public GameObject gameObject;
+        public void Bind(GameObject gameObject)
         {
-            base.OnAwake();
-            controller = gameObject.GetComponent<CharacterController>();
+            this.gameObject = gameObject;
         }
-
-        protected override void OnUpdate(Entity actorModel)
+        public override void Init()
         {
-            var transComp = actorModel.GetComp<TransfromComp>();
-            if(transComp is null)
-            {
-                return;
-            }
-
-            controller.transform.position = transComp.Position;
-            controller.transform.rotation = transComp.Rotation;
+            base.Init();
+            LogicEntity = FightManager.LogicEntity.GetEntity(Uid);
+        }
+        public override void Destroy()
+        {
+            LogicEntity = null;
+            base.Destroy();
         }
     }
-
 }

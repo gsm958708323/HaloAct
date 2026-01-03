@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 
 namespace HaloFrame
 {
@@ -15,7 +14,7 @@ namespace HaloFrame
         /// 管理器组成的链表，优先级高的排在前面
         /// </summary>
         private LinkedList<IManager> managerLinked;
-        public readonly int TargetFrameRate = 60;
+        public readonly int TargetFrameRate = 15;
 
         float cacheTime;
         public int CurFrame;
@@ -35,7 +34,6 @@ namespace HaloFrame
 
         void InitFrame()
         {
-            Application.targetFrameRate = TargetFrameRate;
             FrameInterval = 1.0f / TargetFrameRate;
             CurFrame = 1;
             cacheTime = 0;
@@ -72,6 +70,7 @@ namespace HaloFrame
             for (var current = managerLinked.Last; current != null; current = current.Previous)
             {
                 current.Value.Exit();
+                current.Value.Destroy();
             }
             managerLinked.Clear();
             base.OnDestroy();

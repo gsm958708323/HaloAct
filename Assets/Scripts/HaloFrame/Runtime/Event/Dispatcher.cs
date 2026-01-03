@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Ability;
 
 namespace HaloFrame
 {
@@ -23,11 +22,6 @@ namespace HaloFrame
         public void RemoveListener<T1>(int eventId, Action<T1> callback)
         {
             base.RemoveListener(eventId, callback);
-        }
-
-        internal void Notify(object createEntity, Entity actor)
-        {
-            throw new NotImplementedException();
         }
     }
 }
