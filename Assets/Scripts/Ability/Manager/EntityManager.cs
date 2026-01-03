@@ -33,6 +33,7 @@ namespace Ability
             entity.AddComp<TransfromComp>();
             entity.AddComp<BehaviorComp>();
             entity.AddComp<EffectComp>();
+            entity.AddComp<AttackComp>();
 
             GameManager.Dispatcher.Notify<Entity>(EventId.CreateEntity, entity);
             return entity;

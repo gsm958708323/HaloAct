@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Ability
 {
-    public class HitBox : AbilityBox
+    public class HitBox : MonoBehaviour
     {
         Action<Entity> hitCB;
         public void AddHitCB(HitBoxInfo hitBoxInfo, Action<Entity> cb)
@@ -28,17 +28,14 @@ namespace Ability
 
         private void OnTriggerEnter(Collider other)
         {
-            if (model == null) return;
-
-            var otherRender = other.GetComponent<EntityRender>();
-
             if (other.GetComponentInChildren<HurtBox>().gameObject.layer != LayerMask.NameToLayer("HurtBox"))
                 return; // 只检测HurtBox
 
-            var otherModel = otherRender.LogicEntity;
-            if (otherModel is null)
+            var idCard = other.GetComponent<IdentitCard>();
+            var otherEntity = FightManager.LogicEntity.GetEntity(idCard.Uid);
+            if (otherEntity is null)
                 return;
-            hitCB?.Invoke(otherModel);
+            hitCB?.Invoke(otherEntity);
         }
     }
 }

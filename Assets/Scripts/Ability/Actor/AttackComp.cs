@@ -7,13 +7,26 @@ namespace Ability
     {
         public Vector3 Hitpoint;
         Entity entity;
-        internal void Enter(Entity entity, HitBoxInfo hitBoxInfo)
+
+        public override void Enter(IEntity entity)
         {
+            base.Enter(entity);
+            this.entity = entity as Entity;
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+        }
+
+        internal void OnAttackStart(Entity entity, HitBoxInfo hitBoxInfo)
+        {
+            base.Enter(entity);
             this.entity = entity;
             UnityGameAPI.InitHitBox(entity.Uid, hitBoxInfo, OnHit);
         }
 
-        public override void Exit()
+        internal void OnAttackEnd()
         {
             UnityGameAPI.RemoveHitBox(entity.Uid);
         }

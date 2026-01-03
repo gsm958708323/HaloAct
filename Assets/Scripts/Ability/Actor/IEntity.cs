@@ -68,17 +68,19 @@ namespace Ability
 
         public virtual void Tick(float deltaTime)
         {
-            foreach (var item in compList)
+            for (int i = 0; i < compList.Count; i++)
             {
-                item.Tick(deltaTime);
+                var comp = compList[i];
+                comp.Tick(deltaTime);
             }
         }
 
         public virtual void Exit()
         {
-            foreach (var item in compList)
+            for (int i = 0; i < compList.Count; i++)
             {
-                item.Exit();
+                var comp = compList[i];
+                comp.Exit();
             }
             compList = null;
             compDic = new();

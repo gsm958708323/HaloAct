@@ -39,6 +39,8 @@ namespace Ability
 
             var render = AddRenderEntity(entity.Uid);
             var actorGo = GameObject.Instantiate(data.Prefab);
+            var idCard = actorGo.AddComponent<IdentitCard>();
+            idCard.Uid = entity.Uid;
             render.Bind(actorGo);
             render.AddComp<RenderTransformComp>();
         }

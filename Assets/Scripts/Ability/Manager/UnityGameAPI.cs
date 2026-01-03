@@ -32,8 +32,7 @@ namespace Ability
             var go = GetGameObjectByUid(uid);
             if (go == null)
                 return;
-            var hitBox = go.GetComponentInChildren<HitBox>();
-
+            var hitBox = go.GetComponentInChildren<HitBox>(true);
             hitBox.AddHitCB(hitBoxInfo, onHit);
         }
 
@@ -42,7 +41,7 @@ namespace Ability
             var go = GetGameObjectByUid(uid);
             if (go == null)
                 return;
-            var hitBox = go.GetComponentInChildren<HitBox>();
+            var hitBox = go.GetComponentInChildren<HitBox>(true);
             hitBox.RemoveHitCB();
         }
     }

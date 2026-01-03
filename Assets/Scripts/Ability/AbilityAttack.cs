@@ -53,14 +53,21 @@ namespace Ability
             isEnter = true;
 
             this.entity = entity;
-            var comp = entity.AddComp<AttackComp>();
-            comp.Enter(entity, HitBoxInfo);
+            var comp = entity.GetComp<AttackComp>();
+            if (comp is not null)
+            {
+                comp.OnAttackStart(entity, HitBoxInfo);
+            }
         }
 
         public virtual void Exit()
         {
             Debugger.Log($"Exit {GetType()}", LogDomain.AbilityAttack);
-            entity.RemoveComp<AttackComp>();
+            var comp = entity.GetComp<AttackComp>();
+            if (comp is not null)
+            {
+                comp.OnAttackEnd();
+            }
             isEnter = false;
         }
 
@@ -71,7 +78,7 @@ namespace Ability
 
         public void Tick(float deltaTime)
         {
-            
+
         }
     }
 }
