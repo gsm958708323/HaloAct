@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Ability
 {
-    public class BulletDataComp : IComponent
+    public class BulletDataComp : ComponentLogic
     {
         public BulletData Data;
         public Entity Caster;

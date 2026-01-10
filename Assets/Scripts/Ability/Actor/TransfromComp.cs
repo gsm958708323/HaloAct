@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Ability
 {
-    public class TransfromComp : IComponent
+    public class TransfromComp : ComponentLogic
     {
         public bool IsGround;
         public bool IsAerial;
@@ -41,11 +41,10 @@ namespace Ability
             }
         }
         private ActorData data;
-        Entity entity;
 
         public override void Enter(IEntity actor)
         {
-            entity = actor as Entity;
+            base.Enter(actor);
             data = entity.GetComp<PlayerDataComp>().Data;
 
             var bornInfo = data.BornPosInfo;

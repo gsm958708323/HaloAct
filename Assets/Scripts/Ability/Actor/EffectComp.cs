@@ -3,32 +3,27 @@ using UnityEngine;
 
 namespace Ability
 {
-    public class EffectComp : IComponent
+    public class EffectComp : ComponentLogic
     {
         List<EffectObj> buffList;
         Dictionary<int, EffectObj> buffDict;
-        Entity actor;
 
         public override void Init()
         {
-        }
-
-        public override void Enter(IEntity t)
-        {
             buffList = new();
             buffDict = new();
-            actor = t as Entity;
         }
 
-        public override void Exit()
+        public override void Destroy()
         {
             buffList = null;
             buffDict = null;
+            base.Destroy();
         }
 
         public override void Tick(float deltaTime)
         {
-            if (actor.IsDead)
+            if (entity.IsDead)
             {
                 return;
             }

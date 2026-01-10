@@ -24,8 +24,8 @@ namespace Ability
                     continue;
                 if (comp.Hp <= 0)
                     continue;
-                if (comp.TimeElapsed <= 0 && data.OnCreate != null)
-                    data.OnCreate.Execute(comp);
+                // if (comp.TimeElapsed <= 0 && data.OnCreate != null)
+                //     data.OnCreate.Execute(comp);
 
                 node = node.Next;
             }

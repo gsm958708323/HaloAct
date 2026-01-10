@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ability
 {
-    public class PlayerDataComp : IComponent
+    public class PlayerDataComp : ComponentLogic
     {
         public ActorData Data;
     }

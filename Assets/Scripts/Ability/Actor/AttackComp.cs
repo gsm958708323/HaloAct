@@ -3,26 +3,13 @@ using UnityEngine;
 
 namespace Ability
 {
-    public class AttackComp : IComponent
+    public class AttackComp : ComponentLogic
     {
         public Vector3 Hitpoint;
-        Entity entity;
 
-        public override void Enter(IEntity entity)
+        internal void OnAttackStart(HitBoxInfo hitBoxInfo)
         {
             base.Enter(entity);
-            this.entity = entity as Entity;
-        }
-
-        public override void Exit()
-        {
-            base.Exit();
-        }
-
-        internal void OnAttackStart(Entity entity, HitBoxInfo hitBoxInfo)
-        {
-            base.Enter(entity);
-            this.entity = entity;
             UnityGameAPI.InitHitBox(entity.Uid, hitBoxInfo, OnHit);
         }
 

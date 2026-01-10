@@ -18,7 +18,7 @@ namespace Ability
             base.OnTick(deltaTime);
 
             // 设置朝向
-            var model = tree.ActorModel;
+            var model = tree.Entity;
             var trans1 = model.GetComp<TransfromComp>();
             if (trans1 is null)
             {

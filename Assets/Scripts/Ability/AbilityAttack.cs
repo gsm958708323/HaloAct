@@ -56,7 +56,7 @@ namespace Ability
             var comp = entity.GetComp<AttackComp>();
             if (comp is not null)
             {
-                comp.OnAttackStart(entity, HitBoxInfo);
+                comp.OnAttackStart(HitBoxInfo);
             }
         }
 

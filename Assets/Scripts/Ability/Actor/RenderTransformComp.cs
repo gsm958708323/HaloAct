@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Ability
 {
-    public class RenderTransformComp : IComponent
+    public class RenderTransformComp : ComponentRender
     {
         EntityRender render;
         CharacterController controller;
@@ -11,15 +11,14 @@ namespace Ability
         public override void Enter(IEntity entity)
         {
             base.Enter(entity);
-            render = entity as EntityRender;
-            controller = render.gameObject.GetComponent<CharacterController>();
+            controller = entityRender.gameObject.GetComponent<CharacterController>();
         }
 
         public override void Tick(float deltaTime)
         {
             base.Tick(deltaTime);
 
-            var transComp = render.LogicEntity.GetComp<TransfromComp>();
+            var transComp = entityRender.LogicEntity.GetComp<TransfromComp>();
             if (transComp is null)
             {
                 return;

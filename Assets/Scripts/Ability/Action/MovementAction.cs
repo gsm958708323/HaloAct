@@ -14,7 +14,7 @@ namespace Ability
         protected override void OnEnter()
         {
             base.OnEnter();
-            transComp = tree.ActorModel.GetComp<TransfromComp>();
+            transComp = tree.Entity.GetComp<TransfromComp>();
         }
 
         protected override void OnTick(float deltaTime)

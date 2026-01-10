@@ -15,7 +15,7 @@ namespace Ability
         {
             base.OnEnter();
 
-            var transComp = tree.ActorModel.GetComp<TransfromComp>();
+            var transComp = tree.Entity.GetComp<TransfromComp>();
             if (Reset.x != 0)
             {
                 transComp.Velocity.x = 0;

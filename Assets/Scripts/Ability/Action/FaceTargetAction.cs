@@ -11,7 +11,7 @@ namespace Ability
         {
             base.OnTick(deltaTime);
 
-            var model = tree.ActorModel;
+            var model = tree.Entity;
             if (model.Target == null) return;
             var trans1 = model.GetComp<TransfromComp>();
             var trans2 = model.Target.GetComp<TransfromComp>();

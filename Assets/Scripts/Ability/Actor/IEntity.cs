@@ -34,6 +34,7 @@ namespace Ability
                 return;
 
             comp.Exit();
+            comp.Destroy();
             compDic.Remove(type);
             compList.Remove(comp);
         }
@@ -89,6 +90,7 @@ namespace Ability
             {
                 var comp = compList[i];
                 comp.Exit();
+                comp.Destroy();
             }
         }
     }

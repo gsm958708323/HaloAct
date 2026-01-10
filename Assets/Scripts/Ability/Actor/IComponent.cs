@@ -20,14 +20,33 @@ namespace Ability
 
         }
 
-        public void Destroy()
+        public virtual void Destroy()
         {
-            
+
         }
 
         public virtual void Tick(float deltaTime)
         {
 
+        }
+    }
+
+    public class ComponentLogic : IComponent
+    {
+
+        protected Entity entity;
+        public override void Enter(IEntity entity)
+        {
+            this.entity = entity as Entity;
+        }
+    }
+
+    public class ComponentRender : IComponent
+    {
+        protected EntityRender entityRender;
+        public override void Enter(IEntity entity)
+        {
+            entityRender = entity as EntityRender;
         }
     }
 }

@@ -33,12 +33,12 @@ namespace Ability
         public virtual void Enter(BehaviorComp tree)
         {
             this.tree = tree;
-            Debugger.Log($"Enter {tree.ActorModel.Uid} {name} {GetType()}", LogDomain.AbilityBehavior);
+            Debugger.Log($"Enter {tree.Entity.Uid} {name} {GetType()}", LogDomain.AbilityBehavior);
         }
 
         public virtual void Exit()
         {
-            Debugger.Log($"Exit {tree.ActorModel.Uid} {name} {GetType()}", LogDomain.AbilityBehavior);
+            Debugger.Log($"Exit {tree.Entity.Uid} {name} {GetType()}", LogDomain.AbilityBehavior);
             foreach (var actionT in Actions)
             {
                 if (actionT is null) continue;

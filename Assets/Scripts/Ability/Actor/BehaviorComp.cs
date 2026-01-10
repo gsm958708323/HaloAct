@@ -13,7 +13,7 @@ namespace Ability
     /// 管理关系：AbilityBehaviorTree -> AbilityNode -> AbilityBehavior 
     ///                                                               -> AbilityCondition
     /// </summary>
-    public class BehaviorComp : IComponent
+    public class BehaviorComp : ComponentLogic
     {
         /// <summary>
         /// 当前行为的帧计数
@@ -29,16 +29,14 @@ namespace Ability
         // /// 当前行为是否可以打断
         // /// </summary>
         // public bool CanCancel;
-        public Entity ActorModel;
+        public Entity Entity;
         public AbilityNode curNode;
         Dictionary<AttackType, AbilityNode> hurtNodeDict = new();
 
-        public override void Init() { }
-
-
         public override void Enter(IEntity model)
         {
-            this.ActorModel = model as Entity;
+            base.Enter(model);
+            Entity = entity;
             var data = model.GetComp<PlayerDataComp>().Data;
             LoadBehavior(data.BehaviorPath);
             LoadNode(data.NodePath);
@@ -46,14 +44,9 @@ namespace Ability
             StartBehavior(GetBehaviorById(0));
         }
 
-        public override void Exit()
-        {
-            ActorModel = null;
-        }
-
         public override void Tick(float deltaTime)
         {
-            if (ActorModel.IsDead)
+            if (Entity.IsDead)
             {
                 return;
             }
@@ -61,7 +54,7 @@ namespace Ability
             AbilityNode nextBehavior = TryGetNextBehavior();
             if (nextBehavior != null)
             {
-                var buffComp = ActorModel.GetComp<EffectComp>();
+                var buffComp = Entity.GetComp<EffectComp>();
                 if (buffComp is not null)
                 {
                     var newBehavior = buffComp.OnStartBehavior(nextBehavior);
@@ -182,7 +175,7 @@ namespace Ability
         private void EndBehavior()
         {
             StartBehavior(GetBehaviorById(0));
-            ActorModel.Target = null; // 重置目标
+            Entity.Target = null; // 重置目标
         }
 
         private AbilityNode GetBehaviorById(int id)
