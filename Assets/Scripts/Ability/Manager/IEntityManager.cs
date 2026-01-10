@@ -1,25 +1,30 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using HaloFrame;
 
 namespace Ability
 {
     public class IEntityManager : IManager
     {
-        protected LinkedList<IEntity> entityList;
+        protected Dictionary<EntityType, LinkedList<IEntity>> entityTypeList;
         protected Dictionary<int, IEntity> entityDict;
+        protected List<int> entityUidList;
+
         protected IdCreate idCreate = new();
 
         public override void Init()
         {
             base.Init();
-            entityList = new();
+            entityTypeList = new();
             entityDict = new();
+            entityUidList = new();
         }
 
         public override void Destroy()
         {
-            entityList = null;
+            entityTypeList = null;
             entityDict = null;
+            entityUidList = null;
             base.Destroy();
         }
 
@@ -30,54 +35,73 @@ namespace Ability
 
         public override void Exit()
         {
-            foreach (var item in entityList)
+            for (int i = 0; i < entityUidList.Count; i++)
             {
-                item.Exit();
+                var uid = entityUidList[i];
+                var entity = entityDict[uid];
+                entity?.Exit();
             }
-            entityList.Clear();
-            entityDict.Clear();
-
             base.Exit();
         }
 
-        protected Entity AddEntity()
+        protected Entity AddEntity(EntityType entityType)
         {
-            var uid = idCreate.Get();
-            Entity entity = new Entity();
-
-            entity.Bind(uid);
-            entity.Init();
-            entity.Enter();
-            
-            entityList.AddLast(new LinkedListNode<IEntity>(entity));
-            entityDict.Add(uid, entity);
+            var uid = idCreate.Get(entityType);
+            Entity entity = new();
+            AddToList(entity, uid, entityType);
             return entity;
         }
 
-        protected EntityRender AddRenderEntity(int uid)
+        protected EntityRender AddRenderEntity(Entity entity)
         {
-            var entity = new EntityRender();
-            entity.Bind(uid);
+            var render = new EntityRender();
+            AddToList(render, entity.Uid, entity.EntityType);
+            return render;
+        }
+
+        public LinkedList<IEntity> GetEntityLinkedList(EntityType entityType)
+        {
+            if(!entityTypeList.ContainsKey(entityType))
+            {
+                return null;
+            }
+            return entityTypeList[entityType];
+        }
+
+        void AddToList(IEntity entity, int uid, EntityType entityType)
+        {
+            entity.Bind(uid, entityType);
             entity.Init();
             entity.Enter();
 
-            entityList.AddLast(new LinkedListNode<IEntity>(entity));
+            entityUidList.Add(uid);
             entityDict.Add(uid, entity);
-            return entity;
+            entityTypeList.TryGetValue(entityType, out var entityList);
+            if (entityList is null)
+            {
+                entityList = new();
+                entityTypeList.Add(entityType, entityList);
+            }
+            entityList.AddLast(new LinkedListNode<IEntity>(entity));
         }
 
         public void RemoveEntity(int uid)
         {
             if (!entityDict.ContainsKey(uid))
             {
-                Debugger.LogError($"actor id 不存在", LogDomain.Actor);
                 return;
             }
 
             var entity = entityDict[uid];
             entity.Exit();
             entityDict.Remove(uid);
-            entityList.Remove(entity);
+            entityUidList.Remove(uid);
+
+            entityTypeList.TryGetValue(entity.EntityType, out var entityList);
+            if (entityList != null)
+            {
+                entityList.Remove(entity);
+            }
         }
 
         protected IEntity GetEntity(int uid)
@@ -89,11 +113,11 @@ namespace Ability
 
         public void DriveEntity(float deltaTime)
         {
-            var node = entityList.First;
-            while (node != null)
+            for (int i = 0; i < entityUidList.Count; i++)
             {
-                node.Value.Tick(deltaTime);
-                node = node.Next;
+                var uid = entityUidList[i];
+                var entity = entityDict[uid];
+                entity?.Tick(deltaTime);
             }
         }
     }

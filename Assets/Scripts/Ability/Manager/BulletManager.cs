@@ -1,65 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using HaloFrame;
-using UnityEngine;
 
 namespace Ability
 {
     public class BulletManager : IManager
     {
-        private LinkedList<BulletObj> actorList;
-        private Dictionary<int, BulletObj> actorDict;
-
-        public override void Enter()
-        {
-            base.Enter();
-
-            actorList = new();
-            actorDict = new();
-        }
-
-        public override void Exit()
-        {
-            foreach (var item in actorList)
-            {
-                item.Exit();
-            }
-            actorList.Clear();
-            actorDict.Clear();
-
-            base.Exit();
-        }
-
-
-        public void RemoveActor(int id)
-        {
-            if (!actorDict.ContainsKey(id))
-            {
-                Debugger.LogError($"actor id 不存在", LogDomain.Actor);
-                return;
-            }
-
-            var actorModel = actorDict[id];
-            actorModel.Exit();
-            actorDict.Remove(id);
-            actorList.Remove(actorModel);
-        }
-
-        public BulletObj GetActor(int id)
-        {
-            if (!actorDict.ContainsKey(id))
-                return null;
-            return actorDict[id];
-        }
-
         public override void Tick(float deltaTime)
         {
             base.Tick(deltaTime);
+            var list = FightManager.LogicEntity.GetEntityLinkedList(EntityType.Bullet);
+            if (list is null)
+                return;
 
-            var node = actorList.First;
+            var node = list.First;
             while (node != null)
             {
-                node.Value.Tick(deltaTime);
+                var bullet = node.Value;
+                var comp = bullet.GetComp<BulletDataComp>();
+                var data = comp.Data;
+
+                if (comp is null)
+                    continue;
+                if (comp.Hp <= 0)
+                    continue;
+                if (comp.TimeElapsed <= 0 && data.OnCreate != null)
+                    data.OnCreate.Execute(comp);
+
                 node = node.Next;
             }
         }

@@ -7,9 +7,11 @@ namespace Ability
     {
         public Entity LogicEntity;
         public GameObject gameObject;
-        public void Bind(GameObject gameObject)
+        public void BindGo(GameObject gameObject)
         {
             this.gameObject = gameObject;
+            var idCard = gameObject.AddComponent<IdentitCard>();
+            idCard.Uid = Uid;
         }
         public override void Init()
         {

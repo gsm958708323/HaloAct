@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace Ability
 {
+    public enum EntityType
+    {
+        Actor = 1,
+        Bullet = 2,
+    }
+    
     public class IEntity
     {
         List<IComponent> compList;
@@ -43,10 +49,12 @@ namespace Ability
         }
 
         public int Uid;
+        public EntityType EntityType;
 
-        public void Bind(int uid)
+        public void Bind(int uid, EntityType type)
         {
             this.Uid = uid;
+            this.EntityType = type;
         }
 
         public virtual void Init()
@@ -82,8 +90,6 @@ namespace Ability
                 var comp = compList[i];
                 comp.Exit();
             }
-            compList = null;
-            compDic = new();
         }
     }
 }

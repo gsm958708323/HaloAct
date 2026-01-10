@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using HaloFrame;
-using UnityEngine;
 
 namespace Ability
 {
@@ -27,7 +25,7 @@ namespace Ability
                 return null;
             }
 
-            var entity = AddEntity();
+            var entity = AddEntity(EntityType.Actor);
             var dataComp = entity.AddComp<PlayerDataComp>();
             dataComp.Data = data;
             entity.AddComp<TransfromComp>();
@@ -48,8 +46,7 @@ namespace Ability
                 return null;
             }
 
-            var actor = AddEntity();
-            actor.Enter();
+            var actor = AddEntity(EntityType.Bullet);
             var dataComp = actor.AddComp<BulletDataComp>();
             dataComp.Data = data;
             return actor;

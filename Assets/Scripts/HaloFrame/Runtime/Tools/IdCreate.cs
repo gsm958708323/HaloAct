@@ -1,12 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Ability;
 
 public class IdCreate
 {
-    public int count = 0;
+    private Dictionary<EntityType, int> typeCount = new();
 
-    public int Get()
+    public int Get(EntityType entityType)
     {
-        return ++count;
+        if (!typeCount.ContainsKey(entityType))
+        {
+            var value = (int)entityType * 10000;
+            typeCount.Add(entityType, value);
+        }
+
+        return ++typeCount[entityType];
     }
+
 }
