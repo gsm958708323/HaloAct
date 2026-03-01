@@ -14,7 +14,7 @@ namespace Ability
         /// 外部不能直接设置位置，通过设置Velocity来改变位置 
         /// </summary>
         public Vector3 Position { private set; get; }
-        public Quaternion Rotation;
+        public Quaternion Rotation = Quaternion.identity;
         /// <summary>
         /// 外部设置方向时调用
         /// </summary>

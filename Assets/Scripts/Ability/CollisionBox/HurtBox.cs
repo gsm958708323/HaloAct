@@ -18,7 +18,7 @@ namespace Ability
         internal void OnHurt(Entity atkModel, Transform atkTrans, AbilityBehaviorAttack atk)
         {
             // todo 状态统一管理
-            if (atkModel.IsDead || atkModel.IsInvincible) return;
+            if (model.IsDead || model.IsInvincible) return;
             var behaviorComp = model.GetComp<BehaviorComp>();
             if (behaviorComp is null)
                 return;

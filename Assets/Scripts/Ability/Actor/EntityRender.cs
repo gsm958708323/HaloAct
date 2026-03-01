@@ -21,6 +21,11 @@ namespace Ability
         public override void Destroy()
         {
             LogicEntity = null;
+            if (gameObject != null)
+            {
+                UnityEngine.Object.Destroy(gameObject);
+                gameObject = null;
+            }
             base.Destroy();
         }
     }

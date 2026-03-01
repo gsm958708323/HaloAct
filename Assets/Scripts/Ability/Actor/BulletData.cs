@@ -4,12 +4,25 @@ using Ability;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewBehavior", menuName = "AbilityTree/BuffData")]
+[CreateAssetMenu(fileName = "NewBullet", menuName = "AbilityTree/BulletData")]
 public class BulletData : SerializedScriptableObject
 {
     public int Id;
     public GameObject Prefab;
+
+    [BoxGroup("Movement")]
+    public float Speed = 10f;
+
+    [BoxGroup("Movement")]
+    public float Duration = 2f;
+
+    [BoxGroup("Movement")]
+    public Vector3 SpawnOffset = new Vector3(0, 1, 0.8f);
+
     public float Radius;
+
+    [BoxGroup("Hit")]
+    public AttackType AttackType = AttackType.Normal;
     /// <summary>
     /// 子弹可以碰撞的次数，每次碰到目标-1
     /// </summary>
