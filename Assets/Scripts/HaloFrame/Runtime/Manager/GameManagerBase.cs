@@ -52,8 +52,8 @@ namespace HaloFrame
                 item.Update(deltaTime);
             }
 
-            cacheTime += FrameInterval;
-            while (cacheTime > FrameInterval)
+            cacheTime += deltaTime;
+            while (cacheTime >= FrameInterval)
             {
                 foreach (var item in managerLinked)
                 {
