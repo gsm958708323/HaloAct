@@ -28,17 +28,10 @@ namespace Ability
 
         private void OnTriggerEnter(Collider other)
         {
-            var hurtBox = other.GetComponentInChildren<HurtBox>();
-            if (hurtBox is null)
-                return;
-
-            if (hurtBox.gameObject.layer != LayerMask.NameToLayer("HurtBox"))
+            if (other.GetComponentInChildren<HurtBox>().gameObject.layer != LayerMask.NameToLayer("HurtBox"))
                 return; // 只检测HurtBox
 
-            var idCard = other.GetComponentInParent<IdentitCard>();
-            if (idCard is null)
-                return;
-
+            var idCard = other.GetComponent<IdentitCard>();
             var otherEntity = FightManager.LogicEntity.GetEntity(idCard.Uid);
             if (otherEntity is null)
                 return;

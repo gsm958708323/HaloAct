@@ -46,22 +46,10 @@ namespace Ability
                 return null;
             }
 
-            var bullet = AddEntity(EntityType.Bullet);
-            var dataComp = bullet.AddComp<BulletDataComp>();
+            var actor = AddEntity(EntityType.Bullet);
+            var dataComp = actor.AddComp<BulletDataComp>();
             dataComp.Data = data;
-            dataComp.Speed = data.Speed;
-            dataComp.Duration = data.Duration;
-            dataComp.TimeElapsed = 0;
-            dataComp.Hp = data.HitTimes;
-            dataComp.Caster = launcher.Caster;
-            dataComp.FirDegree = launcher.FireDegree;
-
-            var trans = bullet.AddComp<SimpleTransformComp>();
-            trans.Position = launcher.Position;
-            trans.Rotation = launcher.Rotation;
-
-            GameManager.Dispatcher.Notify<Entity>(EventId.CreateEntity, bullet);
-            return bullet;
+            return actor;
         }
     }
 }

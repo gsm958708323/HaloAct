@@ -19,27 +19,13 @@ namespace Ability
         /// </summary>
         public float TimeElapsed;
 
-        public int Hp;
-
-        // Key: target uid; Value: last hit time (in this bullet's TimeElapsed space)
-        public Dictionary<int, float> LastHitTimeByTarget;
-
-        public override void Init()
-        {
-            base.Init();
-            LastHitTimeByTarget = new Dictionary<int, float>();
-        }
+        public int Hp { get; internal set; }
     }
 
     public struct BulletLauncher
     {
         public int BulletId;
-
-        public Entity Caster;
-        public float FireDegree;
-
-        public Vector3 Position;
-        public Quaternion Rotation;
+        public string Prefab;
     }
 }
 

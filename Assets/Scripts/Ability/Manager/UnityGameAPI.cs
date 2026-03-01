@@ -33,8 +33,6 @@ namespace Ability
             if (go == null)
                 return;
             var hitBox = go.GetComponentInChildren<HitBox>(true);
-            if (hitBox == null)
-                return;
             hitBox.AddHitCB(hitBoxInfo, onHit);
         }
 
@@ -44,8 +42,6 @@ namespace Ability
             if (go == null)
                 return;
             var hitBox = go.GetComponentInChildren<HitBox>(true);
-            if (hitBox == null)
-                return;
             hitBox.RemoveHitCB();
         }
     }

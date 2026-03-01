@@ -18,38 +18,14 @@ namespace Ability
         {
             base.Tick(deltaTime);
 
-            if (entityRender == null || entityRender.LogicEntity == null)
-                return;
-
-            Vector3 pos;
-            Quaternion rot;
-
             var transComp = entityRender.LogicEntity.GetComp<TransfromComp>();
-            if (transComp is not null)
+            if (transComp is null)
             {
-                pos = transComp.Position;
-                rot = transComp.Rotation;
-            }
-            else
-            {
-                var simpleTrans = entityRender.LogicEntity.GetComp<SimpleTransformComp>();
-                if (simpleTrans is null)
-                    return;
-
-                pos = simpleTrans.Position;
-                rot = simpleTrans.Rotation;
+                return;
             }
 
-            if (controller != null)
-            {
-                controller.transform.position = pos;
-                controller.transform.rotation = rot;
-            }
-            else
-            {
-                entityRender.gameObject.transform.position = pos;
-                entityRender.gameObject.transform.rotation = rot;
-            }
+            controller.transform.position = transComp.Position;
+            controller.transform.rotation = transComp.Rotation;
         }
     }
 }

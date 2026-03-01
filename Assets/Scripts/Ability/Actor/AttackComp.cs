@@ -45,9 +45,6 @@ namespace Ability
         void OnHurt(Entity atkEntity, AbilityBehaviorAttack atk)
         {
             // todo 状态统一管理
-            if (entity.IsDead || entity.IsInvincible)
-                return;
-
             var comp = entity.GetComp<BehaviorComp>();
             if (comp is null)
                 return;
