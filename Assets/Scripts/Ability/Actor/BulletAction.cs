@@ -5,9 +5,14 @@ namespace Ability
 {
     public class BulletAction
     {
-        public void Execute()
+        protected BulletDataComp bullet;
+        protected Entity target;
+
+        public void Execute(BulletDataComp bullet, Entity target)
         {
             Debugger.Log($"Enter {GetType()}", LogDomain.Bullet);
+            this.bullet = bullet;
+            this.target = target;
             OnExecute();
         }
 

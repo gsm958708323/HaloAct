@@ -40,7 +40,7 @@ namespace Ability
         public Entity CreateBullet(BulletLauncher launcher)
         {
             var id = launcher.BulletId;
-            var data = FightManager.Config.LoadBullet(id);
+            var data = launcher.Data ?? FightManager.Config.LoadBullet(id);
             if (data is null)
             {
                 return null;
@@ -49,7 +49,23 @@ namespace Ability
             var actor = AddEntity(EntityType.Bullet);
             var dataComp = actor.AddComp<BulletDataComp>();
             dataComp.Data = data;
+            dataComp.Caster = launcher.Caster;
+            dataComp.Position = launcher.Position;
+            dataComp.Direction = launcher.Direction == UnityEngine.Vector3.zero ? UnityEngine.Vector3.forward : launcher.Direction.normalized;
+            dataComp.Speed = data.Speed;
+            dataComp.Duration = data.Duration;
+            dataComp.TimeElapsed = 0;
+            dataComp.Hp = data.HitTimes;
+
+            data.OnCreate?.Execute(dataComp, null);
+            GameManager.Dispatcher.Notify<Entity>(EventId.CreateEntity, actor);
             return actor;
+        }
+
+        protected override void OnEntityRemoved(int uid, IEntity entity)
+        {
+            base.OnEntityRemoved(uid, entity);
+            GameManager.Dispatcher.Notify<int>(EventId.RemoveEntity, uid);
         }
     }
 }

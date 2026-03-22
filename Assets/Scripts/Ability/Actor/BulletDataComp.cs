@@ -8,7 +8,8 @@ namespace Ability
     {
         public BulletData Data;
         public Entity Caster;
-        public float FirDegree;
+        public Vector3 Position;
+        public Vector3 Direction;
         public float Speed;
         /// <summary>
         /// 子弹生存时间
@@ -20,12 +21,49 @@ namespace Ability
         public float TimeElapsed;
 
         public int Hp { get; internal set; }
+
+        Dictionary<int, float> targetHitRecord;
+
+        public override void Init()
+        {
+            targetHitRecord = new Dictionary<int, float>();
+            base.Init();
+        }
+
+        public override void Destroy()
+        {
+            targetHitRecord = null;
+            base.Destroy();
+        }
+
+        public bool CanHitTarget(int targetUid, float hitSameDelay)
+        {
+            if (hitSameDelay <= 0)
+            {
+                return true;
+            }
+
+            if (!targetHitRecord.TryGetValue(targetUid, out var lastHitTime))
+            {
+                return true;
+            }
+
+            return TimeElapsed - lastHitTime >= hitSameDelay;
+        }
+
+        public void RecordTargetHit(int targetUid)
+        {
+            targetHitRecord[targetUid] = TimeElapsed;
+        }
     }
 
     public struct BulletLauncher
     {
         public int BulletId;
-        public string Prefab;
+        public BulletData Data;
+        public Entity Caster;
+        public Vector3 Position;
+        public Vector3 Direction;
     }
 }
 

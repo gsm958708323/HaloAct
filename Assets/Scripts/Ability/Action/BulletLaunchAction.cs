@@ -18,6 +18,40 @@ namespace Ability
                 EndFrame = StartFrame;
             }
 
+            var caster = tree?.Entity;
+            if (caster is null)
+            {
+                return;
+            }
+
+            var transComp = caster.GetComp<TransfromComp>();
+            if (transComp is null)
+            {
+                return;
+            }
+
+            var bulletData = FightManager.Config.LoadBullet(bullet);
+            if (bulletData is null)
+            {
+                return;
+            }
+
+            var launcher = new BulletLauncher
+            {
+                BulletId = bullet,
+                Data = bulletData,
+                Caster = caster,
+                Position = transComp.Position + transComp.Rotation * bulletData.SpawnOffset,
+                Direction = transComp.forward.normalized,
+            };
+
+            if (launcher.Direction == Vector3.zero)
+            {
+                launcher.Direction = Vector3.forward;
+            }
+
+            FightManager.LogicEntity.CreateBullet(launcher);
+
         }
     }
 }

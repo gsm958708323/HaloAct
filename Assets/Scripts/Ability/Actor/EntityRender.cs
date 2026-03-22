@@ -7,6 +7,7 @@ namespace Ability
     {
         public Entity LogicEntity;
         public GameObject gameObject;
+
         public void BindGo(GameObject gameObject)
         {
             this.gameObject = gameObject;
@@ -21,6 +22,11 @@ namespace Ability
         public override void Destroy()
         {
             LogicEntity = null;
+            if (gameObject is not null)
+            {
+                UnityEngine.Object.Destroy(gameObject);
+                gameObject = null;
+            }
             base.Destroy();
         }
     }

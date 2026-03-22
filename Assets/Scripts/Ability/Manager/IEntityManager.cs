@@ -94,6 +94,7 @@ namespace Ability
 
             var entity = entityDict[uid];
             entity.Exit();
+            entity.Destroy();
             entityDict.Remove(uid);
             entityUidList.Remove(uid);
 
@@ -102,6 +103,12 @@ namespace Ability
             {
                 entityList.Remove(entity);
             }
+
+            OnEntityRemoved(uid, entity);
+        }
+
+        protected virtual void OnEntityRemoved(int uid, IEntity entity)
+        {
         }
 
         protected IEntity GetEntity(int uid)

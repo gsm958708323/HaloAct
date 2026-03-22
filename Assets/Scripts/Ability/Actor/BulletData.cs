@@ -9,6 +9,9 @@ public class BulletData : SerializedScriptableObject
 {
     public int Id;
     public GameObject Prefab;
+    public float Speed = 10f;
+    public float Duration = 1f;
+    public Vector3 SpawnOffset;
     public float Radius;
     /// <summary>
     /// 子弹可以碰撞的次数，每次碰到目标-1
