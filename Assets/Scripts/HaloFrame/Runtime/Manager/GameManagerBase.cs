@@ -14,10 +14,15 @@ namespace HaloFrame
         /// 管理器组成的链表，优先级高的排在前面
         /// </summary>
         private LinkedList<IManager> managerLinked;
-        public readonly int TargetFrameRate = 15;
+        /// <summary>
+        /// Tick运行帧率
+        /// </summary>
+        public int TargetFrameRate = 15;
 
         float cacheTime;
+        [HideInInspector]
         public int CurFrame;
+        [HideInInspector]
         public float FrameInterval;
 
         protected override void Awake()

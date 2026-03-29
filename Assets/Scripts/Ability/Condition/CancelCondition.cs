@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Ability
 {
+    /// <summary>
+    /// 技能打断窗口
+    /// </summary>
     public class CancelCondition : AbilityCondition
     {
         override public bool Check(BehaviorComp tree)

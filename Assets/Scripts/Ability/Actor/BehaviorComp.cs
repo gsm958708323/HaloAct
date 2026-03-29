@@ -12,6 +12,11 @@ namespace Ability
     ///                                                               -> AbilityAction 
     /// 管理关系：AbilityBehaviorTree -> AbilityNode -> AbilityBehavior 
     ///                                                               -> AbilityCondition
+    /// 能做出“不同效果的连招”，主要是图结构意义上的不同：
+    /// 1.进入条件不同
+    /// 2.可取消/可接续的时机不同
+    /// 3.后续 child 不同
+    /// 4.在整套 combo 路径里的位置不同
     /// </summary>
     public class BehaviorComp : ComponentLogic
     {

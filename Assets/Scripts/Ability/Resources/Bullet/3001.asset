@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -20,7 +20,16 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: OnCreate
+      Entry: 6
+      Data: 
+    - Name: OnHit
+      Entry: 6
+      Data: 
+    - Name: OnRemoved
+      Entry: 6
+      Data: 
   Id: 3001
   Prefab: {fileID: 3337772918101513652, guid: 2dcfcd6cf2dd5c648a75ce8e940e6e5a, type: 3}
   Speed: 12
@@ -32,6 +41,3 @@ MonoBehaviour:
   RemoveOnObstacle: 1
   HitFoe: 1
   HitAlly: 0
-  OnCreate: {fileID: 0}
-  OnHit: {fileID: 0}
-  OnRemoved: {fileID: 0}

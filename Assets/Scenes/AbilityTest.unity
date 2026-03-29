@@ -344,6 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 007a8e10faf8b204a8521c9cf4ab9ea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TargetFrameRate: 60
   CurFrame: 0
   FrameInterval: 0
 --- !u!114 &611954325
@@ -358,6 +359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a175f7cbe20cb6f4cbc65316a7a97864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TargetFrameRate: 60
   CurFrame: 0
   FrameInterval: 0
 --- !u!1 &824733558
