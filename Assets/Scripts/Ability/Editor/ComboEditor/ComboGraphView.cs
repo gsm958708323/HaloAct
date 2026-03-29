@@ -17,8 +17,10 @@ namespace Ability.Editor.Combo
         public ComboGraphView()
         {
             style.flexGrow = 1;
-            Insert(0, new GridBackground());
-            this.StretchToParentSize();
+
+            var grid = new GridBackground();
+            Insert(0, grid);
+            grid.StretchToParentSize();
 
             SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
             this.AddManipulator(new ContentDragger());
@@ -26,6 +28,39 @@ namespace Ability.Editor.Combo
             this.AddManipulator(new RectangleSelector());
 
             graphViewChanged = OnGraphViewChanged;
+        }
+
+        public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+        {
+            var compatiblePorts = new List<Port>();
+            ports.ForEach(port =>
+            {
+                if (port == startPort || port.node == startPort.node)
+                {
+                    return;
+                }
+
+                compatiblePorts.Add(port);
+            });
+            return compatiblePorts;
+        }
+
+        public override void AddToSelection(ISelectable selectable)
+        {
+            base.AddToSelection(selectable);
+            SyncSelection();
+        }
+
+        public override void RemoveFromSelection(ISelectable selectable)
+        {
+            base.RemoveFromSelection(selectable);
+            SyncSelection();
+        }
+
+        public override void ClearSelection()
+        {
+            base.ClearSelection();
+            SyncSelection();
         }
 
         public void Bind(ComboEditorDocument document, Action<AbilityNode> onNodeSelected)
@@ -37,20 +72,24 @@ namespace Ability.Editor.Combo
 
         public void Rebuild()
         {
+            var selectedNode = GetSelectedNode();
+
             isRebuilding = true;
+            base.ClearSelection();
             DeleteElements(graphElements.ToList());
             nodeViews.Clear();
 
             if (document == null)
             {
                 isRebuilding = false;
+                SyncSelection();
                 return;
             }
 
             for (int i = 0; i < document.Nodes.Count; i++)
             {
                 var node = document.Nodes[i];
-                var nodeView = new ComboNodeView(node, HandleNodeSelected, HandleNodeMoved);
+                var nodeView = new ComboNodeView(node, HandleNodeMoved);
                 nodeView.ApplyPosition(document.GetPosition(node));
                 nodeViews[node] = nodeView;
                 AddElement(nodeView);
@@ -58,7 +97,11 @@ namespace Ability.Editor.Combo
 
             foreach (var node in document.Nodes)
             {
-                var sourceView = nodeViews[node];
+                if (!nodeViews.TryGetValue(node, out var sourceView))
+                {
+                    continue;
+                }
+
                 foreach (var target in document.GetTargets(node))
                 {
                     if (!nodeViews.TryGetValue(target, out var targetView))
@@ -72,6 +115,15 @@ namespace Ability.Editor.Combo
             }
 
             isRebuilding = false;
+
+            if (selectedNode != null && nodeViews.TryGetValue(selectedNode, out var selectedNodeView))
+            {
+                AddToSelection(selectedNodeView);
+            }
+            else
+            {
+                SyncSelection();
+            }
         }
 
         public void RefreshNode(AbilityNode node)
@@ -140,15 +192,27 @@ namespace Ability.Editor.Combo
             return change;
         }
 
-        void HandleNodeSelected(AbilityNode node)
+        AbilityNode GetSelectedNode()
         {
-            if (node != null && nodeViews.TryGetValue(node, out var nodeView))
+            for (int i = selection.Count - 1; i >= 0; i--)
             {
-                ClearSelection();
-                AddToSelection(nodeView);
+                if (selection[i] is ComboNodeView nodeView)
+                {
+                    return nodeView.NodeAsset;
+                }
             }
 
-            onNodeSelected?.Invoke(node);
+            return null;
+        }
+
+        void SyncSelection()
+        {
+            if (isRebuilding)
+            {
+                return;
+            }
+
+            onNodeSelected?.Invoke(GetSelectedNode());
         }
 
         void HandleNodeMoved(AbilityNode node, Rect position)

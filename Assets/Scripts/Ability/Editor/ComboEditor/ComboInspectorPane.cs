@@ -1,12 +1,11 @@
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using EditorType = UnityEditor.Editor;
 
 namespace Ability.Editor.Combo
 {
-    using Editor = UnityEditor.Editor;
     public class ComboInspectorPane : VisualElement
     {
         enum InspectorTab
@@ -21,8 +20,8 @@ namespace Ability.Editor.Combo
 
         ComboEditorDocument document;
         AbilityNode selectedNode;
-        Editor cachedNodeEditor;
-        Editor cachedBehaviorEditor;
+        EditorType cachedNodeEditor;
+        EditorType cachedBehaviorEditor;
         InspectorTab currentTab = InspectorTab.Behavior;
         System.Action<AbilityNode> onNodeChanged;
 
@@ -93,10 +92,10 @@ namespace Ability.Editor.Combo
 
             if (selectedNode != null)
             {
-                cachedNodeEditor = Editor.CreateEditor(selectedNode);
+                cachedNodeEditor = EditorType.CreateEditor(selectedNode);
                 if (selectedNode.Behavior != null)
                 {
-                    cachedBehaviorEditor = Editor.CreateEditor(selectedNode.Behavior);
+                    cachedBehaviorEditor = EditorType.CreateEditor(selectedNode.Behavior);
                 }
             }
         }
@@ -135,7 +134,7 @@ namespace Ability.Editor.Combo
                     return;
                 }
 
-                cachedBehaviorEditor ??= Editor.CreateEditor(selectedNode.Behavior);
+                cachedBehaviorEditor ??= EditorType.CreateEditor(selectedNode.Behavior);
                 EditorGUI.BeginChangeCheck();
                 cachedBehaviorEditor.OnInspectorGUI();
                 if (EditorGUI.EndChangeCheck())
@@ -148,7 +147,7 @@ namespace Ability.Editor.Combo
                 return;
             }
 
-            cachedNodeEditor ??= Editor.CreateEditor(selectedNode);
+            cachedNodeEditor ??= EditorType.CreateEditor(selectedNode);
             EditorGUI.BeginChangeCheck();
             cachedNodeEditor.OnInspectorGUI();
             if (EditorGUI.EndChangeCheck())

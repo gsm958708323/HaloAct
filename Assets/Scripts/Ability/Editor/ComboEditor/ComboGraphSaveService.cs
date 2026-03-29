@@ -14,6 +14,12 @@ namespace Ability.Editor.Combo
 
             foreach (var node in document.Nodes)
             {
+                if (node == null)
+                {
+                    continue;
+                }
+
+                node.EditorPosition = document.GetPosition(node).position;
                 node.Childs = document.GetTargets(node)
                     .Where(target => target != null)
                     .Select(target => target.Id)

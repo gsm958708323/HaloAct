@@ -31,6 +31,7 @@ namespace Ability
         /// 当前引用的行为节点
         /// </summary>
         public AbilityBehavior Behavior;
+        [HideInInspector] public Vector2 EditorPosition;
         protected BehaviorComp tree;
 
         /// <summary>

@@ -25,7 +25,7 @@ namespace Ability.Editor.Combo
             {
                 var node = Nodes[i];
                 edges[node] = new List<AbilityNode>();
-                positions[node] = GetDefaultPosition(i);
+                positions[node] = GetInitialPosition(node, i);
             }
         }
 
@@ -115,7 +115,13 @@ namespace Ability.Editor.Combo
                 return;
             }
 
+            if (positions.TryGetValue(node, out var currentPosition) && currentPosition == position)
+            {
+                return;
+            }
+
             positions[node] = position;
+            IsDirty = true;
         }
 
         public bool ContainsLocalBehavior(AbilityBehavior behavior)
@@ -142,7 +148,7 @@ namespace Ability.Editor.Combo
 
             Nodes.Add(node);
             edges[node] = new List<AbilityNode>();
-            positions[node] = GetDefaultPosition(Nodes.Count - 1);
+            positions[node] = GetInitialPosition(node, Nodes.Count - 1);
             IsDirty = true;
         }
 
@@ -172,6 +178,22 @@ namespace Ability.Editor.Combo
             var row = index / columnCount;
             var column = index % columnCount;
             return new Rect(80 + (column * gapX), 120 + (row * gapY), width, height);
+        }
+
+        static Rect GetInitialPosition(AbilityNode node, int index)
+        {
+            var defaultPosition = GetDefaultPosition(index);
+            if (node == null)
+            {
+                return defaultPosition;
+            }
+
+            if (node.EditorPosition == Vector2.zero)
+            {
+                return defaultPosition;
+            }
+
+            return new Rect(node.EditorPosition, defaultPosition.size);
         }
     }
 }
