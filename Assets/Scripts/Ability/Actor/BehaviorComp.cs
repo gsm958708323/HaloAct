@@ -1,62 +1,57 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Ability
 {
     /// <summary>
-    /// 技能行为树
+    /// ������Ϊ��
     ///                                                               -> AbilityAction 
-    /// 管理关系：AbilityBehaviorTree -> AbilityNode -> AbilityBehavior 
+    /// ������ϵ��AbilityBehaviorTree -> AbilityNode -> AbilityBehavior 
     ///                                                               -> AbilityCondition
-    /// 能做出“不同效果的连招”，主要是图结构意义上的不同：
-    /// 1.进入条件不同
-    /// 2.可取消/可接续的时机不同
-    /// 3.后续 child 不同
-    /// 4.在整套 combo 路径里的位置不同
-    /// </summary>
+    /// ����������ͬЧ�������С�����Ҫ��ͼ�ṹ�����ϵĲ�ͬ��
+    /// 1.����������ͬ
+    /// 2.��ȡ��/�ɽ�����ʱ����ͬ
+    /// 3.���� child ��ͬ
+    /// 4.������ combo ·�����λ�ò�ͬ    /// </summary>
     public class BehaviorComp : ComponentLogic
     {
-        /// <summary>
-        /// 当前行为的帧计数
-        /// </summary>
         public int curFrame;
-        /// <summary>
-        /// 当前执行的行为节点的索引（这里Index和Id是相等的）
-        /// </summary>
-        int curNodeIndex;
-        List<AbilityNode> nodeList = new();
-        List<AbilityBehavior> behaviorsList = new();
-        // /// <summary>
-        // /// 当前行为是否可以打断
-        // /// </summary>
-        // public bool CanCancel;
+
+        readonly List<AbilityNode> nodeList = new();
+        readonly List<AbilityBehavior> behaviorsList = new();
+        readonly Dictionary<int, AbilityNode> nodeDict = new();
+        readonly Dictionary<AttackType, AbilityNode> hurtNodeDict = new();
+
         public Entity Entity;
         public AbilityNode curNode;
-        Dictionary<AttackType, AbilityNode> hurtNodeDict = new();
 
         public override void Enter(IEntity model)
         {
             base.Enter(model);
             Entity = entity;
-            var data = model.GetComp<PlayerDataComp>().Data;
-            LoadBehavior(data.BehaviorPath);
-            LoadNode(data.NodePath);
 
-            StartBehavior(GetBehaviorById(0));
+            var data = model.GetComp<PlayerDataComp>().Data;
+            if (data?.ComboGraph != null)
+            {
+                LoadComboGraph(data.ComboGraph);
+            }
+            else
+            {
+                LoadLegacy(data);
+            }
+
+            StartBehavior(GetNodeById(0));
         }
 
         public override void Tick(float deltaTime)
         {
-            if (Entity.IsDead)
+            if (Entity.IsDead || curNode == null)
             {
                 return;
             }
 
-            AbilityNode nextBehavior = TryGetNextBehavior();
+            var nextBehavior = TryGetNextBehavior();
             if (nextBehavior != null)
             {
                 var buffComp = Entity.GetComp<EffectComp>();
@@ -76,7 +71,11 @@ namespace Ability
             curFrame += 1;
             Debugger.Log($"{curFrame}", LogDomain.Frame);
 
-            // 执行次数？生命周期完整？重置之后curFrame是否正确？
+            if (curNode.Behavior == null)
+            {
+                return;
+            }
+
             if (curFrame > curNode.Behavior.FrameLength)
             {
                 if (curNode.Behavior.IsLoop)
@@ -90,64 +89,135 @@ namespace Ability
             }
         }
 
-        private void LoadNode(string nodePath)
+        void LoadLegacy(ActorData data)
         {
-            nodeList = Resources.LoadAll<AbilityNode>(nodePath).ToList();
+            nodeList.Clear();
+            behaviorsList.Clear();
+            nodeDict.Clear();
+            hurtNodeDict.Clear();
+
+            if (data == null)
+            {
+                Debug.LogError("Actor data is null.");
+                return;
+            }
+
+            LoadBehavior(data.BehaviorPath);
+            LoadNode(data.NodePath);
+        }
+
+        void LoadNode(string nodePath)
+        {
+            nodeList.AddRange(Resources.LoadAll<AbilityNode>(nodePath).Where(node => node != null).OrderBy(node => node.Id));
             if (nodeList.Count == 0)
             {
-                Debug.LogError("行为节点初始化错误");
+                Debug.LogError("Legacy combo node load failed.");
                 return;
             }
-            nodeList.Sort((x, y) => x.Id.CompareTo(y.Id));
 
-            //设置Node和Behavior的对应关系，通过node的名字找到behavior
-            var name2Index = new Dictionary<string, int>();
-            for (int i = 0; i < behaviorsList.Count; i++)
-            {
-                name2Index[behaviorsList[i].name] = i;
-            }
-            foreach (var item in nodeList)
-            {
-                var nameT = Regex.Replace(item.name, @"\d", ""); // Dash1，Dash2，Dash3 只对比Dash
-                var isGet = name2Index.TryGetValue(item.name, out int index) || name2Index.TryGetValue(nameT, out index);
-                if (isGet)
-                {
-                    item.Behavior = behaviorsList[index];
-                }
-                else
-                {
-                    Debug.LogError($"设置Node和Behavior的对应关系错误 {item.name}");
-                }
-                item?.Init();
+            ComboGraphBindingUtility.ApplyLegacyBindings(nodeList, behaviorsList);
 
-                if (item.Behavior is AbilityBehaviorHurt hurtBehavior)
+            for (int i = 0; i < nodeList.Count; i++)
+            {
+                var node = nodeList[i];
+                nodeDict[node.Id] = node;
+                node.Init();
+
+                if (node.Behavior is AbilityBehaviorHurt hurtBehavior)
                 {
-                    hurtNodeDict[hurtBehavior.AttackType] = item;
+                    hurtNodeDict[hurtBehavior.AttackType] = node;
                 }
             }
         }
 
-        public AbilityBehavior GetAbilityBehavior(int index)
+        void LoadBehavior(string behaviorPath)
         {
-            if (index < 0 || index >= behaviorsList.Count)
-            {
-                return null;
-            }
-
-            return behaviorsList[index];
+            behaviorsList.AddRange(Resources.LoadAll<AbilityBehavior>(behaviorPath).Where(behavior => behavior != null));
+            InitBehaviors();
         }
 
-        private void LoadBehavior(string behaviorPath)
+        void LoadComboGraph(ActorComboGraphSO comboGraph)
         {
-            behaviorsList = Resources.LoadAll<AbilityBehavior>(behaviorPath).ToList();
+            nodeList.Clear();
+            behaviorsList.Clear();
+            nodeDict.Clear();
+            hurtNodeDict.Clear();
+
+            if (comboGraph == null)
+            {
+                Debug.LogError("Combo graph is null.");
+                return;
+            }
+
+            for (int i = 0; i < comboGraph.Nodes.Count; i++)
+            {
+                var node = comboGraph.Nodes[i];
+                if (node == null)
+                {
+                    continue;
+                }
+
+                nodeList.Add(node);
+                nodeDict[node.Id] = node;
+            }
+
+            nodeList.Sort((left, right) => left.Id.CompareTo(right.Id));
+
+            if (nodeList.Count == 0)
+            {
+                Debug.LogError("Combo graph has no nodes.");
+                return;
+            }
+
+            CollectBehaviors(comboGraph);
+            InitBehaviors();
+
+            for (int i = 0; i < nodeList.Count; i++)
+            {
+                var node = nodeList[i];
+                node.Init();
+
+                if (node.Behavior is AbilityBehaviorHurt hurtBehavior)
+                {
+                    hurtNodeDict[hurtBehavior.AttackType] = node;
+                }
+            }
+        }
+
+        void CollectBehaviors(ActorComboGraphSO comboGraph)
+        {
+            var behaviorSet = new HashSet<AbilityBehavior>();
+
+            for (int i = 0; i < nodeList.Count; i++)
+            {
+                var behavior = nodeList[i].Behavior;
+                if (behavior != null && behaviorSet.Add(behavior))
+                {
+                    behaviorsList.Add(behavior);
+                }
+            }
+
+            for (int i = 0; i < comboGraph.LocalBehaviors.Count; i++)
+            {
+                var behavior = comboGraph.LocalBehaviors[i];
+                if (behavior != null && behaviorSet.Add(behavior))
+                {
+                    behaviorsList.Add(behavior);
+                }
+            }
+        }
+
+        void InitBehaviors()
+        {
             if (behaviorsList.Count == 0)
             {
-                Debug.LogError("行为数据初始化错误");
+                Debug.LogError("Combo graph has no behaviors.");
                 return;
             }
 
-            foreach (var behavior in behaviorsList)
+            for (int i = 0; i < behaviorsList.Count; i++)
             {
+                var behavior = behaviorsList[i];
                 behavior?.Init();
                 foreach (var actionT in behavior.Actions)
                 {
@@ -167,32 +237,26 @@ namespace Ability
             }
         }
 
-
-        /// <summary>
-        /// 将行为重置到第一帧
-        /// </summary>
-        private void LoopBehavior()
+        void LoopBehavior()
         {
             curFrame = 1;
-            // CanCancel = false;
         }
 
-        private void EndBehavior()
+        void EndBehavior()
         {
-            StartBehavior(GetBehaviorById(0));
-            Entity.Target = null; // 重置目标
+            StartBehavior(GetNodeById(0));
+            Entity.Target = null;
         }
 
-        private AbilityNode GetBehaviorById(int id)
+        public AbilityNode GetNodeById(int id)
         {
-            // 判断数组越界
-            if (id < 0 || id >= nodeList.Count)
+            if (!nodeDict.TryGetValue(id, out var node))
             {
-                Debug.LogError($"行为节点不存在 {id}");
+                Debug.LogError($"Missing combo node id: {id}");
                 return null;
             }
 
-            return nodeList[id];
+            return node;
         }
 
         public AbilityNode GetHurtBehavior(AttackType attackType)
@@ -205,55 +269,51 @@ namespace Ability
             return curNode?.Behavior;
         }
 
-        private AbilityNode TryGetNextBehavior()
+        AbilityNode TryGetNextBehavior()
         {
-            if (nodeList.Count == 0)
+            if (curNode == null)
             {
-                Debug.LogError($"没有可选择的行为节点");
+                Debug.LogError("No selectable combo nodes.");
                 return null;
             }
 
             int priority = -1;
-            AbilityNode nextNode = default;
-            foreach (var newNodeIndex in curNode.Childs)
+            AbilityNode nextNode = null;
+            foreach (var childId in curNode.Childs)
             {
-                AbilityNode newNode = nodeList[newNodeIndex];
-                AbilityBehavior behavior = newNode.Behavior;
-                // 检查输入
-                if (GameManager_Input.Instance.bufferKeys.Any(predicate => predicate == behavior.InputKey))
+                var newNode = GetNodeById(childId);
+                if (newNode == null || newNode.Behavior == null)
                 {
-                    // 检查条件
-                    if (newNode.CheckCondition(this))
+                    continue;
+                }
+
+                if (GameManager_Input.Instance.bufferKeys.Any(predicate => predicate == newNode.Behavior.InputKey))
+                {
+                    if (newNode.CheckCondition(this) && newNode.Priority > priority)
                     {
-                        if (newNode.Priority > priority)
-                        {
-                            priority = newNode.Priority;
-                            nextNode = newNode;
-                        }
+                        priority = newNode.Priority;
+                        nextNode = newNode;
                     }
                 }
             }
-            if (priority > -1)
-            {
-                return nextNode;
-            }
 
-            return null;
+            return priority > -1 ? nextNode : null;
         }
 
         public void StartBehavior(AbilityNode newNode)
         {
             if (newNode == null || newNode == curNode)
+            {
                 return;
+            }
 
             curFrame = 1;
             curNode?.Exit();
             curNode = newNode;
-            newNode?.Enter(this);
-            // CanCancel = false;
+            newNode.Enter(this);
         }
 
-        private void ResetBehavior(AbilityBehavior behavior)
+        void ResetBehavior(AbilityBehavior behavior)
         {
             foreach (var actionT in behavior.Actions)
             {
@@ -263,7 +323,5 @@ namespace Ability
                 }
             }
         }
-
     }
 }
-

@@ -37,5 +37,5 @@ MonoBehaviour:
   Id: 1
   Childs: 
   Priority: 0
-  Behavior: {fileID: 11400000, guid: b7fcd60bbf133404f8080cbb197dd85f, type: 2}
+  Behavior: {fileID: 11400000, guid: 0df811f276c98c9458a49a4d0b01b7c8, type: 2}
   CanCancel: 0

@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Sirenix.OdinInspector;
 using System;
+using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace Ability
 {
@@ -16,8 +14,9 @@ namespace Ability
         public Vector3 Frictional = new Vector3(0.5f, 1, 0.5f);
         public float Gravity = -20f;
         public float DelayAerialTime = 0.5f;
+        public ActorComboGraphSO ComboGraph;
 
-        // todo 改成用id获取路径
+        // Legacy resource paths are kept for migration and compatibility fallback only.
         [FolderPath] public string NodePath;
         [FolderPath] public string BehaviorPath;
         public GroundCheckData CheckerData;

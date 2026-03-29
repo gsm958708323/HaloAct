@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e31ce440dc2ac644bce3368948d3601, type: 3}
-  m_Name: Dash1
+  m_Name: Node_11
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -34,8 +34,8 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Id: 5
+  Id: 11
   Childs: 
   Priority: 0
-  Behavior: {fileID: 11400000, guid: b87ec0549c3836a4398eed83232ce9c8, type: 2}
+  Behavior: {fileID: 0}
   CanCancel: 0

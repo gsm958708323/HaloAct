@@ -30,6 +30,7 @@ MonoBehaviour:
   Frictional: {x: 0.5, y: 1, z: 0.5}
   Gravity: -20
   DelayAerialTime: 0.5
+  ComboGraph: {fileID: 11400000, guid: 7833cc4c834853c45b25769043684876, type: 2}
   NodePath: Ability/2001/Node
   BehaviorPath: Ability/2001/Behavior
   CheckerData:

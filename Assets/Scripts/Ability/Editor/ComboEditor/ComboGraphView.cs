@@ -1,0 +1,159 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+namespace Ability.Editor.Combo
+{
+    public class ComboGraphView : GraphView
+    {
+        readonly Dictionary<AbilityNode, ComboNodeView> nodeViews = new();
+        ComboEditorDocument document;
+        Action<AbilityNode> onNodeSelected;
+        bool isRebuilding;
+
+        public ComboGraphView()
+        {
+            style.flexGrow = 1;
+            Insert(0, new GridBackground());
+            this.StretchToParentSize();
+
+            SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
+            this.AddManipulator(new ContentDragger());
+            this.AddManipulator(new SelectionDragger());
+            this.AddManipulator(new RectangleSelector());
+
+            graphViewChanged = OnGraphViewChanged;
+        }
+
+        public void Bind(ComboEditorDocument document, Action<AbilityNode> onNodeSelected)
+        {
+            this.document = document;
+            this.onNodeSelected = onNodeSelected;
+            Rebuild();
+        }
+
+        public void Rebuild()
+        {
+            isRebuilding = true;
+            DeleteElements(graphElements.ToList());
+            nodeViews.Clear();
+
+            if (document == null)
+            {
+                isRebuilding = false;
+                return;
+            }
+
+            for (int i = 0; i < document.Nodes.Count; i++)
+            {
+                var node = document.Nodes[i];
+                var nodeView = new ComboNodeView(node, HandleNodeSelected, HandleNodeMoved);
+                nodeView.ApplyPosition(document.GetPosition(node));
+                nodeViews[node] = nodeView;
+                AddElement(nodeView);
+            }
+
+            foreach (var node in document.Nodes)
+            {
+                var sourceView = nodeViews[node];
+                foreach (var target in document.GetTargets(node))
+                {
+                    if (!nodeViews.TryGetValue(target, out var targetView))
+                    {
+                        continue;
+                    }
+
+                    var edge = sourceView.OutputPort.ConnectTo(targetView.InputPort);
+                    AddElement(edge);
+                }
+            }
+
+            isRebuilding = false;
+        }
+
+        public void RefreshNode(AbilityNode node)
+        {
+            if (node != null && nodeViews.TryGetValue(node, out var nodeView))
+            {
+                nodeView.RefreshSummary();
+            }
+        }
+
+        public void AutoLayout()
+        {
+            if (document == null)
+            {
+                return;
+            }
+
+            const float width = 240f;
+            const float height = 150f;
+            const float gapX = 280f;
+            const float gapY = 210f;
+            const int columnCount = 4;
+
+            var nodes = document.Nodes.OrderBy(node => node.Id).ToList();
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                var row = i / columnCount;
+                var column = i % columnCount;
+                var position = new Rect(80 + (column * gapX), 120 + (row * gapY), width, height);
+                document.SetPosition(nodes[i], position);
+            }
+
+            Rebuild();
+        }
+
+        GraphViewChange OnGraphViewChanged(GraphViewChange change)
+        {
+            if (document == null || isRebuilding)
+            {
+                return change;
+            }
+
+            if (change.edgesToCreate != null)
+            {
+                foreach (var edge in change.edgesToCreate)
+                {
+                    var source = (edge.output.node as ComboNodeView)?.NodeAsset;
+                    var target = (edge.input.node as ComboNodeView)?.NodeAsset;
+                    document.Connect(source, target);
+                }
+            }
+
+            if (change.elementsToRemove != null)
+            {
+                foreach (var element in change.elementsToRemove)
+                {
+                    if (element is Edge edge)
+                    {
+                        var source = (edge.output.node as ComboNodeView)?.NodeAsset;
+                        var target = (edge.input.node as ComboNodeView)?.NodeAsset;
+                        document.Disconnect(source, target);
+                    }
+                }
+            }
+
+            return change;
+        }
+
+        void HandleNodeSelected(AbilityNode node)
+        {
+            if (node != null && nodeViews.TryGetValue(node, out var nodeView))
+            {
+                ClearSelection();
+                AddToSelection(nodeView);
+            }
+
+            onNodeSelected?.Invoke(node);
+        }
+
+        void HandleNodeMoved(AbilityNode node, Rect position)
+        {
+            document?.SetPosition(node, position);
+        }
+    }
+}
