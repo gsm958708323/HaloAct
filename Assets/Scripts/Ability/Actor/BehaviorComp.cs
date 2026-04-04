@@ -212,6 +212,11 @@ namespace Ability
                 Debug.LogError("No selectable combo nodes.");
                 return null;
             }
+            if (!curNode.CanCancel)
+            {
+                // 当前节点在取消状态下，才能切换到子节点
+                return null;
+            }
 
             int priority = -1;
             AbilityNode nextNode = null;
@@ -225,7 +230,7 @@ namespace Ability
 
                 if (GameManager_Input.Instance.bufferKeys.Any(predicate => predicate == newNode.Behavior.InputKey))
                 {
-                    if (newNode.CheckCondition(this) && newNode.Priority > priority)
+                    if (newNode.Priority > priority)
                     {
                         priority = newNode.Priority;
                         nextNode = newNode;

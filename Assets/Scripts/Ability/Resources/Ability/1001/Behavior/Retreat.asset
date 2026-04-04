@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e31ce440dc2ac644bce3368948d3601, type: 3}
-  m_Name: Skill01
+  m_Script: {fileID: 11500000, guid: fbbfd78fa0c4f644d9f3f916f9d80ee5, type: 3}
+  m_Name: Retreat
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,16 +21,37 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: conditions
+    - Name: Actions
       Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[Ability.AbilityCondition, Assembly-CSharp]],
+      Data: 0|System.Collections.Generic.List`1[[Ability.IAbilityAction, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|Ability.CancelCondition, Assembly-CSharp
+      Data: 1|Ability.AddVelocityAction, Assembly-CSharp
+    - Name: StartFrame
+      Entry: 3
+      Data: 5
+    - Name: EndFrame
+      Entry: 3
+      Data: 5
+    - Name: Velocity
+      Entry: 7
+      Data: UnityEngine.Vector3, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: -100
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -40,8 +61,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Id: 7
-  Childs: 08000000
-  Priority: 0
-  Behavior: {fileID: 11400000, guid: 27d5c2ededeaf8b41a5fed1ec68e796d, type: 2}
-  CanCancel: 0
+  FrameLength: 10
+  IsLoop: 0
+  InputKey: 324

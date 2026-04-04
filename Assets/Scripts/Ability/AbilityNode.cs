@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Ability
 {
-    [CreateAssetMenu(fileName = "NewNode", menuName = "AbilityTree/AbilityNode")]
     /// <summary>
     /// 记录行为节点的连招过渡关系和其他拓展信息
     /// </summary>

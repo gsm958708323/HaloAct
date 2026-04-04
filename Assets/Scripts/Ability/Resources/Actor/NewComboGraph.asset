@@ -72,6 +72,8 @@ MonoBehaviour:
   - {fileID: -4600008673242585111}
   - {fileID: 1024991609419293874}
   - {fileID: 2269260460729984091}
+  - {fileID: 6359875381692573179}
+  - {fileID: 4033032460517007311}
 --- !u!114 &1024991609419293874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,13 +101,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 1|Ability.CancelCondition, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -113,7 +109,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   Id: 1
-  Childs: 02000000
+  Childs: 0200000004000000
   Priority: 0
   Behavior: {fileID: 11400000, guid: 7dff995c17001fc4fbf6c46d450486ce, type: 2}
   EditorPosition: {x: 926.68, y: -154.4}
@@ -124,7 +120,7 @@ MonoBehaviour:
     width: 337.59998
     height: 220
   HasEditorPosition: 1
-  CanCancel: 0
+  CanCancel: 1
 --- !u!114 &2269260460729984091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,7 +156,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   Id: 2
-  Childs: 
+  Childs: 03000000
   Priority: 0
   Behavior: {fileID: 11400000, guid: acde160ece5277243976ef0ddde88aba, type: 2}
   EditorPosition: {x: 1429.7202, y: -154.40002}
@@ -172,3 +168,97 @@ MonoBehaviour:
     height: 220
   HasEditorPosition: 1
   CanCancel: 1
+--- !u!114 &4033032460517007311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e31ce440dc2ac644bce3368948d3601, type: 3}
+  m_Name: Node_4
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: conditions
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[Ability.AbilityCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  Id: 4
+  Childs: 
+  Priority: 0
+  Behavior: {fileID: 11400000, guid: b87ec0549c3836a4398eed83232ce9c8, type: 2}
+  EditorPosition: {x: 1463.2001, y: 80.71998}
+  EditorRect:
+    serializedVersion: 2
+    x: 1463.2001
+    y: 80.71998
+    width: 338.40002
+    height: 220
+  HasEditorPosition: 1
+  CanCancel: 0
+--- !u!114 &6359875381692573179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e31ce440dc2ac644bce3368948d3601, type: 3}
+  m_Name: Node_3
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: conditions
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[Ability.AbilityCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  Id: 3
+  Childs: 
+  Priority: 0
+  Behavior: {fileID: 11400000, guid: 55626d1719eef814fbab179b1d5c9697, type: 2}
+  EditorPosition: {x: 1929.0435, y: -192.36015}
+  EditorRect:
+    serializedVersion: 2
+    x: 1929.0435
+    y: -192.36015
+    width: 338.3999
+    height: 220
+  HasEditorPosition: 1
+  CanCancel: 0
