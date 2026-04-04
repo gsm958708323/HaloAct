@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -7,11 +8,15 @@ namespace Ability.Editor.Combo
 {
     public class ComboEditorWindow : EditorWindow
     {
+        const double RuntimeHighlightSyncInterval = 0.1d;
+
         ComboEditorDocument document;
         ComboGraphView graphView;
         ComboInspectorPane inspectorPane;
         ObjectField graphField;
         HelpBox statusBox;
+        readonly Dictionary<AbilityNode, int> runtimeNodeCounts = new();
+        double nextRuntimeHighlightSyncTime;
 
         [MenuItem("Tools/Ability/Combo Editor")]
         static void Open()
@@ -20,6 +25,17 @@ namespace Ability.Editor.Combo
             window.titleContent = new GUIContent("Combo Editor");
             window.minSize = new Vector2(1200, 700);
             window.Show();
+        }
+
+        void OnEnable()
+        {
+            EditorApplication.update -= OnEditorUpdate;
+            EditorApplication.update += OnEditorUpdate;
+        }
+
+        void OnDisable()
+        {
+            EditorApplication.update -= OnEditorUpdate;
         }
 
         void CreateGUI()
@@ -66,6 +82,7 @@ namespace Ability.Editor.Combo
             document = ComboEditorDocument.Load(comboGraph);
             graphView.Bind(document, OnNodeSelected, OnNodeCardChanged, CreateNodeAt);
             inspectorPane.Bind(document, null, OnInspectorNodeChanged);
+            RefreshRuntimeHighlights(true);
             UpdateStatus(comboGraph);
         }
 
@@ -120,6 +137,7 @@ namespace Ability.Editor.Combo
             }
 
             graphView.Rebuild();
+            RefreshRuntimeHighlights(true);
             inspectorPane.Refresh();
             UpdateStatus(document.ComboGraph);
         }
@@ -213,6 +231,7 @@ namespace Ability.Editor.Combo
 
             document.MarkDirty();
             graphView.Rebuild();
+            RefreshRuntimeHighlights(true);
             inspectorPane.Refresh();
             UpdateStatus(document.ComboGraph);
         }
@@ -225,8 +244,19 @@ namespace Ability.Editor.Combo
             }
 
             graphView.RefreshNode(node);
+            RefreshRuntimeHighlights(true);
             inspectorPane.Bind(document, node, OnInspectorNodeChanged);
             UpdateStatus(document.ComboGraph);
+        }
+
+        void OnEditorUpdate()
+        {
+            if (graphView == null)
+            {
+                return;
+            }
+
+            RefreshRuntimeHighlights(false);
         }
 
         void UpdateStatus(ActorComboGraphSO comboGraph)
@@ -270,6 +300,113 @@ namespace Ability.Editor.Combo
             }
 
             return "Assets";
+        }
+
+        void RefreshRuntimeHighlights(bool force)
+        {
+            if (graphView == null)
+            {
+                return;
+            }
+
+            if (!EditorApplication.isPlaying)
+            {
+                if (force || runtimeNodeCounts.Count > 0)
+                {
+                    runtimeNodeCounts.Clear();
+                    graphView.SetRuntimeNodeCounts(runtimeNodeCounts);
+                }
+
+                return;
+            }
+
+            if (!force && EditorApplication.timeSinceStartup < nextRuntimeHighlightSyncTime)
+            {
+                return;
+            }
+
+            nextRuntimeHighlightSyncTime = EditorApplication.timeSinceStartup + RuntimeHighlightSyncInterval;
+            var latestCounts = CollectRuntimeNodeCounts();
+            if (!force && AreRuntimeNodeCountsEqual(runtimeNodeCounts, latestCounts))
+            {
+                return;
+            }
+
+            runtimeNodeCounts.Clear();
+            foreach (var pair in latestCounts)
+            {
+                runtimeNodeCounts[pair.Key] = pair.Value;
+            }
+
+            graphView.SetRuntimeNodeCounts(runtimeNodeCounts);
+        }
+
+        Dictionary<AbilityNode, int> CollectRuntimeNodeCounts()
+        {
+            var activeCounts = new Dictionary<AbilityNode, int>();
+            if (document?.ComboGraph == null || FightManager.LogicEntity == null)
+            {
+                return activeCounts;
+            }
+
+            var actorList = FightManager.LogicEntity.GetEntityLinkedList(EntityType.Actor);
+            if (actorList == null)
+            {
+                return activeCounts;
+            }
+
+            for (var node = actorList.First; node != null; node = node.Next)
+            {
+                if (node.Value is not Entity entity)
+                {
+                    continue;
+                }
+
+                var dataComp = entity.GetComp<PlayerDataComp>();
+                if (dataComp?.Data?.ComboGraph != document.ComboGraph)
+                {
+                    continue;
+                }
+
+                var behaviorComp = entity.GetComp<BehaviorComp>();
+                if (behaviorComp?.curNode == null)
+                {
+                    continue;
+                }
+
+                if (!activeCounts.ContainsKey(behaviorComp.curNode))
+                {
+                    activeCounts.Add(behaviorComp.curNode, 1);
+                    continue;
+                }
+
+                activeCounts[behaviorComp.curNode] += 1;
+            }
+
+            return activeCounts;
+        }
+
+        static bool AreRuntimeNodeCountsEqual(IReadOnlyDictionary<AbilityNode, int> left, IReadOnlyDictionary<AbilityNode, int> right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (left == null || right == null || left.Count != right.Count)
+            {
+                return false;
+            }
+
+            foreach (var pair in left)
+            {
+                if (!right.TryGetValue(pair.Key, out var value) || value != pair.Value)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

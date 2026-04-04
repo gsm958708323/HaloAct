@@ -36,10 +36,6 @@ namespace Ability.Editor.Combo
                 .Where(node => node != null)
                 .OrderBy(node => node.Id)
                 .ToList();
-
-            document.ComboGraph.LocalBehaviors = document.GetLocalBehaviors()
-                .Where(behavior => behavior != null)
-                .ToList();
         }
 
         public static bool Save(ComboEditorDocument document, out ComboGraphValidationResult validation)

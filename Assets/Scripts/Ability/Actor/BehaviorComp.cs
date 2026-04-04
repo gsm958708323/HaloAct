@@ -141,15 +141,6 @@ namespace Ability
                     behaviorsList.Add(behavior);
                 }
             }
-
-            for (int i = 0; i < comboGraph.LocalBehaviors.Count; i++)
-            {
-                var behavior = comboGraph.LocalBehaviors[i];
-                if (behavior != null && behaviorSet.Add(behavior))
-                {
-                    behaviorsList.Add(behavior);
-                }
-            }
         }
 
         void InitBehaviors()

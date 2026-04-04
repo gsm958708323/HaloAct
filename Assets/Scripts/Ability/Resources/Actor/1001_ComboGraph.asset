@@ -38,7 +38,14 @@ MonoBehaviour:
   Childs: 
   Priority: 0
   Behavior: {fileID: 11400000, guid: b87ec0549c3836a4398eed83232ce9c8, type: 2}
-  EditorPosition: {x: 0, y: 0}
+  EditorPosition: {x: 1050.8418, y: 315.20007}
+  EditorRect:
+    serializedVersion: 2
+    x: 1050.8418
+    y: 315.20007
+    width: 374.40002
+    height: 219.99997
+  HasEditorPosition: 1
   CanCancel: 0
 --- !u!114 &-4941998852034344831
 MonoBehaviour:
@@ -84,7 +91,14 @@ MonoBehaviour:
   Childs: 
   Priority: 0
   Behavior: {fileID: 11400000, guid: 55626d1719eef814fbab179b1d5c9697, type: 2}
-  EditorPosition: {x: 0, y: 0}
+  EditorPosition: {x: 1568.6998, y: 8.108991}
+  EditorRect:
+    serializedVersion: 2
+    x: 1568.6998
+    y: 8.108991
+    width: 371.19995
+    height: 219.99998
+  HasEditorPosition: 1
   CanCancel: 1
 --- !u!114 &-4487575457538545252
 MonoBehaviour:
@@ -124,7 +138,14 @@ MonoBehaviour:
   Childs: 
   Priority: 0
   Behavior: {fileID: 11400000, guid: b87ec0549c3836a4398eed83232ce9c8, type: 2}
-  EditorPosition: {x: 0, y: 0}
+  EditorPosition: {x: 810.4, y: 808.3992}
+  EditorRect:
+    serializedVersion: 2
+    x: 810.4
+    y: 808.3992
+    width: 374.40002
+    height: 220
+  HasEditorPosition: 1
   CanCancel: 0
 --- !u!114 &-998328426260655445
 MonoBehaviour:
@@ -164,7 +185,14 @@ MonoBehaviour:
   Childs: 
   Priority: 0
   Behavior: {fileID: 11400000, guid: b87ec0549c3836a4398eed83232ce9c8, type: 2}
-  EditorPosition: {x: 0, y: 0}
+  EditorPosition: {x: 1565.5996, y: -330.41675}
+  EditorRect:
+    serializedVersion: 2
+    x: 1565.5996
+    y: -330.41675
+    width: 374.40002
+    height: 220
+  HasEditorPosition: 1
   CanCancel: 0
 --- !u!114 &-641386753033578443
 MonoBehaviour:
@@ -204,7 +232,14 @@ MonoBehaviour:
   Childs: 
   Priority: 0
   Behavior: {fileID: 11400000, guid: eb17f91fea306c544bf74272c69d5394, type: 2}
-  EditorPosition: {x: 0, y: 0}
+  EditorPosition: {x: 521.3641, y: -269.8307}
+  EditorRect:
+    serializedVersion: 2
+    x: 521.3641
+    y: -269.8307
+    width: 375.2
+    height: 220
+  HasEditorPosition: 1
   CanCancel: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -286,7 +321,14 @@ MonoBehaviour:
   Childs: 
   Priority: 0
   Behavior: {fileID: 11400000, guid: b87ec0549c3836a4398eed83232ce9c8, type: 2}
-  EditorPosition: {x: 0, y: 0}
+  EditorPosition: {x: 2050.168, y: -160.39998}
+  EditorRect:
+    serializedVersion: 2
+    x: 2050.168
+    y: -160.39998
+    width: 374.3999
+    height: 220
+  HasEditorPosition: 1
   CanCancel: 0
 --- !u!114 &1644487181738971115
 MonoBehaviour:
@@ -332,7 +374,14 @@ MonoBehaviour:
   Childs: 
   Priority: 0
   Behavior: {fileID: 11400000, guid: 84abc50f7800b634e9de02a06641bbd1, type: 2}
-  EditorPosition: {x: 0, y: 0}
+  EditorPosition: {x: 1712.8003, y: 249.2401}
+  EditorRect:
+    serializedVersion: 2
+    x: 1712.8003
+    y: 249.2401
+    width: 371.19995
+    height: 220
+  HasEditorPosition: 1
   CanCancel: 1
 --- !u!114 &2613847681497818100
 MonoBehaviour:
@@ -378,7 +427,14 @@ MonoBehaviour:
   Childs: 0400000005000000090000000a000000
   Priority: 0
   Behavior: {fileID: 11400000, guid: acde160ece5277243976ef0ddde88aba, type: 2}
-  EditorPosition: {x: 0, y: 0}
+  EditorPosition: {x: 1089.3578, y: -50.40004}
+  EditorRect:
+    serializedVersion: 2
+    x: 1089.3578
+    y: -50.40004
+    width: 372
+    height: 220
+  HasEditorPosition: 1
   CanCancel: 1
 --- !u!114 &3655645531036353219
 MonoBehaviour:
@@ -424,7 +480,14 @@ MonoBehaviour:
   Childs: 08000000
   Priority: 0
   Behavior: {fileID: 11400000, guid: 27d5c2ededeaf8b41a5fed1ec68e796d, type: 2}
-  EditorPosition: {x: 0, y: 0}
+  EditorPosition: {x: 458.39993, y: 315.9853}
+  EditorRect:
+    serializedVersion: 2
+    x: 458.39993
+    y: 315.9853
+    width: 380.80002
+    height: 219.99997
+  HasEditorPosition: 1
   CanCancel: 0
 --- !u!114 &7519075234876976070
 MonoBehaviour:
@@ -470,7 +533,14 @@ MonoBehaviour:
   Childs: 0300000005000000
   Priority: 0
   Behavior: {fileID: 11400000, guid: 7dff995c17001fc4fbf6c46d450486ce, type: 2}
-  EditorPosition: {x: 0, y: 0}
+  EditorPosition: {x: 527.2001, y: -26.591238}
+  EditorRect:
+    serializedVersion: 2
+    x: 527.2001
+    y: -26.591238
+    width: 370.39996
+    height: 220
+  HasEditorPosition: 1
   CanCancel: 1
 --- !u!114 &8220444524325780595
 MonoBehaviour:
@@ -516,5 +586,12 @@ MonoBehaviour:
   Childs: 010000000200000007000000090000000a000000
   Priority: 0
   Behavior: {fileID: 11400000, guid: 68c3323d2b17d0d4cbbfe536290f9018, type: 2}
-  EditorPosition: {x: 0, y: 0}
+  EditorPosition: {x: -16.278, y: -60.917953}
+  EditorRect:
+    serializedVersion: 2
+    x: -16.278
+    y: -60.917953
+    width: 375.19998
+    height: 220
+  HasEditorPosition: 1
   CanCancel: 1

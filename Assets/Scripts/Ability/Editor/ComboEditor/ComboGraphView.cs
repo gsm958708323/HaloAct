@@ -10,6 +10,7 @@ namespace Ability.Editor.Combo
     public class ComboGraphView : GraphView
     {
         readonly Dictionary<AbilityNode, ComboNodeView> nodeViews = new();
+        readonly Dictionary<AbilityNode, int> runtimeNodeCounts = new();
         ComboEditorDocument document;
         Action<AbilityNode> onNodeSelected;
         Action<AbilityNode> onNodeChanged;
@@ -116,6 +117,7 @@ namespace Ability.Editor.Combo
 
                 var nodeView = new ComboNodeView(document, node, HandleNodeChanged, HandleNodeMoved);
                 nodeView.ApplyPosition(document.GetPosition(node));
+                ApplyRuntimeState(nodeView, node);
                 nodeViews[node] = nodeView;
                 AddElement(nodeView);
             }
@@ -155,6 +157,28 @@ namespace Ability.Editor.Combo
             if (node != null && nodeViews.TryGetValue(node, out var nodeView))
             {
                 nodeView.RefreshSummary();
+                ApplyRuntimeState(nodeView, node);
+            }
+        }
+
+        public void SetRuntimeNodeCounts(IReadOnlyDictionary<AbilityNode, int> counts)
+        {
+            runtimeNodeCounts.Clear();
+
+            if (counts != null)
+            {
+                foreach (var pair in counts)
+                {
+                    if (pair.Key != null && pair.Value > 0)
+                    {
+                        runtimeNodeCounts[pair.Key] = pair.Value;
+                    }
+                }
+            }
+
+            foreach (var pair in nodeViews)
+            {
+                ApplyRuntimeState(pair.Value, pair.Key);
             }
         }
 
@@ -263,6 +287,17 @@ namespace Ability.Editor.Combo
 
             RefreshNode(node);
             onNodeChanged?.Invoke(node);
+        }
+
+        void ApplyRuntimeState(ComboNodeView nodeView, AbilityNode node)
+        {
+            if (nodeView == null || node == null)
+            {
+                return;
+            }
+
+            runtimeNodeCounts.TryGetValue(node, out var actorCount);
+            nodeView.SetRuntimeHighlight(actorCount > 0, actorCount);
         }
     }
 }

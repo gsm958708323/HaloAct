@@ -18,6 +18,11 @@ namespace Ability.Editor.Combo
         readonly ObjectField behaviorField;
         readonly Button createBehaviorButton;
         readonly Button pingBehaviorButton;
+        readonly Label runtimeBadge;
+        readonly Color defaultTitleBackground;
+        readonly Color defaultMainBackground;
+        readonly Color runtimeTitleBackground = new(0.20f, 0.52f, 0.26f, 0.95f);
+        readonly Color runtimeMainBackground = new(0.14f, 0.21f, 0.14f, 0.95f);
         bool suppressPositionNotification;
         bool suppressValueCallbacks;
 
@@ -38,6 +43,8 @@ namespace Ability.Editor.Combo
             viewDataKey = $"combo-node-{nodeAsset.Id}";
             style.minWidth = ComboGraphLayout.NodeWidth;
             style.minHeight = ComboGraphLayout.NodeHeight;
+            defaultTitleBackground = Color.clear;
+            defaultMainBackground = Color.clear;
 
             InputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(bool));
             InputPort.portName = "In";
@@ -46,6 +53,24 @@ namespace Ability.Editor.Combo
             OutputPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(bool));
             OutputPort.portName = "Out";
             outputContainer.Add(OutputPort);
+            
+            runtimeBadge = new Label();
+            runtimeBadge.style.alignSelf = Align.FlexEnd;
+            runtimeBadge.style.backgroundColor = new Color(0.13f, 0.13f, 0.13f, 0.95f);
+            runtimeBadge.style.color = Color.white;
+            runtimeBadge.style.paddingLeft = 6;
+            runtimeBadge.style.paddingRight = 6;
+            runtimeBadge.style.paddingTop = 2;
+            runtimeBadge.style.paddingBottom = 2;
+            runtimeBadge.style.marginRight = 6;
+            runtimeBadge.style.marginTop = 4;
+            runtimeBadge.style.borderBottomLeftRadius = 8;
+            runtimeBadge.style.borderBottomRightRadius = 8;
+            runtimeBadge.style.borderTopLeftRadius = 8;
+            runtimeBadge.style.borderTopRightRadius = 8;
+            runtimeBadge.style.unityFontStyleAndWeight = FontStyle.Bold;
+            runtimeBadge.style.display = DisplayStyle.None;
+            titleContainer.Add(runtimeBadge);
 
             var summaryContainer = new VisualElement();
             summaryContainer.style.paddingLeft = 6;
@@ -77,16 +102,17 @@ namespace Ability.Editor.Combo
             var behaviorButtons = new VisualElement();
             behaviorButtons.style.flexDirection = FlexDirection.Row;
             behaviorButtons.style.justifyContent = Justify.FlexEnd;
-            // behaviorButtons.style.gap = 4;
 
             createBehaviorButton = new Button(ShowCreateBehaviorMenu) { text = "New" };
             pingBehaviorButton = new Button(PingBehavior) { text = "Ping" };
+            pingBehaviorButton.style.marginLeft = 4;
 
             behaviorButtons.Add(createBehaviorButton);
             behaviorButtons.Add(pingBehaviorButton);
             summaryContainer.Add(behaviorButtons);
 
             RefreshSummary();
+            SetRuntimeHighlight(false, 0);
             RefreshExpandedState();
             RefreshPorts();
         }
@@ -117,6 +143,31 @@ namespace Ability.Editor.Combo
             {
                 onMoved?.Invoke(NodeAsset, newPos);
             }
+        }
+
+        public void SetRuntimeHighlight(bool isActive, int actorCount)
+        {
+            titleContainer.style.backgroundColor = isActive ? runtimeTitleBackground : defaultTitleBackground;
+            mainContainer.style.backgroundColor = isActive ? runtimeMainBackground : defaultMainBackground;
+            extensionContainer.style.backgroundColor = isActive ? runtimeMainBackground : defaultMainBackground;
+            style.borderLeftColor = isActive ? runtimeTitleBackground : defaultTitleBackground;
+            style.borderRightColor = isActive ? runtimeTitleBackground : defaultTitleBackground;
+            style.borderTopColor = isActive ? runtimeTitleBackground : defaultTitleBackground;
+            style.borderBottomColor = isActive ? runtimeTitleBackground : defaultTitleBackground;
+            style.borderLeftWidth = isActive ? 2 : 0;
+            style.borderRightWidth = isActive ? 2 : 0;
+            style.borderTopWidth = isActive ? 2 : 0;
+            style.borderBottomWidth = isActive ? 2 : 0;
+
+            if (isActive)
+            {
+                runtimeBadge.text = actorCount > 1 ? $"Runtime x{actorCount}" : "Runtime";
+                runtimeBadge.style.display = DisplayStyle.Flex;
+                return;
+            }
+
+            runtimeBadge.text = string.Empty;
+            runtimeBadge.style.display = DisplayStyle.None;
         }
 
         void OnPriorityChanged(ChangeEvent<int> evt)

@@ -8,7 +8,6 @@ namespace Ability
     public class ActorComboGraphSO : SerializedScriptableObject
     {
         public List<AbilityNode> Nodes = new();
-        public List<AbilityBehavior> LocalBehaviors = new();
 
         public AbilityNode GetRootNode()
         {

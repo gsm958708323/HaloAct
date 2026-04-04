@@ -21,14 +21,6 @@ namespace Ability.Editor.Combo
             ComboGraph = comboGraph;
             Nodes.AddRange(nodes.Where(node => node != null).Distinct());
 
-            if (comboGraph?.LocalBehaviors != null)
-            {
-                foreach (var behavior in comboGraph.LocalBehaviors.Where(behavior => behavior != null))
-                {
-                    localBehaviors.Add(behavior);
-                }
-            }
-
             for (int i = 0; i < Nodes.Count; i++)
             {
                 var node = Nodes[i];

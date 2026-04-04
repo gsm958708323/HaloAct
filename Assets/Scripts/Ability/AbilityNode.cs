@@ -39,7 +39,7 @@ namespace Ability
         /// <summary>
         /// 当前行为是否可以打断
         /// </summary>
-        public bool CanCancel;
+        [HideInInspector] public bool CanCancel;
 
         public virtual void Init()
         {
