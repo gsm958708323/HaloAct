@@ -36,8 +36,8 @@ namespace Ability.Editor.Combo
 
             title = $"{nodeAsset.name} [{nodeAsset.Id}]";
             viewDataKey = $"combo-node-{nodeAsset.Id}";
-            style.minWidth = 280;
-            style.minHeight = 210;
+            style.minWidth = ComboGraphLayout.NodeWidth;
+            style.minHeight = ComboGraphLayout.NodeHeight;
 
             InputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(bool));
             InputPort.portName = "In";

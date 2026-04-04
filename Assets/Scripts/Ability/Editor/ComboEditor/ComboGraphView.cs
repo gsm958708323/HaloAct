@@ -13,6 +13,7 @@ namespace Ability.Editor.Combo
         ComboEditorDocument document;
         Action<AbilityNode> onNodeSelected;
         Action<AbilityNode> onNodeChanged;
+        Action<Vector2> onCreateNodeRequested;
         bool isRebuilding;
         bool suppressSelectionSync;
 
@@ -65,12 +66,26 @@ namespace Ability.Editor.Combo
             SyncSelection();
         }
 
-        public void Bind(ComboEditorDocument document, Action<AbilityNode> onNodeSelected, Action<AbilityNode> onNodeChanged)
+        public void Bind(ComboEditorDocument document, Action<AbilityNode> onNodeSelected, Action<AbilityNode> onNodeChanged, Action<Vector2> onCreateNodeRequested)
         {
             this.document = document;
             this.onNodeSelected = onNodeSelected;
             this.onNodeChanged = onNodeChanged;
+            this.onCreateNodeRequested = onCreateNodeRequested;
             Rebuild();
+        }
+
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        {
+            base.BuildContextualMenu(evt);
+
+            if (document == null)
+            {
+                return;
+            }
+
+            var localPosition = this.ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
+            evt.menu.AppendAction("Create Node", _ => onCreateNodeRequested?.Invoke(localPosition), DropdownMenuAction.AlwaysEnabled);
         }
 
         public void Rebuild()
@@ -164,18 +179,10 @@ namespace Ability.Editor.Combo
                 return;
             }
 
-            const float width = 240f;
-            const float height = 150f;
-            const float gapX = 280f;
-            const float gapY = 210f;
-            const int columnCount = 4;
-
             var nodes = document.Nodes.Where(node => node != null).OrderBy(node => node.Id).ToList();
             for (int i = 0; i < nodes.Count; i++)
             {
-                var row = i / columnCount;
-                var column = i % columnCount;
-                var position = new Rect(80 + (column * gapX), 120 + (row * gapY), width, height);
+                var position = ComboGraphLayout.GetDefaultPosition(i);
                 document.SetPosition(nodes[i], position);
             }
 
@@ -208,6 +215,10 @@ namespace Ability.Editor.Combo
                         var source = (edge.output.node as ComboNodeView)?.NodeAsset;
                         var target = (edge.input.node as ComboNodeView)?.NodeAsset;
                         document.Disconnect(source, target);
+                    }
+                    else if (element is ComboNodeView nodeView)
+                    {
+                        document.RemoveNode(nodeView.NodeAsset);
                     }
                 }
             }

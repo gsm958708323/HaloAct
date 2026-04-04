@@ -32,6 +32,8 @@ namespace Ability
         /// </summary>
         public AbilityBehavior Behavior;
         [HideInInspector] public Vector2 EditorPosition;
+        [HideInInspector] public Rect EditorRect;
+        [HideInInspector] public bool HasEditorPosition;
         protected BehaviorComp tree;
 
         /// <summary>

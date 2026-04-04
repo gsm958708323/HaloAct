@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEditor;
+using UnityEngine;
 
 namespace Ability.Editor.Combo
 {
@@ -19,7 +20,10 @@ namespace Ability.Editor.Combo
                     continue;
                 }
 
-                node.EditorPosition = document.GetPosition(node).position;
+                var nodeRect = document.GetPosition(node);
+                node.EditorPosition = nodeRect.position;
+                node.EditorRect = nodeRect;
+                node.HasEditorPosition = true;
                 node.Childs = document.GetTargets(node)
                     .Where(target => target != null)
                     .Select(target => target.Id)
@@ -70,7 +74,18 @@ namespace Ability.Editor.Combo
                 }
             }
 
+            foreach (var removedNode in document.GetRemovedNodes())
+            {
+                if (removedNode == null)
+                {
+                    continue;
+                }
+
+                Object.DestroyImmediate(removedNode, true);
+            }
+
             AssetDatabase.SaveAssets();
+            document.ClearRemovedNodes();
             document.MarkClean();
             return true;
         }
