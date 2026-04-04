@@ -10,6 +10,7 @@ namespace Ability.Editor.Combo
         readonly Dictionary<AbilityNode, List<AbilityNode>> edges = new();
         readonly Dictionary<AbilityNode, Rect> positions = new();
         readonly HashSet<AbilityBehavior> localBehaviors = new();
+        readonly HashSet<AbilityNode> removedNodes = new();
 
         public ActorComboGraphSO ComboGraph { get; }
         public List<AbilityNode> Nodes { get; } = new();
@@ -38,6 +39,7 @@ namespace Ability.Editor.Combo
 
         public static ComboEditorDocument Load(ActorComboGraphSO comboGraph)
         {
+            ComboGraphNodeSubAssetUtility.EnsureNodesAreEmbedded(comboGraph);
             var nodes = comboGraph != null ? comboGraph.Nodes : Enumerable.Empty<AbilityNode>();
             var document = new ComboEditorDocument(comboGraph, nodes);
 
@@ -64,6 +66,11 @@ namespace Ability.Editor.Combo
         public IReadOnlyList<AbilityNode> GetTargets(AbilityNode node)
         {
             return edges.TryGetValue(node, out var targets) ? targets : Array.Empty<AbilityNode>();
+        }
+
+        public IReadOnlyCollection<AbilityNode> GetRemovedNodes()
+        {
+            return removedNodes;
         }
 
         public IReadOnlyList<AbilityBehavior> GetLocalBehaviors()
@@ -124,7 +131,7 @@ namespace Ability.Editor.Combo
                 return position;
             }
 
-            return GetDefaultPosition(node != null ? Nodes.IndexOf(node) : 0);
+            return ComboGraphLayout.GetDefaultPosition(node != null ? Nodes.IndexOf(node) : 0);
         }
 
         public void SetPosition(AbilityNode node, Rect position)
@@ -160,6 +167,11 @@ namespace Ability.Editor.Combo
 
         public void AddNode(AbilityNode node)
         {
+            AddNode(node, null);
+        }
+
+        public void AddNode(AbilityNode node, Rect? initialPosition)
+        {
             if (node == null || Nodes.Contains(node))
             {
                 return;
@@ -167,8 +179,33 @@ namespace Ability.Editor.Combo
 
             Nodes.Add(node);
             edges[node] = new List<AbilityNode>();
-            positions[node] = GetInitialPosition(node, Nodes.Count - 1);
+            positions[node] = initialPosition ?? GetInitialPosition(node, Nodes.Count - 1);
+            removedNodes.Remove(node);
             IsDirty = true;
+        }
+
+        public void RemoveNode(AbilityNode node)
+        {
+            if (node == null || !Nodes.Remove(node))
+            {
+                return;
+            }
+
+            edges.Remove(node);
+            positions.Remove(node);
+
+            foreach (var targets in edges.Values)
+            {
+                targets.RemoveAll(target => target == node);
+            }
+
+            removedNodes.Add(node);
+            IsDirty = true;
+        }
+
+        public void ClearRemovedNodes()
+        {
+            removedNodes.Clear();
         }
 
         public void MarkDirty()
@@ -181,28 +218,25 @@ namespace Ability.Editor.Combo
             IsDirty = false;
         }
 
-        static Rect GetDefaultPosition(int index)
-        {
-            if (index < 0)
-            {
-                index = 0;
-            }
-
-            const float width = 240f;
-            const float height = 150f;
-            const float gapX = 280f;
-            const float gapY = 210f;
-            const int columnCount = 4;
-
-            var row = index / columnCount;
-            var column = index % columnCount;
-            return new Rect(80 + (column * gapX), 120 + (row * gapY), width, height);
-        }
-
         static Rect GetInitialPosition(AbilityNode node, int index)
         {
-            var defaultPosition = GetDefaultPosition(index);
-            if (node == null || node.EditorPosition == Vector2.zero)
+            var defaultPosition = ComboGraphLayout.GetDefaultPosition(index);
+            if (node == null)
+            {
+                return defaultPosition;
+            }
+
+            if (node.HasEditorPosition)
+            {
+                if (node.EditorRect.size == Vector2.zero)
+                {
+                    return new Rect(node.EditorPosition, defaultPosition.size);
+                }
+
+                return node.EditorRect;
+            }
+
+            if (node.EditorPosition == Vector2.zero)
             {
                 return defaultPosition;
             }

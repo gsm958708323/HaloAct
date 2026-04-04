@@ -1,4 +1,3 @@
-using System.IO;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -65,7 +64,7 @@ namespace Ability.Editor.Combo
         void LoadGraph(ActorComboGraphSO comboGraph)
         {
             document = ComboEditorDocument.Load(comboGraph);
-            graphView.Bind(document, OnNodeSelected, OnNodeCardChanged);
+            graphView.Bind(document, OnNodeSelected, OnNodeCardChanged, CreateNodeAt);
             inspectorPane.Bind(document, null, OnInspectorNodeChanged);
             UpdateStatus(comboGraph);
         }
@@ -91,7 +90,7 @@ namespace Ability.Editor.Combo
             }
 
             var comboGraph = CreateInstance<ActorComboGraphSO>();
-            comboGraph.name = Path.GetFileNameWithoutExtension(assetPath);
+            comboGraph.name = System.IO.Path.GetFileNameWithoutExtension(assetPath);
             AssetDatabase.CreateAsset(comboGraph, assetPath);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -145,6 +144,12 @@ namespace Ability.Editor.Combo
 
         void CreateNode()
         {
+            var fallbackPosition = ComboGraphLayout.GetDefaultPosition(document?.Nodes.Count ?? 0).position;
+            CreateNodeAt(fallbackPosition);
+        }
+
+        void CreateNodeAt(Vector2 position)
+        {
             if (document?.ComboGraph == null)
             {
                 EditorUtility.DisplayDialog("Create Node", "Load a combo graph first.", "OK");
@@ -152,8 +157,7 @@ namespace Ability.Editor.Combo
             }
 
             var graphPath = AssetDatabase.GetAssetPath(document.ComboGraph);
-            var directory = Path.GetDirectoryName(graphPath);
-            if (string.IsNullOrEmpty(directory))
+            if (string.IsNullOrEmpty(graphPath))
             {
                 return;
             }
@@ -162,12 +166,13 @@ namespace Ability.Editor.Combo
             var node = CreateInstance<AbilityNode>();
             node.Id = nextNodeId;
             node.name = $"Node_{nextNodeId}";
-
-            var assetPath = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(directory, $"{node.name}.asset").Replace("\\", "/"));
-            AssetDatabase.CreateAsset(node, assetPath);
+            AssetDatabase.AddObjectToAsset(node, document.ComboGraph);
+            EditorUtility.SetDirty(node);
+            EditorUtility.SetDirty(document.ComboGraph);
+            AssetDatabase.ImportAsset(graphPath);
             AssetDatabase.SaveAssets();
 
-            document.AddNode(node);
+            document.AddNode(node, ComboGraphLayout.GetPositionAt(position));
             graphView.Rebuild();
             graphView.SelectNode(node);
             inspectorPane.Bind(document, node, OnInspectorNodeChanged);
@@ -246,7 +251,8 @@ namespace Ability.Editor.Combo
         {
             if (document?.ComboGraph != null)
             {
-                return Path.GetDirectoryName(AssetDatabase.GetAssetPath(document.ComboGraph))?.Replace("\\", "/");
+                var comboGraphPath = AssetDatabase.GetAssetPath(document.ComboGraph);
+                return System.IO.Path.GetDirectoryName(comboGraphPath)?.Replace("\\", "/");
             }
 
             if (Selection.activeObject != null)
@@ -259,7 +265,7 @@ namespace Ability.Editor.Combo
                         return selectedPath;
                     }
 
-                    return Path.GetDirectoryName(selectedPath)?.Replace("\\", "/");
+                    return System.IO.Path.GetDirectoryName(selectedPath)?.Replace("\\", "/");
                 }
             }
 
