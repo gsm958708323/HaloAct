@@ -10,14 +10,12 @@ namespace Ability.Editor.Combo
         readonly Dictionary<AbilityNode, List<AbilityNode>> edges = new();
         readonly Dictionary<AbilityNode, Rect> positions = new();
 
-        public ActorData Actor { get; }
         public ActorComboGraphSO ComboGraph { get; }
         public List<AbilityNode> Nodes { get; } = new();
         public bool IsDirty { get; private set; }
 
-        ComboEditorDocument(ActorData actor, ActorComboGraphSO comboGraph, IEnumerable<AbilityNode> nodes)
+        ComboEditorDocument(ActorComboGraphSO comboGraph, IEnumerable<AbilityNode> nodes)
         {
-            Actor = actor;
             ComboGraph = comboGraph;
             Nodes.AddRange(nodes.Where(node => node != null).Distinct());
 
@@ -29,11 +27,10 @@ namespace Ability.Editor.Combo
             }
         }
 
-        public static ComboEditorDocument Load(ActorData actor)
+        public static ComboEditorDocument Load(ActorComboGraphSO comboGraph)
         {
-            var comboGraph = actor != null ? actor.ComboGraph : null;
             var nodes = comboGraph != null ? comboGraph.Nodes : Enumerable.Empty<AbilityNode>();
-            var document = new ComboEditorDocument(actor, comboGraph, nodes);
+            var document = new ComboEditorDocument(comboGraph, nodes);
 
             if (comboGraph == null)
             {

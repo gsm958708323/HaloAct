@@ -50,10 +50,6 @@ namespace Ability.Editor.Combo
             }
 
             EditorUtility.SetDirty(document.ComboGraph);
-            if (document.Actor != null)
-            {
-                EditorUtility.SetDirty(document.Actor);
-            }
 
             foreach (var node in document.Nodes)
             {

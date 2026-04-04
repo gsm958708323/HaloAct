@@ -11,7 +11,7 @@ namespace Ability.Editor.Combo
         ComboEditorDocument document;
         ComboGraphView graphView;
         ComboInspectorPane inspectorPane;
-        ObjectField actorField;
+        ObjectField graphField;
         HelpBox statusBox;
 
         [MenuItem("Tools/Ability/Combo Editor")]
@@ -28,14 +28,15 @@ namespace Ability.Editor.Combo
             rootVisualElement.Clear();
 
             var toolbar = new Toolbar();
-            actorField = new ObjectField("Actor")
+            graphField = new ObjectField("Combo Graph")
             {
-                objectType = typeof(ActorData),
+                objectType = typeof(ActorComboGraphSO),
                 allowSceneObjects = false
             };
-            actorField.RegisterValueChangedCallback(evt => LoadActor(evt.newValue as ActorData));
-            toolbar.Add(actorField);
+            graphField.RegisterValueChangedCallback(evt => LoadGraph(evt.newValue as ActorComboGraphSO));
+            toolbar.Add(graphField);
 
+            toolbar.Add(new ToolbarButton(CreateGraph) { text = "New Graph" });
             toolbar.Add(new ToolbarButton(Reload) { text = "Reload" });
             toolbar.Add(new ToolbarButton(Save) { text = "Save" });
             toolbar.Add(new ToolbarButton(ValidateGraph) { text = "Validate" });
@@ -43,7 +44,7 @@ namespace Ability.Editor.Combo
             toolbar.Add(new ToolbarButton(CreateNode) { text = "Create Node" });
             rootVisualElement.Add(toolbar);
 
-            statusBox = new HelpBox("Select an ActorData asset to begin.", HelpBoxMessageType.Info);
+            statusBox = new HelpBox("Select an ActorComboGraphSO asset to begin.", HelpBoxMessageType.Info);
             rootVisualElement.Add(statusBox);
 
             var split = new TwoPaneSplitView(0, 860, TwoPaneSplitViewOrientation.Horizontal);
@@ -53,20 +54,52 @@ namespace Ability.Editor.Combo
             split.Add(inspectorPane);
             split.style.flexGrow = 1;
             rootVisualElement.Add(split);
+
+            if (Selection.activeObject is ActorComboGraphSO selectedGraph)
+            {
+                graphField.SetValueWithoutNotify(selectedGraph);
+                LoadGraph(selectedGraph);
+            }
         }
 
-        void LoadActor(ActorData actor)
+        void LoadGraph(ActorComboGraphSO comboGraph)
         {
-            document = ComboEditorDocument.Load(actor);
+            document = ComboEditorDocument.Load(comboGraph);
             graphView.Bind(document, OnNodeSelected);
             inspectorPane.Bind(document, null, OnInspectorNodeChanged);
-            UpdateStatus(actor);
+            UpdateStatus(comboGraph);
         }
 
         void Reload()
         {
             AssetDatabase.Refresh();
-            LoadActor(actorField?.value as ActorData);
+            LoadGraph(graphField?.value as ActorComboGraphSO);
+        }
+
+        void CreateGraph()
+        {
+            var initialDirectory = GetInitialAssetDirectory();
+            var assetPath = EditorUtility.SaveFilePanelInProject(
+                "Create Combo Graph",
+                "NewComboGraph",
+                "asset",
+                "Choose a location for the combo graph asset.",
+                initialDirectory);
+
+            if (string.IsNullOrEmpty(assetPath))
+            {
+                return;
+            }
+
+            var comboGraph = CreateInstance<ActorComboGraphSO>();
+            comboGraph.name = Path.GetFileNameWithoutExtension(assetPath);
+            AssetDatabase.CreateAsset(comboGraph, assetPath);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            graphField?.SetValueWithoutNotify(comboGraph);
+            LoadGraph(comboGraph);
+            EditorGUIUtility.PingObject(comboGraph);
         }
 
         void Save()
@@ -90,7 +123,7 @@ namespace Ability.Editor.Combo
 
             graphView.Rebuild();
             inspectorPane.Refresh();
-            UpdateStatus(document.Actor);
+            UpdateStatus(document.ComboGraph);
         }
 
         void ValidateGraph()
@@ -136,7 +169,7 @@ namespace Ability.Editor.Combo
             document.AddNode(node);
             graphView.Rebuild();
             inspectorPane.Bind(document, node, OnInspectorNodeChanged);
-            UpdateStatus(document.Actor);
+            UpdateStatus(document.ComboGraph);
         }
 
         int GetNextNodeId()
@@ -173,32 +206,55 @@ namespace Ability.Editor.Combo
             document.MarkDirty();
             graphView.Rebuild();
             inspectorPane.Refresh();
-            UpdateStatus(document.Actor);
+            UpdateStatus(document.ComboGraph);
         }
 
-        void UpdateStatus(ActorData actor)
+        void UpdateStatus(ActorComboGraphSO comboGraph)
         {
             if (statusBox == null)
             {
                 return;
             }
 
-            if (actor == null)
+            if (comboGraph == null)
             {
                 statusBox.messageType = HelpBoxMessageType.Info;
-                statusBox.text = "Select an ActorData asset to begin.";
-                return;
-            }
-
-            if (actor.ComboGraph == null)
-            {
-                statusBox.messageType = HelpBoxMessageType.Warning;
-                statusBox.text = "No ComboGraph assigned.";
+                statusBox.text = "Select an ActorComboGraphSO asset to begin.";
                 return;
             }
 
             statusBox.messageType = document != null && document.IsDirty ? HelpBoxMessageType.Warning : HelpBoxMessageType.Info;
-            statusBox.text = $"Loaded {actor.name}: {document?.Nodes.Count ?? 0} nodes, {actor.ComboGraph.LocalBehaviors.Count} behaviors.";
+            statusBox.text = $"Loaded {comboGraph.name}: {document?.Nodes.Count ?? 0} nodes, {comboGraph.LocalBehaviors.Count} behaviors.";
+        }
+
+        string GetInitialAssetDirectory()
+        {
+            if (document?.ComboGraph != null)
+            {
+                var currentGraphPath = AssetDatabase.GetAssetPath(document.ComboGraph);
+                var currentGraphDirectory = Path.GetDirectoryName(currentGraphPath)?.Replace("\\", "/");
+                if (!string.IsNullOrEmpty(currentGraphDirectory))
+                {
+                    return currentGraphDirectory;
+                }
+            }
+
+            var selectedAssetPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+            if (!string.IsNullOrEmpty(selectedAssetPath))
+            {
+                if (AssetDatabase.IsValidFolder(selectedAssetPath))
+                {
+                    return selectedAssetPath;
+                }
+
+                var selectedDirectory = Path.GetDirectoryName(selectedAssetPath)?.Replace("\\", "/");
+                if (!string.IsNullOrEmpty(selectedDirectory))
+                {
+                    return selectedDirectory;
+                }
+            }
+
+            return "Assets";
         }
     }
 }
