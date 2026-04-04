@@ -36,6 +36,23 @@ namespace Ability
             StartBehavior(GetNodeById(0));
         }
 
+        public void ReloadComboGraphRuntime()
+        {
+            var data = Entity?.GetComp<PlayerDataComp>()?.Data;
+            if (data?.ComboGraph == null)
+            {
+                return;
+            }
+
+            var currentNodeId = curNode?.Id ?? 0;
+            curNode?.Exit();
+            curNode = null;
+
+            LoadComboGraph(data.ComboGraph);
+            var nextNode = GetNodeById(currentNodeId) ?? GetNodeById(0);
+            StartBehavior(nextNode);
+        }
+
         public override void Tick(float deltaTime)
         {
             if (Entity.IsDead || curNode == null)
@@ -214,7 +231,7 @@ namespace Ability
             }
             if (!curNode.CanCancel)
             {
-                // å½“å‰èŠ‚ç‚¹åœ¨å–æ¶ˆçŠ¶æ€ä¸‹ï¼Œæ‰èƒ½åˆ‡æ¢åˆ°å­èŠ‚ç‚¹
+                // µ±Ç°½ÚµãÔÚÈ¡Ïû×´Ì¬ÏÂ£¬²ÅÄÜÇĞ»»µ½×Ó½Úµã
                 return null;
             }
 

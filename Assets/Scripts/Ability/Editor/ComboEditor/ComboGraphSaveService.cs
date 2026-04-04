@@ -81,9 +81,40 @@ namespace Ability.Editor.Combo
             }
 
             AssetDatabase.SaveAssets();
+            ReloadRuntimeGraph(document.ComboGraph);
             document.ClearRemovedNodes();
             document.MarkClean();
             return true;
+        }
+
+        static void ReloadRuntimeGraph(ActorComboGraphSO comboGraph)
+        {
+            if (!EditorApplication.isPlaying || comboGraph == null || FightManager.LogicEntity == null)
+            {
+                return;
+            }
+
+            var actorList = FightManager.LogicEntity.GetEntityLinkedList(EntityType.Actor);
+            if (actorList == null)
+            {
+                return;
+            }
+
+            for (var node = actorList.First; node != null; node = node.Next)
+            {
+                if (node.Value is not Entity entity)
+                {
+                    continue;
+                }
+
+                var dataComp = entity.GetComp<PlayerDataComp>();
+                if (dataComp?.Data?.ComboGraph != comboGraph)
+                {
+                    continue;
+                }
+
+                entity.GetComp<BehaviorComp>()?.ReloadComboGraphRuntime();
+            }
         }
     }
 }
