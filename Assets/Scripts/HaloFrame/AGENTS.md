@@ -1,37 +1,48 @@
 # Assets/Scripts/HaloFrame / AGENTS
 
-## Overview
-HaloFrame is the in-house framework providing:
-- A manager loop with split `Update()` (render frame) vs `Tick()` (fixed step)
-- Driver system for non-MonoBehaviour update
-- Event dispatcher
-- Resource/AssetBundle loading + hot update
-- Editor build pipeline for bundles + version/map
+## 模块概览
+`HaloFrame` 是项目内自研框架层，提供这些基础能力：
 
-## Core Loop
-- Entry: `Assets/Scripts/HaloFrame/Runtime/Manager/GameManagerBase.cs`
+- 管理器循环：区分 `Update()` 和固定步长 `Tick()`
+- 驱动系统：让非 `MonoBehaviour` 对象拥有逐帧更新能力
+- 事件系统：安全增删监听
+- 下载、资源、AssetBundle、热更
+- 编辑器打包与热更构建工具
+
+## 核心循环
+- 入口文件：`Assets/Scripts/HaloFrame/Runtime/Manager/GameManagerBase.cs`
+- 关键行为：
   - `TargetFrameRate = 15`
-  - Calls `IManager.Update(deltaTime)` each Unity frame
-  - Accumulates time and calls `IManager.Tick(FrameInterval)` in a fixed-step loop
-- Manager API: `Assets/Scripts/HaloFrame/Runtime/Manager/IManager.cs`
-  - Lifecycle: `Init -> Enter -> Update/Tick -> Exit -> Destroy`
-  - Priority: `GetManager<T>()` inserts by `IManager.Priority` (higher first)
+  - 每个 Unity 帧先调用所有管理器的 `Update(deltaTime)`
+  - 再按 `FrameInterval = 1 / TargetFrameRate` 补跑 `Tick(FrameInterval)`
+  - `CurFrame` 每完成一次逻辑帧循环就递增
+- 管理器 API：`Assets/Scripts/HaloFrame/Runtime/Manager/IManager.cs`
+  - 生命周期：`Init -> Enter -> Update/Tick -> Exit -> Destroy`
+  - 默认优先级 `0`
+- `GetManager<T>()` 会按 `Priority` 插入链表，优先级高的先更新、销毁时后销毁。
 
-## Key Subsystems
-| Subsystem | Location |
-|----------|----------|
-| Drivers | `Assets/Scripts/HaloFrame/Runtime/Manager/DriverManager.cs` |
-| Events | `Assets/Scripts/HaloFrame/Runtime/Event/DispatcherBase.cs` + `Assets/Scripts/HaloFrame/Runtime/Event/Dispatcher.cs` |
-| Res/AB | `Assets/Scripts/HaloFrame/Runtime/Res/ResourceManager.cs` + `Assets/Scripts/HaloFrame/Runtime/Res/BundleManager.cs` |
-| Hot update | `Assets/Scripts/HaloFrame/Runtime/Res/HotUpdateManger.cs` |
-| Download | `Assets/Scripts/HaloFrame/Runtime/Download/DownloadManager.cs` |
-| Paths | `Assets/Scripts/HaloFrame/Runtime/Tools/PathTools.cs` |
-| Editor build | `Assets/Scripts/HaloFrame/Editor/Buidler/` |
+## 关键子系统
+| 子系统 | 文件 |
+|--------|------|
+| 管理器循环 | `Assets/Scripts/HaloFrame/Runtime/Manager/GameManagerBase.cs` |
+| 驱动系统 | `Assets/Scripts/HaloFrame/Runtime/Manager/DriverManager.cs` |
+| 事件系统 | `Assets/Scripts/HaloFrame/Runtime/Event/DispatcherBase.cs` + `Dispatcher.cs` |
+| 下载系统 | `Assets/Scripts/HaloFrame/Runtime/Download/DownloadManager.cs` |
+| 资源加载 | `Assets/Scripts/HaloFrame/Runtime/Res/ResourceManager.cs` |
+| AssetBundle 管理 | `Assets/Scripts/HaloFrame/Runtime/Res/BundleManager.cs` |
+| 热更 | `Assets/Scripts/HaloFrame/Runtime/Res/HotUpdateManger.cs` |
+| 路径工具 | `Assets/Scripts/HaloFrame/Runtime/Tools/PathTools.cs` |
+| 打包工具 | `Assets/Scripts/HaloFrame/Editor/Buidler/` |
 
-## Conventions
-- Path separator: Unity APIs are happier with `/`; `PathTools.Combine` normalizes `\\` to `/`.
-- Events: `DispatcherBase` prevents unsafe mutation during dispatch via `processSet` + delayed delete.
+## 约定
+- 固定玩法逻辑应写在 `Tick()`，渲染或非确定性逻辑应写在 `Update()`。
+- 资源、热更、打包路径统一优先使用 `PathTools.Combine(...)`，避免反斜杠问题。
+- 事件系统允许在派发期间移除监听器，实际删除会延迟到派发结束后完成。
+- `HaloFrame` 目录下存在一些“像底层框架”的代码，但当前仍直接引用全局 `Debugger` / `LogDomain`。
 
-## Gotchas
-- Naming typos are part of public surface area: `HotUpdateManger`, `Buidler`.
-- `ResourceManager.GetAssetInfo(url)` depends on `GameConfig.RemoteAssetMap`; ensure version/map is loaded before resource loads.
+## 当前易错点
+- 拼写错误属于现有公共表面：`HotUpdateManger`、`Buidler` 这些名字不要轻易修改。
+- `ResourceManager` 和 `HotUpdateManger` 没有在 `GameManager` 默认启动链路里自动接上；要启用它们，需要补完整初始化流程。
+- `DownloadManager.OnInit(...)` 不是 `IManager.Init()` 的重写，只有手动调用或另行注入 helper 后，文件大小查询相关 API 才是可用状态。
+- `PathTools` 会缓存多个静态路径前缀；如果运行中热更地址或版本号发生变化，之前已经缓存的路径不会自动重算。
+- `Assets/Scripts/HaloFrame/Plugins/LitJson` 是第三方代码，修改它等同于修改 vendor。

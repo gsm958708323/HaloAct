@@ -1,73 +1,65 @@
 # HaloAct / AGENTS
 
-Generated: 2026-03-01T13:20:19+08:00
-Unity: 2021.3.37f1 (`ProjectSettings/ProjectVersion.txt`)
-Branch: master
-Commit: f31725a
+更新日期：2026-04-04
+Unity：2021.3.37f1（`ProjectSettings/ProjectVersion.txt`）
+分支：`master`
+提交：`44ceecc`
 
-## Overview
-HaloAct is a Unity project centered on a frame-driven ability/combo system ("AbilityBehaviorTree") under `Assets/Scripts/Ability/`, built on an in-house runtime framework `Assets/Scripts/HaloFrame/`.
+## 项目概览
+HaloAct 是一个基于固定逻辑帧的动作/连招原型项目。玩法层代码集中在 `Assets/Scripts/Ability/`，底层框架、资源、下载与打包链路集中在 `Assets/Scripts/HaloFrame/`。
 
-## Structure
-```
-./
-├── Assets/
-│   ├── Main.cs                     # Scene bootstrap MonoBehaviour (spawns actors)
-│   ├── Scenes/                     # e.g. AbilityTest.unity
-│   ├── Res/                        # Art + InputSystem assets (GameInput.*)
-│   ├── Scripts/
-│   │   ├── Ability/                # AbilityBehaviorTree gameplay
-│   │   └── HaloFrame/              # Manager loop, events, res/bundles, hotupdate, editor build
-│   └── Plugins/                    # Third-party (Sirenix/Odin, ParadoxNotion/NodeCanvas)
-├── Packages/manifest.json          # UPM deps
-└── ProjectSettings/                # Unity project config
-```
+当前连招数据模型已经收敛到：
 
-## Where To Look
-| Task | Location | Notes |
-|------|----------|-------|
-| Open the main test scene | `Assets/Scenes/AbilityTest.unity` | References `Main`, `GameManager`, `FightManager` scripts via GUIDs |
-| Gameplay bootstrap | `Assets/Main.cs` | `Start()` spawns actors `1001`/`2001`, binds `CameraMgr` |
-| Fixed-step tick loop | `Assets/Scripts/HaloFrame/Runtime/Manager/GameManagerBase.cs` | `TargetFrameRate = 15`; drives managers via `Update()` + `Tick()` |
-| Manager lifecycle contract | `Assets/Scripts/HaloFrame/Runtime/Manager/IManager.cs` | Base class with `Init/Enter/Update/Tick/Exit/Destroy` |
-| Ability tree runtime | `Assets/Scripts/Ability/Actor/BehaviorComp.cs` | Loads nodes/behaviors from Resources and advances by `curFrame` |
-| Ability nodes + transitions | `Assets/Scripts/Ability/AbilityNode.cs` | `Childs` + `conditions` + `Priority` + `Behavior` |
-| Action frame windows | `Assets/Scripts/Ability/BehaviorBase.cs` | `StartFrame/EndFrame` gate `AbilityAction` Enter/Tick/Exit |
-| Event bus | `Assets/Scripts/HaloFrame/Runtime/Event/DispatcherBase.cs` | Safe add/remove during dispatch (delayed delete) |
-| Entity create -> render bind | `Assets/Scripts/Ability/Manager/EntityManager.cs` + `Assets/Scripts/Ability/Manager/EntityRenderManager.cs` | Notify `EventId.CreateEntity` -> instantiate `ActorData.Prefab` |
-| Hot update runtime | `Assets/Scripts/HaloFrame/Runtime/Res/HotUpdateManger.cs` | Loads local version/map; diffs; downloads; writes to sandbox |
-| AssetBundle build pipeline | `Assets/Scripts/HaloFrame/Editor/Buidler/Builder.cs` | Editor-only; generates `GameVersion.json` + `AssetMap.json` and builds bundles |
-| Build settings asset | `Assets/BuildSetting.asset` | Created/edited by build window; path is `PathTools.BuildSettingPath` |
+`ActorData.ComboGraph -> ActorComboGraphSO -> AbilityNode -> AbilityBehavior -> AbilityAction / AbilityAttack`
 
-## Conventions (Repo-Specific)
-- Serialization: text mode (`ProjectSettings/EditorSettings.asset` `m_SerializationMode: 2`) and meta files are visible (`ProjectSettings/VersionControlSettings.asset`).
-- Tick model: most gameplay is written assuming a fixed-step `Tick()` loop at 15 FPS (`GameManagerBase.TargetFrameRate`).
-- Script execution order: `GameManager` runs before `FightManager` (`Assets/Scripts/Ability/Manager/GameManager.cs.meta`, `Assets/Scripts/Ability/Manager/FightManager.cs.meta`).
-- Paths: prefer `PathTools.Combine(...)` to normalize path separators (`Assets/Scripts/HaloFrame/Runtime/Tools/PathTools.cs`).
-- IDE noise: `.editorconfig` disables `IDE0051` and `IDE0044` for `*.cs`.
-- VS Code: workspace hides many Unity/generated folders and even `ProjectSettings/` (`.vscode/settings.json`).
+同时项目内已经有新的连招可视化编辑器，入口位于 `Assets/Scripts/Ability/Editor/ComboEditor/ComboEditorWindow.cs`，直接编辑 `ActorComboGraphSO` 资产。
 
-## Anti-Patterns / Gotchas
-- Avoid “typo-fixing” public names/paths without a full sweep: `HotUpdateManger`, `StarHotUpdate`, `Editor/Buidler` are referenced by code and/or asset paths.
-- `ProjectSettings/EditorBuildSettings.asset` currently has no enabled scenes; player builds need explicit scene configuration or custom build tooling.
-- `Builder.ClearAssetBundle(...)` deletes files not in the current bundle set (parallel `File.Delete`); ensure `BuildSettingsSO.buildRoot` points to a safe output directory.
-- `GameManager_Input` scans all `KeyCode` values in `Update()` to fill `bufferKeys`; `BehaviorComp` uses this buffer for combo transitions.
-- Third-party code under `Assets/Plugins/` includes its own deprecated APIs and editor workarounds; avoid patching vendor code unless upgrading.
-
-## Commands / Workflows
+## 目录速览
 ```text
-Unity Editor (recommended)
-  - Open project with Unity 2021.3.37f1
-  - AssetBundle build UI: Tools/HaloFrame/打包编辑器 (F5)
-    - Config asset: Assets/BuildSetting.asset
-    - Buttons: Build (full) / 构建热更包 (incremental)
-
-Batchmode (template)
-  Unity.exe -batchmode -nographics -quit -projectPath <repo> -executeMethod HaloFrame.Builder.Build
-  Unity.exe -batchmode -nographics -quit -projectPath <repo> -executeMethod HaloFrame.Builder.BuildUpdate
+./
+|- Assets/
+|  |- Main.cs                              # 场景启动脚本，开局生成玩家/怪物并绑定相机
+|  |- Scenes/AbilityTest.unity             # 当前主测试场景
+|  |- Res/Input/GameInput.*                # 新 Input System 输入资产与生成代码
+|  |- Scripts/
+|  |  |- Ability/                          # 战斗、连招、实体、子弹、编辑器
+|  |  \- HaloFrame/                        # 管理器循环、事件、资源、热更、打包工具
+|  \- Plugins/                             # 第三方插件（Sirenix / ParadoxNotion）
+|- Packages/manifest.json                  # UPM 依赖
+|- ProjectSettings/                        # Unity 工程配置
+|- Doc/                                    # 旧说明、截图等静态文档
+\- docs/                                   # 新文档与计划
 ```
 
-## Sub-Agents (Deeper Docs)
+## 建议先读的入口
+| 任务 | 入口文件 | 说明 |
+|------|----------|------|
+| 场景如何启动 | `Assets/Main.cs` | `Start()` 会生成 `1001` 和 `2001` 两个角色，并把相机绑定到玩家 |
+| 固定帧逻辑怎么跑 | `Assets/Scripts/HaloFrame/Runtime/Manager/GameManagerBase.cs` | `Update()` 负责渲染帧更新，`Tick()` 以 15 FPS 驱动逻辑 |
+| 连招运行时怎么切换节点 | `Assets/Scripts/Ability/Actor/BehaviorComp.cs` | 负责装载图、切换节点、推进帧数、处理循环/结束 |
+| 连招图资产结构 | `Assets/Scripts/Ability/Combo/ActorComboGraphSO.cs` | 图本体只保存 `Nodes`，不再保存旧版 `LocalBehaviors` |
+| 连招编辑器 | `Assets/Scripts/Ability/Editor/ComboEditor/ComboEditorWindow.cs` | 直接编辑 `ActorComboGraphSO`，支持运行时高亮 |
+| 逻辑实体如何生成表现 | `Assets/Scripts/Ability/Manager/EntityManager.cs` + `Assets/Scripts/Ability/Manager/EntityRenderManager.cs` | 逻辑实体创建后通过事件通知表现层实例化 Prefab |
+| 子弹与碰撞 | `Assets/Scripts/Ability/Manager/BulletManager.cs` | 子弹存活、碰撞、友伤/敌伤、障碍销毁都在这里 |
+| 资源与热更 | `Assets/Scripts/HaloFrame/Runtime/Res/ResourceManager.cs` + `Assets/Scripts/HaloFrame/Runtime/Res/HotUpdateManger.cs` | 资源加载依赖 `AssetMap.json`，热更负责比较 MD5 并下载 |
+| AssetBundle 打包 | `Assets/Scripts/HaloFrame/Editor/Buidler/Builder.cs` | 生成 `GameVersion.json`、`AssetMap.json` 并构建 AB |
+
+## 项目约定
+- 逻辑帧默认是 15 FPS，战斗玩法优先写在 `Tick()`，渲染或输入优先写在 `Update()`。
+- `GameManager` 的脚本执行顺序是 `-20`，`FightManager` 是 `-10`，场景启动依赖这个顺序。
+- 路径拼接优先用 `PathTools.Combine(...)`，避免 Windows 反斜杠影响 Unity API。
+- 工程启用了文本序列化（`ProjectSettings/EditorSettings.asset` 中 `m_SerializationMode: 2`），Meta 文件可见。
+- VS Code 工作区显式隐藏了大量 Unity 生成目录，连 `ProjectSettings/` 也被隐藏，不代表这些目录不存在。
+
+## 当前易错点
+- 不要随意“修正”公开命名里的拼写问题：`HotUpdateManger`、`Buidler`、`StarHotUpdate` 都已经被代码和路径引用。
+- `BehaviorComp.TryGetNextBehavior()` 当前只检查“当前节点是否可取消”和“输入缓存里是否有目标行为的按键”，不会调用 `AbilityNode.CheckCondition()`。
+- 连招输入仍然来自 `GameManager_Input` 对全部 `KeyCode` 的轮询；相机输入走的是 `PlayerGameInput` 包装的新 Input System，两套输入链路并存。
+- `ProjectSettings/EditorBuildSettings.asset` 仍然没有任何启用场景，打 Player 包时不能依赖默认 Build Settings。
+- `Assets/BuildSetting.asset` 目前不在仓库里；打开 `Tools/HaloFrame/打包编辑器` 时，`BuildSettingsEditorWindow` 会按 `PathTools.BuildSettingPath` 自动创建它。
+- `Builder.ClearAssetBundle(...)` 会并行删除输出目录中不属于当前 bundle 集合的文件，`buildRoot` 必须指向专用构建目录。
+
+## 子模块文档
 - `Assets/Scripts/AGENTS.md`
 - `Assets/Scripts/Ability/AGENTS.md`
 - `Assets/Scripts/Ability/Manager/AGENTS.md`
