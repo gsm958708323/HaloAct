@@ -55,10 +55,10 @@ namespace Ability.Editor.Combo
             split.style.flexGrow = 1;
             rootVisualElement.Add(split);
 
-            if (Selection.activeObject is ActorComboGraphSO selectedGraph)
+            if (Selection.activeObject is ActorComboGraphSO comboGraph)
             {
-                graphField.SetValueWithoutNotify(selectedGraph);
-                LoadGraph(selectedGraph);
+                graphField.SetValueWithoutNotify(comboGraph);
+                LoadGraph(comboGraph);
             }
         }
 
@@ -78,13 +78,12 @@ namespace Ability.Editor.Combo
 
         void CreateGraph()
         {
-            var initialDirectory = GetInitialAssetDirectory();
             var assetPath = EditorUtility.SaveFilePanelInProject(
                 "Create Combo Graph",
                 "NewComboGraph",
                 "asset",
-                "Choose a location for the combo graph asset.",
-                initialDirectory);
+                "Choose where to create the combo graph asset.",
+                GetInitialAssetDirectory());
 
             if (string.IsNullOrEmpty(assetPath))
             {
@@ -97,7 +96,7 @@ namespace Ability.Editor.Combo
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
-            graphField?.SetValueWithoutNotify(comboGraph);
+            graphField.SetValueWithoutNotify(comboGraph);
             LoadGraph(comboGraph);
             EditorGUIUtility.PingObject(comboGraph);
         }
@@ -159,17 +158,21 @@ namespace Ability.Editor.Combo
                 return;
             }
 
+            var nextNodeId = GetNextNodeId();
             var node = CreateInstance<AbilityNode>();
-            node.name = "NewNode";
-            node.Id = GetNextNodeId();
-            var assetPath = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(directory, $"Node_{node.Id}.asset").Replace("\\", "/"));
+            node.Id = nextNodeId;
+            node.name = $"Node_{nextNodeId}";
+
+            var assetPath = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(directory, $"{node.name}.asset").Replace("\\", "/"));
             AssetDatabase.CreateAsset(node, assetPath);
             AssetDatabase.SaveAssets();
 
             document.AddNode(node);
             graphView.Rebuild();
+            graphView.SelectNode(node);
             inspectorPane.Bind(document, node, OnInspectorNodeChanged);
             UpdateStatus(document.ComboGraph);
+            EditorGUIUtility.PingObject(node);
         }
 
         int GetNextNodeId()
@@ -224,33 +227,27 @@ namespace Ability.Editor.Combo
             }
 
             statusBox.messageType = document != null && document.IsDirty ? HelpBoxMessageType.Warning : HelpBoxMessageType.Info;
-            statusBox.text = $"Loaded {comboGraph.name}: {document?.Nodes.Count ?? 0} nodes, {comboGraph.LocalBehaviors.Count} behaviors.";
+            statusBox.text = $"Loaded {comboGraph.name}: {document?.Nodes.Count ?? 0} nodes, {document?.GetLocalBehaviors().Count ?? 0} local behaviors.";
         }
 
         string GetInitialAssetDirectory()
         {
             if (document?.ComboGraph != null)
             {
-                var currentGraphPath = AssetDatabase.GetAssetPath(document.ComboGraph);
-                var currentGraphDirectory = Path.GetDirectoryName(currentGraphPath)?.Replace("\\", "/");
-                if (!string.IsNullOrEmpty(currentGraphDirectory))
-                {
-                    return currentGraphDirectory;
-                }
+                return Path.GetDirectoryName(AssetDatabase.GetAssetPath(document.ComboGraph))?.Replace("\\", "/");
             }
 
-            var selectedAssetPath = AssetDatabase.GetAssetPath(Selection.activeObject);
-            if (!string.IsNullOrEmpty(selectedAssetPath))
+            if (Selection.activeObject != null)
             {
-                if (AssetDatabase.IsValidFolder(selectedAssetPath))
+                var selectedPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+                if (!string.IsNullOrEmpty(selectedPath))
                 {
-                    return selectedAssetPath;
-                }
+                    if (AssetDatabase.IsValidFolder(selectedPath))
+                    {
+                        return selectedPath;
+                    }
 
-                var selectedDirectory = Path.GetDirectoryName(selectedAssetPath)?.Replace("\\", "/");
-                if (!string.IsNullOrEmpty(selectedDirectory))
-                {
-                    return selectedDirectory;
+                    return Path.GetDirectoryName(selectedPath)?.Replace("\\", "/");
                 }
             }
 

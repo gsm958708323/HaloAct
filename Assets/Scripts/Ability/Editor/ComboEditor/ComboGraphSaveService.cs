@@ -33,10 +33,8 @@ namespace Ability.Editor.Combo
                 .OrderBy(node => node.Id)
                 .ToList();
 
-            document.ComboGraph.LocalBehaviors = document.Nodes
-                .Select(node => node.Behavior)
+            document.ComboGraph.LocalBehaviors = document.GetLocalBehaviors()
                 .Where(behavior => behavior != null)
-                .Distinct()
                 .ToList();
         }
 
@@ -61,6 +59,14 @@ namespace Ability.Editor.Combo
                 if (node?.Behavior != null)
                 {
                     EditorUtility.SetDirty(node.Behavior);
+                }
+            }
+
+            foreach (var behavior in document.GetLocalBehaviors())
+            {
+                if (behavior != null)
+                {
+                    EditorUtility.SetDirty(behavior);
                 }
             }
 

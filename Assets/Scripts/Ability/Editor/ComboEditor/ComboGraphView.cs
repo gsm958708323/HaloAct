@@ -13,6 +13,7 @@ namespace Ability.Editor.Combo
         ComboEditorDocument document;
         Action<AbilityNode> onNodeSelected;
         bool isRebuilding;
+        bool suppressSelectionSync;
 
         public ComboGraphView()
         {
@@ -75,6 +76,7 @@ namespace Ability.Editor.Combo
             var selectedNode = GetSelectedNode();
 
             isRebuilding = true;
+            suppressSelectionSync = true;
             base.ClearSelection();
             DeleteElements(graphElements.ToList());
             nodeViews.Clear();
@@ -82,6 +84,7 @@ namespace Ability.Editor.Combo
             if (document == null)
             {
                 isRebuilding = false;
+                suppressSelectionSync = false;
                 SyncSelection();
                 return;
             }
@@ -89,6 +92,11 @@ namespace Ability.Editor.Combo
             for (int i = 0; i < document.Nodes.Count; i++)
             {
                 var node = document.Nodes[i];
+                if (node == null)
+                {
+                    continue;
+                }
+
                 var nodeView = new ComboNodeView(node, HandleNodeMoved);
                 nodeView.ApplyPosition(document.GetPosition(node));
                 nodeViews[node] = nodeView;
@@ -97,7 +105,7 @@ namespace Ability.Editor.Combo
 
             foreach (var node in document.Nodes)
             {
-                if (!nodeViews.TryGetValue(node, out var sourceView))
+                if (node == null || !nodeViews.TryGetValue(node, out var sourceView))
                 {
                     continue;
                 }
@@ -115,15 +123,14 @@ namespace Ability.Editor.Combo
             }
 
             isRebuilding = false;
+            suppressSelectionSync = false;
 
             if (selectedNode != null && nodeViews.TryGetValue(selectedNode, out var selectedNodeView))
             {
-                AddToSelection(selectedNodeView);
+                base.AddToSelection(selectedNodeView);
             }
-            else
-            {
-                SyncSelection();
-            }
+
+            SyncSelection();
         }
 
         public void RefreshNode(AbilityNode node)
@@ -132,6 +139,20 @@ namespace Ability.Editor.Combo
             {
                 nodeView.RefreshSummary();
             }
+        }
+
+        public void SelectNode(AbilityNode node)
+        {
+            if (node == null || !nodeViews.TryGetValue(node, out var nodeView))
+            {
+                return;
+            }
+
+            suppressSelectionSync = true;
+            base.ClearSelection();
+            base.AddToSelection(nodeView);
+            suppressSelectionSync = false;
+            SyncSelection();
         }
 
         public void AutoLayout()
@@ -147,7 +168,7 @@ namespace Ability.Editor.Combo
             const float gapY = 210f;
             const int columnCount = 4;
 
-            var nodes = document.Nodes.OrderBy(node => node.Id).ToList();
+            var nodes = document.Nodes.Where(node => node != null).OrderBy(node => node.Id).ToList();
             for (int i = 0; i < nodes.Count; i++)
             {
                 var row = i / columnCount;
@@ -207,7 +228,7 @@ namespace Ability.Editor.Combo
 
         void SyncSelection()
         {
-            if (isRebuilding)
+            if (isRebuilding || suppressSelectionSync)
             {
                 return;
             }

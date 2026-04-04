@@ -9,6 +9,7 @@ namespace Ability.Editor.Combo
     {
         readonly Dictionary<AbilityNode, List<AbilityNode>> edges = new();
         readonly Dictionary<AbilityNode, Rect> positions = new();
+        readonly HashSet<AbilityBehavior> localBehaviors = new();
 
         public ActorComboGraphSO ComboGraph { get; }
         public List<AbilityNode> Nodes { get; } = new();
@@ -18,6 +19,14 @@ namespace Ability.Editor.Combo
         {
             ComboGraph = comboGraph;
             Nodes.AddRange(nodes.Where(node => node != null).Distinct());
+
+            if (comboGraph?.LocalBehaviors != null)
+            {
+                foreach (var behavior in comboGraph.LocalBehaviors.Where(behavior => behavior != null))
+                {
+                    localBehaviors.Add(behavior);
+                }
+            }
 
             for (int i = 0; i < Nodes.Count; i++)
             {
@@ -57,6 +66,11 @@ namespace Ability.Editor.Combo
             return edges.TryGetValue(node, out var targets) ? targets : Array.Empty<AbilityNode>();
         }
 
+        public IReadOnlyList<AbilityBehavior> GetLocalBehaviors()
+        {
+            return localBehaviors.Where(behavior => behavior != null).OrderBy(behavior => behavior.name).ToList();
+        }
+
         public void Connect(AbilityNode source, AbilityNode target)
         {
             if (source == null || target == null || !edges.TryGetValue(source, out var targets))
@@ -86,13 +100,21 @@ namespace Ability.Editor.Combo
 
         public void BindBehavior(AbilityNode node, AbilityBehavior behavior)
         {
-            if (node == null)
+            if (node == null || node.Behavior == behavior)
             {
                 return;
             }
 
             node.Behavior = behavior;
             IsDirty = true;
+        }
+
+        public void RegisterLocalBehavior(AbilityBehavior behavior)
+        {
+            if (behavior != null && localBehaviors.Add(behavior))
+            {
+                IsDirty = true;
+            }
         }
 
         public Rect GetPosition(AbilityNode node)
@@ -123,7 +145,7 @@ namespace Ability.Editor.Combo
 
         public bool ContainsLocalBehavior(AbilityBehavior behavior)
         {
-            return behavior != null && ComboGraph != null && ComboGraph.LocalBehaviors.Contains(behavior);
+            return behavior != null && localBehaviors.Contains(behavior);
         }
 
         public int CountBehaviorReferences(AbilityBehavior behavior)
@@ -180,12 +202,7 @@ namespace Ability.Editor.Combo
         static Rect GetInitialPosition(AbilityNode node, int index)
         {
             var defaultPosition = GetDefaultPosition(index);
-            if (node == null)
-            {
-                return defaultPosition;
-            }
-
-            if (node.EditorPosition == Vector2.zero)
+            if (node == null || node.EditorPosition == Vector2.zero)
             {
                 return defaultPosition;
             }
