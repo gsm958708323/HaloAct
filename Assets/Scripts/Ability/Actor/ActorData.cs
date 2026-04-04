@@ -15,10 +15,6 @@ namespace Ability
         public float Gravity = -20f;
         public float DelayAerialTime = 0.5f;
         public ActorComboGraphSO ComboGraph;
-
-        // Legacy resource paths are kept for migration and compatibility fallback only.
-        [FolderPath] public string NodePath;
-        [FolderPath] public string BehaviorPath;
         public GroundCheckData CheckerData;
     }
 

@@ -37,7 +37,6 @@ namespace Ability.Editor.Combo
             toolbar.Add(actorField);
 
             toolbar.Add(new ToolbarButton(Reload) { text = "Reload" });
-            toolbar.Add(new ToolbarButton(MigrateLegacy) { text = "Migrate Legacy" });
             toolbar.Add(new ToolbarButton(Save) { text = "Save" });
             toolbar.Add(new ToolbarButton(ValidateGraph) { text = "Validate" });
             toolbar.Add(new ToolbarButton(AutoLayout) { text = "Auto Layout" });
@@ -70,26 +69,6 @@ namespace Ability.Editor.Combo
             LoadActor(actorField?.value as ActorData);
         }
 
-        void MigrateLegacy()
-        {
-            var actor = actorField?.value as ActorData;
-            if (actor == null)
-            {
-                EditorUtility.DisplayDialog("Combo Migration", "Select an actor asset first.", "OK");
-                return;
-            }
-
-            if (!ComboGraphMigrationUtility.Migrate(actor, out _, out var message))
-            {
-                EditorUtility.DisplayDialog("Combo Migration Failed", message, "OK");
-                return;
-            }
-
-            AssetDatabase.Refresh();
-            LoadActor(actor);
-            EditorUtility.DisplayDialog("Combo Migration", message, "OK");
-        }
-
         void Save()
         {
             if (document == null)
@@ -99,7 +78,7 @@ namespace Ability.Editor.Combo
 
             if (document.ComboGraph == null)
             {
-                EditorUtility.DisplayDialog("Combo Save Failed", "No combo graph is assigned. Use 'Migrate Legacy' first.", "OK");
+                EditorUtility.DisplayDialog("Combo Save Failed", "No combo graph is assigned.", "OK");
                 return;
             }
 
@@ -118,7 +97,7 @@ namespace Ability.Editor.Combo
         {
             if (document?.ComboGraph == null)
             {
-                EditorUtility.DisplayDialog("Combo Validation", "No combo graph loaded. Use 'Migrate Legacy' first.", "OK");
+                EditorUtility.DisplayDialog("Combo Validation", "No combo graph loaded.", "OK");
                 return;
             }
 
@@ -136,7 +115,7 @@ namespace Ability.Editor.Combo
         {
             if (document?.ComboGraph == null)
             {
-                EditorUtility.DisplayDialog("Create Node", "Load or migrate a combo graph first.", "OK");
+                EditorUtility.DisplayDialog("Create Node", "Load a combo graph first.", "OK");
                 return;
             }
 
@@ -214,7 +193,7 @@ namespace Ability.Editor.Combo
             if (actor.ComboGraph == null)
             {
                 statusBox.messageType = HelpBoxMessageType.Warning;
-                statusBox.text = "No ComboGraph assigned. Click 'Migrate Legacy' to build one from NodePath and BehaviorPath.";
+                statusBox.text = "No ComboGraph assigned.";
                 return;
             }
 

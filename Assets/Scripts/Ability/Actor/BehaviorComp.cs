@@ -5,15 +5,9 @@ using UnityEngine;
 namespace Ability
 {
     /// <summary>
-    /// 技能行为树
-    ///                                                               -> AbilityAction 
-    /// 管理关系：AbilityBehaviorTree -> AbilityNode -> AbilityBehavior 
-    ///                                                               -> AbilityCondition
-    /// 能做出“不同效果的连招”，主要是图结构意义上的不同：
-    /// 1.进入条件不同
-    /// 2.可取消/可接续的时机不同
-    /// 3.后续 child 不同
-    /// 4.在整套 combo 路径里的位置不同    /// </summary>
+    /// Frame-driven combo runner:
+    /// AbilityBehaviorTree -> AbilityNode -> AbilityBehavior -> AbilityAction/AbilityCondition
+    /// </summary>
     public class BehaviorComp : ComponentLogic
     {
         public int curFrame;
@@ -32,15 +26,13 @@ namespace Ability
             Entity = entity;
 
             var data = model.GetComp<PlayerDataComp>().Data;
-            if (data?.ComboGraph != null)
+            if (data?.ComboGraph == null)
             {
-                LoadComboGraph(data.ComboGraph);
-            }
-            else
-            {
-                LoadLegacy(data);
+                Debug.LogError($"Actor '{data?.name ?? "Unknown"}' has no ComboGraph assigned.");
+                return;
             }
 
+            LoadComboGraph(data.ComboGraph);
             StartBehavior(GetNodeById(0));
         }
 
@@ -87,53 +79,6 @@ namespace Ability
                     EndBehavior();
                 }
             }
-        }
-
-        void LoadLegacy(ActorData data)
-        {
-            nodeList.Clear();
-            behaviorsList.Clear();
-            nodeDict.Clear();
-            hurtNodeDict.Clear();
-
-            if (data == null)
-            {
-                Debug.LogError("Actor data is null.");
-                return;
-            }
-
-            LoadBehavior(data.BehaviorPath);
-            LoadNode(data.NodePath);
-        }
-
-        void LoadNode(string nodePath)
-        {
-            nodeList.AddRange(Resources.LoadAll<AbilityNode>(nodePath).Where(node => node != null).OrderBy(node => node.Id));
-            if (nodeList.Count == 0)
-            {
-                Debug.LogError("Legacy combo node load failed.");
-                return;
-            }
-
-            ComboGraphBindingUtility.ApplyLegacyBindings(nodeList, behaviorsList);
-
-            for (int i = 0; i < nodeList.Count; i++)
-            {
-                var node = nodeList[i];
-                nodeDict[node.Id] = node;
-                node.Init();
-
-                if (node.Behavior is AbilityBehaviorHurt hurtBehavior)
-                {
-                    hurtNodeDict[hurtBehavior.AttackType] = node;
-                }
-            }
-        }
-
-        void LoadBehavior(string behaviorPath)
-        {
-            behaviorsList.AddRange(Resources.LoadAll<AbilityBehavior>(behaviorPath).Where(behavior => behavior != null));
-            InitBehaviors();
         }
 
         void LoadComboGraph(ActorComboGraphSO comboGraph)

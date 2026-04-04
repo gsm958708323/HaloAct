@@ -70,7 +70,7 @@ namespace Ability.Editor.Combo
         {
             title = $"{NodeAsset.name} [{NodeAsset.Id}]";
             priorityLabel.text = $"Priority: {NodeAsset.Priority}";
-            // conditionsLabel.text = $"Conditions: {this.BuildConditionSummary()}";
+            conditionsLabel.text = $"Conditions: {BuildConditionSummary(NodeAsset)}";
             behaviorLabel.text = $"Behavior: {(NodeAsset.Behavior != null ? NodeAsset.Behavior.name : "<None>")}";
         }
 
@@ -84,7 +84,7 @@ namespace Ability.Editor.Combo
             }
         }
 
-        string BuildConditionSummary(AbilityNode node)
+        static string BuildConditionSummary(AbilityNode node)
         {
             if (node == null || node.conditions == null || node.conditions.Count == 0)
             {
