@@ -12,6 +12,7 @@ namespace Ability.Editor.Combo
         readonly Dictionary<AbilityNode, ComboNodeView> nodeViews = new();
         ComboEditorDocument document;
         Action<AbilityNode> onNodeSelected;
+        Action<AbilityNode> onNodeChanged;
         bool isRebuilding;
         bool suppressSelectionSync;
 
@@ -64,10 +65,11 @@ namespace Ability.Editor.Combo
             SyncSelection();
         }
 
-        public void Bind(ComboEditorDocument document, Action<AbilityNode> onNodeSelected)
+        public void Bind(ComboEditorDocument document, Action<AbilityNode> onNodeSelected, Action<AbilityNode> onNodeChanged)
         {
             this.document = document;
             this.onNodeSelected = onNodeSelected;
+            this.onNodeChanged = onNodeChanged;
             Rebuild();
         }
 
@@ -97,7 +99,7 @@ namespace Ability.Editor.Combo
                     continue;
                 }
 
-                var nodeView = new ComboNodeView(node, HandleNodeMoved);
+                var nodeView = new ComboNodeView(document, node, HandleNodeChanged, HandleNodeMoved);
                 nodeView.ApplyPosition(document.GetPosition(node));
                 nodeViews[node] = nodeView;
                 AddElement(nodeView);
@@ -239,6 +241,17 @@ namespace Ability.Editor.Combo
         void HandleNodeMoved(AbilityNode node, Rect position)
         {
             document?.SetPosition(node, position);
+        }
+
+        void HandleNodeChanged(AbilityNode node)
+        {
+            if (node == null)
+            {
+                return;
+            }
+
+            RefreshNode(node);
+            onNodeChanged?.Invoke(node);
         }
     }
 }

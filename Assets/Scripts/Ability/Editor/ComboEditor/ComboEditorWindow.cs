@@ -65,7 +65,7 @@ namespace Ability.Editor.Combo
         void LoadGraph(ActorComboGraphSO comboGraph)
         {
             document = ComboEditorDocument.Load(comboGraph);
-            graphView.Bind(document, OnNodeSelected);
+            graphView.Bind(document, OnNodeSelected, OnNodeCardChanged);
             inspectorPane.Bind(document, null, OnInspectorNodeChanged);
             UpdateStatus(comboGraph);
         }
@@ -209,6 +209,18 @@ namespace Ability.Editor.Combo
             document.MarkDirty();
             graphView.Rebuild();
             inspectorPane.Refresh();
+            UpdateStatus(document.ComboGraph);
+        }
+
+        void OnNodeCardChanged(AbilityNode node)
+        {
+            if (document == null || node == null)
+            {
+                return;
+            }
+
+            graphView.RefreshNode(node);
+            inspectorPane.Bind(document, node, OnInspectorNodeChanged);
             UpdateStatus(document.ComboGraph);
         }
 

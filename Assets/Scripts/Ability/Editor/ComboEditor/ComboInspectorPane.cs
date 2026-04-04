@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -204,10 +203,7 @@ namespace Ability.Editor.Combo
 
         void ShowCreateBehaviorMenu()
         {
-            var behaviorTypes = TypeCache.GetTypesDerivedFrom<AbilityBehavior>()
-                .Where(type => type != null && !type.IsAbstract && !type.IsGenericType)
-                .OrderBy(type => type.Name)
-                .ToList();
+            var behaviorTypes = ComboNodeEditorUtility.GetBehaviorTypes();
 
             if (behaviorTypes.Count == 0)
             {
@@ -227,39 +223,21 @@ namespace Ability.Editor.Combo
 
         void CreateLocalBehavior(Type behaviorType)
         {
-            if (selectedNode == null || document?.ComboGraph == null || behaviorType == null)
+            if (selectedNode == null || behaviorType == null)
             {
                 return;
             }
 
-            var directory = GetBehaviorDirectory();
-            if (string.IsNullOrEmpty(directory))
-            {
-                EditorUtility.DisplayDialog("Create Behavior", "Could not determine where to save the new behavior asset.", "OK");
-                return;
-            }
-
-            var suffix = behaviorType.Name.StartsWith("AbilityBehavior", StringComparison.Ordinal)
-                ? behaviorType.Name.Substring("AbilityBehavior".Length)
-                : behaviorType.Name;
-            if (string.IsNullOrEmpty(suffix))
-            {
-                suffix = "Behavior";
-            }
-
-            var behavior = ScriptableObject.CreateInstance(behaviorType) as AbilityBehavior;
+            var behavior = ComboNodeEditorUtility.CreateLocalBehavior(document, selectedNode, behaviorType);
             if (behavior == null)
             {
                 EditorUtility.DisplayDialog("Create Behavior", $"Failed to create behavior of type {behaviorType.Name}.", "OK");
                 return;
             }
 
-            behavior.name = $"{selectedNode.name}_{suffix}";
-            var assetPath = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(directory, $"{behavior.name}.asset").Replace("\\", "/"));
-            AssetDatabase.CreateAsset(behavior, assetPath);
-            AssetDatabase.SaveAssets();
-
-            AssignBehavior(behavior, true);
+            RebuildEditors();
+            UpdateHeader();
+            onNodeChanged?.Invoke(selectedNode);
             EditorGUIUtility.PingObject(behavior);
         }
 
@@ -270,32 +248,10 @@ namespace Ability.Editor.Combo
                 return;
             }
 
-            document?.BindBehavior(selectedNode, behavior);
-            if (registerAsLocal)
-            {
-                document?.RegisterLocalBehavior(behavior);
-            }
-
+            ComboNodeEditorUtility.AssignBehavior(document, selectedNode, behavior, registerAsLocal);
             RebuildEditors();
             UpdateHeader();
             onNodeChanged?.Invoke(selectedNode);
-        }
-
-        string GetBehaviorDirectory()
-        {
-            if (selectedNode != null)
-            {
-                var nodePath = AssetDatabase.GetAssetPath(selectedNode);
-                var nodeDirectory = Path.GetDirectoryName(nodePath);
-                if (!string.IsNullOrEmpty(nodeDirectory))
-                {
-                    return nodeDirectory.Replace("\\", "/");
-                }
-            }
-
-            var graphPath = document?.ComboGraph != null ? AssetDatabase.GetAssetPath(document.ComboGraph) : string.Empty;
-            var graphDirectory = Path.GetDirectoryName(graphPath);
-            return graphDirectory?.Replace("\\", "/");
         }
     }
 }
