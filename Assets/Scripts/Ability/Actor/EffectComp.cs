@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace Ability
 {
     public class EffectComp : ComponentLogic
     {
+        readonly Queue<AddBuffInfo> pending = new();
+        readonly List<EffectObj> removeList = new();
+
         List<EffectObj> buffList;
         Dictionary<int, EffectObj> buffDict;
 
@@ -12,10 +14,14 @@ namespace Ability
         {
             buffList = new();
             buffDict = new();
+            pending.Clear();
+            removeList.Clear();
         }
 
         public override void Destroy()
         {
+            pending.Clear();
+            removeList.Clear();
             buffList = null;
             buffDict = null;
             base.Destroy();
@@ -28,26 +34,32 @@ namespace Ability
                 return;
             }
 
-            var removeList = new List<EffectObj>();
+            removeList.Clear();
             for (int i = 0; i < buffList.Count; i++)
             {
                 var buff = buffList[i];
-                var isFinish = buff.TickFinish(deltaTime);
-                if (isFinish)
+                if (buff.TickFinish(deltaTime))
                 {
                     removeList.Add(buff);
                 }
             }
 
-            if (removeList.Count > 0)
+            var removedAny = removeList.Count > 0;
+            for (int i = 0; i < removeList.Count; i++)
             {
-                for (int i = 0; i < removeList.Count; i++)
+                RemoveBuff(removeList[i], false);
+            }
+
+            if (pending.Count > 0)
+            {
+                var appliedAny = FlushPending();
+                if (removedAny && !appliedAny)
                 {
-                    var buff = removeList[i];
-                    buffList.Remove(buff);
-                    buff.BuffData.OnRemoved?.Execute(buff);
-                    buff.Exit();
+                    AttrRecheck();
                 }
+            }
+            else if (removedAny)
+            {
                 AttrRecheck();
             }
         }
@@ -66,22 +78,88 @@ namespace Ability
             return newNode;
         }
 
+        public void EnqueueBuff(AddBuffInfo addInfo)
+        {
+            pending.Enqueue(addInfo);
+        }
+
+        public bool FlushPending()
+        {
+            var dirty = false;
+            while (pending.Count > 0)
+            {
+                dirty |= ApplyBuff(pending.Dequeue());
+            }
+
+            if (dirty)
+            {
+                AttrRecheck();
+            }
+
+            return dirty;
+        }
+
         public EffectObj AddBuff(AddBuffInfo addInfo)
         {
-            var buffId = addInfo.BuffId;
+            EnqueueBuff(addInfo);
+            FlushPending();
+            var buffId = addInfo.Data != null ? addInfo.Data.Id : addInfo.BuffId;
+            return GetBuff(buffId);
+        }
 
-            // todo 相同配置id的buff，但是creater不同，是否可以堆叠
-            // 同一个角色身上，只有一个id相同的buff实例，然后堆叠
-            var buff = GetBuffById(buffId);
-            BuffData buffData;
-            if (buff is null)
+        public EffectObj GetBuff(int buffId)
+        {
+            buffDict.TryGetValue(buffId, out var buff);
+            return buff;
+        }
+
+        public void OnHitDamage(DamageInfo damage)
+        {
+            for (int i = 0; i < buffList.Count; i++)
             {
-                buffData = FightManager.Config.LoadBuff(buffId);
-                if (buffData is null)
-                {
-                    return null;
-                }
+                var buff = buffList[i];
+                buff.BuffData.OnHit?.Execute(buff, damage);
+            }
+        }
 
+        public void OnBeHurtDamage(DamageInfo damage)
+        {
+            for (int i = 0; i < buffList.Count; i++)
+            {
+                var buff = buffList[i];
+                buff.BuffData.OnBeHurt?.Execute(buff, damage);
+            }
+        }
+
+        public void OnKillDamage(DamageInfo damage)
+        {
+            for (int i = 0; i < buffList.Count; i++)
+            {
+                var buff = buffList[i];
+                buff.BuffData.OnKill?.Execute(buff, damage);
+            }
+        }
+
+        public void OnBeKilledDamage(DamageInfo damage)
+        {
+            for (int i = 0; i < buffList.Count; i++)
+            {
+                var buff = buffList[i];
+                buff.BuffData.OnBeKilled?.Execute(buff, damage);
+            }
+        }
+
+        bool ApplyBuff(AddBuffInfo addInfo)
+        {
+            var buffData = addInfo.Data ?? FightManager.Config.LoadBuff(addInfo.BuffId);
+            if (buffData == null)
+            {
+                return false;
+            }
+
+            var buff = GetBuff(buffData.Id);
+            if (buff == null)
+            {
                 buff = new EffectObj();
                 buff.Init();
                 buff.Enter(buffData);
@@ -91,25 +169,18 @@ namespace Ability
                 {
                     return a.BuffData.Priority.CompareTo(b.BuffData.Priority);
                 });
-                buffDict[buffId] = buff;
-            }
-            else
-            {
-                // 处理堆叠逻辑
-                buffData = buff.BuffData;
-                buff.Enter(buffData);
-                buff.ModDuration(addInfo.Duration, addInfo.IsOverrideDuration);
-                buff.ModStack(addInfo.AddStack);
-                buff.Permanent = addInfo.Permanent;
+                buffDict[buffData.Id] = buff;
             }
 
-            if (buff.Stack > 0)
+            buff.Apply(entity, addInfo);
+            if (buff.Stack <= 0 || (!buff.Permanent && buff.Duration <= 0f))
             {
-                buffData.OnOccur?.Execute(buff);
+                RemoveBuff(buff, false);
+                return true;
             }
-            AttrRecheck();
 
-            return buff;
+            buffData.OnOccur?.Execute(buff);
+            return true;
         }
 
         /// <summary>
@@ -117,28 +188,61 @@ namespace Ability
         /// </summary>
         void AttrRecheck()
         {
+            var attrComp = entity.GetComp<AttrComp>();
+            if (attrComp == null)
+            {
+                return;
+            }
 
-        }
+            var totalPlus = default(ActorAttr);
+            var totalRatio = default(ActorAttr);
+            var controlState = ActorControlState.CreateDefault();
 
-        /// <summary>
-        /// 判断是否拥有某个buff： buffId相同，施法者相同
-        /// </summary>
-        /// <param name="buffInfo"></param>
-        /// <returns></returns>
-        private EffectObj GetBuffById(int buffId)
-        {
             for (int i = 0; i < buffList.Count; i++)
             {
                 var buff = buffList[i];
-                if (buff.BuffData.Id == buffId)
-                {
-                    return buff;
-                }
+                var modifier = buff.BuffData.Modifier;
+                totalPlus += modifier.GetStackedPlus(buff.Stack);
+                totalRatio += modifier.GetStackedRatio(buff.Stack);
+                controlState = MergeControlState(controlState, modifier.ControlStateMod);
             }
-            return null;
+
+            attrComp.ResetRuntimeState();
+            attrComp.AddPlusAttr(totalPlus);
+            attrComp.AddRatioAttr(totalRatio);
+            attrComp.SetRuntimeControlState(controlState);
+        }
+
+        static ActorControlState MergeControlState(ActorControlState currentState, ActorControlState buffState)
+        {
+            return new ActorControlState
+            {
+                CanMove = currentState.CanMove && buffState.CanMove,
+                CanRotate = currentState.CanRotate && buffState.CanRotate,
+                CanUseSkill = currentState.CanUseSkill && buffState.CanUseSkill,
+                CanAttack = currentState.CanAttack && buffState.CanAttack,
+                CanBeControlled = currentState.CanBeControlled && buffState.CanBeControlled,
+            };
+        }
+
+        void RemoveBuff(EffectObj buff, bool recheck)
+        {
+            if (buff == null || buff.BuffData == null)
+            {
+                return;
+            }
+
+            buffList.Remove(buff);
+            buffDict.Remove(buff.BuffData.Id);
+            buff.BuffData.OnRemoved?.Execute(buff);
+            buff.Exit();
+
+            if (recheck)
+            {
+                AttrRecheck();
+            }
         }
     }
-
 
     /// <summary>
     /// 存放添加buff时的动态数据
@@ -149,6 +253,7 @@ namespace Ability
         /// buff配置id
         /// </summary>
         public int BuffId;
+        public BuffData Data;
         /// <summary>
         /// buff创建者 todo
         /// </summary>
@@ -161,7 +266,7 @@ namespace Ability
         /// <summary>
         /// 修改堆叠次数，正负数
         /// </summary>
-        public int AddStack { get; internal set; }
+        public int AddStack { get; set; }
         /// <summary>
         /// 是否重写持续时间
         /// </summary>
@@ -170,11 +275,10 @@ namespace Ability
         /// <summary>
         /// 持续时间
         /// </summary>
-        public float Duration { get; internal set; }
+        public float Duration { get; set; }
         /// <summary>
         /// 是否为永久型buff
         /// </summary>
-        /// <value></value>
-        public bool Permanent { get; internal set; }
+        public bool Permanent { get; set; }
     }
 }

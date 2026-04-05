@@ -62,6 +62,22 @@ namespace Ability
                 var bulletGo = GameObject.Instantiate(prefab);
                 render.BindGo(bulletGo);
                 render.AddComp<BulletRenderTransformComp>();
+                return;
+            }
+
+            var aoeComp = entity.GetComp<AoeDataComp>();
+            if (aoeComp is not null)
+            {
+                var prefab = aoeComp.Data?.Prefab;
+                if (prefab is null)
+                {
+                    return;
+                }
+
+                var render = AddRenderEntity(entity);
+                var aoeGo = GameObject.Instantiate(prefab);
+                render.BindGo(aoeGo);
+                render.AddComp<AoeRenderTransformComp>();
             }
         }
 

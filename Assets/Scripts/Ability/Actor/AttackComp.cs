@@ -39,10 +39,26 @@ namespace Ability
             var otherComp = other.GetComp<AttackComp>();
             if (otherComp is null)
                 return;
-            otherComp.OnHurt(entity, attackBehavior);
+
+            var damageInfo = new DamageInfo
+            {
+                Attacker = entity,
+                Defender = other,
+                Source = attackBehavior,
+                Tags = DamageTag.Melee,
+                TriggerHurtBehavior = true,
+            };
+
+            if (FightManager.Damage != null)
+            {
+                FightManager.Damage.Enqueue(damageInfo);
+                return;
+            }
+
+            otherComp.ResolveDamageHurt(entity, attackBehavior);
         }
 
-        void OnHurt(Entity atkEntity, AbilityBehaviorAttack atk)
+        internal void ResolveDamageHurt(Entity atkEntity, AbilityBehaviorAttack atk)
         {
             // todo 状态统一管理
             var comp = entity.GetComp<BehaviorComp>();

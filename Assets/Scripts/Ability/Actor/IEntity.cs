@@ -8,6 +8,7 @@ namespace Ability
     {
         Actor = 1,
         Bullet = 2,
+        Aoe = 3,
     }
     
     public class IEntity

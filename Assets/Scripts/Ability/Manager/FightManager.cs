@@ -8,6 +8,8 @@ public class FightManager : GameManagerBase
     public static EntityManager LogicEntity;
     public static EntityRenderManager RenderEntity;
     public static BulletManager Bullet;
+    public static AoeManager Aoe;
+    public static DamageManager Damage;
     public static PlayerGameInput GameInput;
     
     protected override void InitManager()
@@ -17,6 +19,8 @@ public class FightManager : GameManagerBase
         LogicEntity = GetManager<EntityManager>();
         RenderEntity = GetManager<EntityRenderManager>();
         Bullet = GetManager<BulletManager>();
+        Aoe = GetManager<AoeManager>();
+        Damage = GetManager<DamageManager>();
 
         GameInput = gameObject.AddComponent<PlayerGameInput>();
     }

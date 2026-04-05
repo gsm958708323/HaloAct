@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 namespace Ability
 {
@@ -11,25 +8,17 @@ namespace Ability
     public class EffectObj : ILogicT<BuffData>
     {
         public BuffData BuffData;
-        public Entity Creater;
-        public Entity Target;
+        public Entity Creater { get; private set; }
+        public Entity Target { get; private set; }
 
-        public bool Permanent;
+        public bool Permanent { get; private set; }
         public int Stack { get; private set; }
+        public float TimeElapsed { get; private set; }
+        public float Duration { get; private set; }
+        public int Ticked { get; private set; }
+        public object Param;
 
-        /// <summary>
-        /// 用来计算每次OnTick调用
-        /// </summary>
-        private float tickTime;
-
-        /// <summary>
-        /// 运行时间
-        /// </summary>
-        private float timeElapsed;
-        /// <summary>
-        /// 剩余多久失效
-        /// </summary>
-        private float duration;
+        float tickTime;
 
         public void Enter(BuffData t)
         {
@@ -39,65 +28,99 @@ namespace Ability
         public void Exit()
         {
             BuffData = null;
+            Creater = null;
+            Target = null;
+            Param = null;
         }
 
         public void Init()
         {
-
         }
 
-        public void Tick(float deltaTime) { }
+        public void Tick(float deltaTime)
+        {
+        }
+
+        public void Apply(Entity targetEntity, AddBuffInfo addInfo)
+        {
+            Creater = addInfo.Creater;
+            Target = targetEntity;
+            Permanent = addInfo.Permanent;
+
+            if (addInfo.IsOverrideDuration || addInfo.Duration != 0f || Duration == 0f)
+            {
+                ModDuration(addInfo.Duration, addInfo.IsOverrideDuration);
+            }
+
+            var stackDelta = addInfo.AddStack;
+            if (Stack == 0 && stackDelta == 0)
+            {
+                stackDelta = 1;
+            }
+
+            ModStack(stackDelta);
+        }
 
         /// <summary>
         /// 生命周期是否结束
         /// </summary>
-        /// <param name="deltaTime"></param>
-        /// <returns></returns>
         public bool TickFinish(float deltaTime)
         {
             if (!Permanent)
             {
-                duration -= deltaTime;
-            }
-            timeElapsed += deltaTime;
-            tickTime += deltaTime;
-            if (tickTime >= BuffData.TickTimeInterval)
-            {
-                tickTime -= BuffData.TickTimeInterval;
-                BuffData.OnTick.Execute(this);
+                Duration -= deltaTime;
+                if (Duration < 0f)
+                {
+                    Duration = 0f;
+                }
             }
 
-            if (duration <= 0 || Stack <= 0)
+            TimeElapsed += deltaTime;
+
+            if (BuffData?.TickTimeInterval > 0f && BuffData.OnTick != null)
             {
-                BuffData.OnRemoved?.Execute(this);
-                return true;
+                tickTime += deltaTime;
+                while (tickTime >= BuffData.TickTimeInterval)
+                {
+                    tickTime -= BuffData.TickTimeInterval;
+                    Ticked += 1;
+                    BuffData.OnTick.Execute(this);
+                }
             }
-            return false;
+
+            return (!Permanent && Duration <= 0f) || Stack <= 0;
         }
 
-        internal void ModDuration(float add, bool isOveriDuration)
+        internal void ModDuration(float add, bool isOverrideDuration)
         {
-            duration = isOveriDuration ? add : duration + add;
-            if (duration < 0)
+            Duration = isOverrideDuration ? add : Duration + add;
+            if (Duration < 0f)
             {
-                duration = 0;
+                Duration = 0f;
             }
         }
 
         /// <summary>
-        /// 修改堆叠次数，返回值
+        /// 修改堆叠次数
         /// </summary>
-        /// <param name="add"></param>
-        /// <returns></returns>
         internal int ModStack(int add)
         {
-            // 分别考虑modStack正负，finalStack是否大于max和小于0
             var finalStack = Stack + add;
-            finalStack = Math.Clamp(finalStack, 0, BuffData.MaxStack);
+            finalStack = Mathf.Clamp(finalStack, 0, GetMaxStack());
 
             var oldStack = Stack;
             Stack = finalStack;
             return finalStack - oldStack;
+        }
+
+        int GetMaxStack()
+        {
+            if (BuffData == null)
+            {
+                return 1;
+            }
+
+            return Mathf.Max(1, BuffData.MaxStack);
         }
     }
 }

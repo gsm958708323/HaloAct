@@ -19,6 +19,8 @@ namespace Ability
         /// 子弹存活时间
         /// </summary>
         public float TimeElapsed;
+        public float CanHitAfterCreated;
+        public BulletRemoveReason RemoveReason { get; internal set; }
 
         public int Hp { get; internal set; }
 
@@ -55,6 +57,11 @@ namespace Ability
         {
             targetHitRecord[targetUid] = TimeElapsed;
         }
+
+        public bool IsInHitWindow()
+        {
+            return TimeElapsed >= CanHitAfterCreated;
+        }
     }
 
     public struct BulletLauncher
@@ -64,6 +71,8 @@ namespace Ability
         public Entity Caster;
         public Vector3 Position;
         public Vector3 Direction;
+        public float? SpeedOverride;
+        public float? DurationOverride;
+        public float? CanHitAfterCreatedOverride;
     }
 }
-

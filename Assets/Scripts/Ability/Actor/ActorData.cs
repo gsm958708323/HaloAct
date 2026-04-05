@@ -10,6 +10,8 @@ namespace Ability
         public int Id;
         public ActorType ActorType;
         public GameObject Prefab;
+        public ActorAttr BaseAttr;
+        public ActorControlState BaseControlState = ActorControlState.CreateDefault();
         public BornPosInfo BornPosInfo;
         public Vector3 Frictional = new Vector3(0.5f, 1, 0.5f);
         public float Gravity = -20f;
