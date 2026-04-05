@@ -67,3 +67,10 @@ HaloAct 是一个基于固定逻辑帧的动作/连招原型项目。玩法层�
 - `Assets/Scripts/HaloFrame/Runtime/Res/AGENTS.md`
 - `Assets/Scripts/HaloFrame/Editor/Buidler/AGENTS.md`
 - `Assets/Plugins/AGENTS.md`
+
+## Unity 测试约定
+- 批量执行 EditMode 测试时，默认入口是 `tools/Run-HaloActEditModeTests.ps1`，不要在 batchmode 里走 `-executeMethod HaloFrame.Editor.HaloActEditModeBatchRunner.RunFromCommandLine`。
+- 测试产物默认写到 `TestArtifacts/TestRunner`；不要把 `-testResults`、日志或摘要写到项目 `Temp/`，Unity 退出时可能清掉它们。
+- 同一个工程的 Unity batchmode 测试必须串行执行；不要并行跑，也不要在 Unity Editor 打开工程时再启动另一条 batchmode 测试。
+- 选测试时优先用脚本便捷参数：`-TestClass`、`-TestClass + -TestMethod`、`-TestNamespace`；只有需要更细控制时再用原始 `-TestFilter`。
+- 当前项目的 EditMode 测试默认应放在 `Assets/Tests/EditMode/Editor/` 下，让它们编进 `Assembly-CSharp-Editor`。除非被测运行时代码也已经 asmdef 化，否则不要恢复独立 test asmdef。
