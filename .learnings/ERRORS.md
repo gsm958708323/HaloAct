@@ -61,3 +61,31 @@ Serialize Unity test runs for this project. Before retrying, confirm there is no
 - See Also: LRN-20260405-003
 
 ---
+
+## [ERR-20260405-214859] powershell-file-wsl-path
+
+**Logged**: 2026-04-05T13:48:59.414833+00:00
+**Priority**: medium
+**Status**: pending
+**Area**: tests
+
+### Summary
+Windows PowerShell `-File` invocation failed when given a WSL path to the Unity test runner script.
+
+### Error
+```
+-File parameter cannot accept the WSL path form; convert the script path to a Windows path first.
+```
+
+### Context
+- Command attempted to run `tools/Run-HaloActEditModeTests.ps1` via `powershell.exe -File` using `/mnt/d/...` path form.
+- Environment is WSL/bash invoking Windows PowerShell.
+
+### Suggested Fix
+Use `wslpath -w` to convert the script path and any project paths passed into PowerShell/Unity commands.
+
+### Metadata
+- Reproducible: yes
+- Related Files: tools/Run-HaloActEditModeTests.ps1
+
+---

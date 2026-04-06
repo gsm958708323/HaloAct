@@ -50,6 +50,7 @@ HaloAct 是一个基于固定逻辑帧的动作/连招原型项目。玩法层�
 - 路径拼接优先用 `PathTools.Combine(...)`，避免 Windows 反斜杠影响 Unity API。
 - 工程启用了文本序列化（`ProjectSettings/EditorSettings.asset` 中 `m_SerializationMode: 2`），Meta 文件可见。
 - VS Code 工作区显式隐藏了大量 Unity 生成目录，连 `ProjectSettings/` 也被隐藏，不代表这些目录不存在。
+- 允许在确实能提速时使用子代理并行生成代码，但不要使用代码评审子代理；最终设计判断、集成验证和质量把关由主代理负责。
 
 ## 当前易错点
 - 不要随意“修正”公开命名里的拼写问题：`HotUpdateManger`、`Buidler`、`StarHotUpdate` 都已经被代码和路径引用。
@@ -70,6 +71,7 @@ HaloAct 是一个基于固定逻辑帧的动作/连招原型项目。玩法层�
 
 ## Unity 测试约定
 - 批量执行 EditMode 测试时，默认入口是 `tools/Run-HaloActEditModeTests.ps1`，不要在 batchmode 里走 `-executeMethod HaloFrame.Editor.HaloActEditModeBatchRunner.RunFromCommandLine`。
+- Unity 项目默认不要为了跑测试新建 git worktree；优先直接在主工作区串行跑测试，避免整项目重新导入、`Library/` 重建和本地插件缺失导致的额外耗时。
 - 测试产物默认写到 `TestArtifacts/TestRunner`；不要把 `-testResults`、日志或摘要写到项目 `Temp/`，Unity 退出时可能清掉它们。
 - 同一个工程的 Unity batchmode 测试必须串行执行；不要并行跑，也不要在 Unity Editor 打开工程时再启动另一条 batchmode 测试。
 - 选测试时优先用脚本便捷参数：`-TestClass`、`-TestClass + -TestMethod`、`-TestNamespace`；只有需要更细控制时再用原始 `-TestFilter`。
