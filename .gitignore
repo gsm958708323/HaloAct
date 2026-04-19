@@ -60,3 +60,4 @@ crashlytics-build.properties
 
 /TestArtifacts/TestRunner
 .worktrees/
+/*.lscache

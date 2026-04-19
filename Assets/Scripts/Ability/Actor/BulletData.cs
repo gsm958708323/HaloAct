@@ -42,7 +42,6 @@ public class BulletData : SerializedScriptableObject
     public bool HitFoe;
     /// <summary>
     /// 是否会命中友军
-
     /// </summary>
     public bool HitAlly;
 
