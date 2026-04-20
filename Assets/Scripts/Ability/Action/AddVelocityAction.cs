@@ -13,8 +13,9 @@ namespace Ability
             base.OnTick(deltaTime);
 
             var transformComp = tree.Entity.GetComp<TransfromComp>();
+            var velocityComp = tree.Entity.GetComp<VelocityComp>();
             var add = transformComp.forward * Velocity.z + transformComp.right * Velocity.x + transformComp.up * Velocity.y;
-            transformComp.Velocity += add;
+            velocityComp.Velocity += add;
         }
     }
 }

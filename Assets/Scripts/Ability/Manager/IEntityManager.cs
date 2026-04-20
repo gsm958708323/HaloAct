@@ -99,10 +99,7 @@ namespace Ability
             entityUidList.Remove(uid);
 
             entityTypeList.TryGetValue(entity.EntityType, out var entityList);
-            if (entityList != null)
-            {
-                entityList.Remove(entity);
-            }
+            entityList?.Remove(entity);
 
             OnEntityRemoved(uid, entity);
         }

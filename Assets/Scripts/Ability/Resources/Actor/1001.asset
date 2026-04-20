@@ -24,13 +24,27 @@ MonoBehaviour:
   Id: 1001
   ActorType: 0
   Prefab: {fileID: 3337772918101513652, guid: ebec543ea84faa643ae6a3ad95cfe5d9, type: 3}
+  BaseAttr:
+    Hp: 0
+    MaxHp: 0
+    Attack: 0
+    Defense: 0
+    MoveSpeed: 0
+    Gravity: 0
+    DelayAerialTime: 0
+  BaseControlState:
+    CanMove: 1
+    CanRotate: 1
+    CanUseSkill: 1
+    CanAttack: 1
+    CanBeControlled: 1
   BornPosInfo:
     BornPosEnum: 0
     Pos: {x: 0, y: 1, z: 0}
   Frictional: {x: 0.5, y: 1, z: 0.5}
   Gravity: -20
   DelayAerialTime: 0.5
-  ComboGraph: {fileID: 11400000, guid: 29f089144f76f6b43bb22c1f07b77d71, type: 2}
+  ComboGraph: {fileID: 11400000, guid: 9b2c6353174c4816bdfd5d6104e23dc5, type: 2}
   CheckerData:
     GroundSetting: {x: 0.5, y: -0.7}
     GroundLayer:

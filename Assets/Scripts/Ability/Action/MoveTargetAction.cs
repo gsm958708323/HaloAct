@@ -20,7 +20,8 @@ namespace Ability
             // 设置朝向
             var model = tree.Entity;
             var trans1 = model.GetComp<TransfromComp>();
-            if (trans1 is null)
+            var velocity1 = model.GetComp<VelocityComp>();
+            if ((trans1 is null) || (velocity1 is null))
             {
                 return;
             }
@@ -45,8 +46,8 @@ namespace Ability
             trans1.Rotation = Quaternion.Slerp(trans1.Rotation, targetRot, rotationRatio);
 
             // 设置位置偏移
-            trans1.Velocity.x = dir.x * moveSpeed;
-            trans1.Velocity.z = dir.z * moveSpeed;
+            velocity1.Velocity.x = dir.x * moveSpeed;
+            velocity1.Velocity.z = dir.z * moveSpeed;
         }
     }
 }

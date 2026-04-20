@@ -29,7 +29,14 @@ namespace Ability
             var dataComp = entity.AddComp<PlayerDataComp>();
             dataComp.Data = data;
             entity.AddComp<AttrComp>();
-            entity.AddComp<TransfromComp>();
+            var transfromComp = entity.AddComp<TransfromComp>();
+            transfromComp.SetBornPos(data.BornPosInfo);
+
+            var velocityComp = entity.AddComp<VelocityComp>();
+            velocityComp.DelayAerialTime = data.DelayAerialTime;
+            velocityComp.Gravity = data.Gravity;
+            velocityComp.Frictional = data.Frictional;
+
             entity.AddComp<BehaviorComp>();
             entity.AddComp<EffectComp>();
             entity.AddComp<AttackComp>();

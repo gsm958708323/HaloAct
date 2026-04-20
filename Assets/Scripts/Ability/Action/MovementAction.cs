@@ -9,11 +9,13 @@ namespace Ability
     {
         public float moveSpeed = 10;
         public float rotationRatio = 0.2f;
+        VelocityComp velocityComp;
         TransfromComp transComp;
 
         protected override void OnEnter()
         {
             base.OnEnter();
+            velocityComp = tree.Entity.GetComp<VelocityComp>();
             transComp = tree.Entity.GetComp<TransfromComp>();
         }
 
@@ -28,8 +30,8 @@ namespace Ability
                 moveDir = camera.forward * inputDir.y + camera.right * inputDir.x;
             }
 
-            transComp.Velocity.x = moveDir.x * moveSpeed;
-            transComp.Velocity.z = moveDir.z * moveSpeed;
+            velocityComp.Velocity.x = moveDir.x * moveSpeed;
+            velocityComp.Velocity.z = moveDir.z * moveSpeed;
 
             Rotation(inputDir);
         }
