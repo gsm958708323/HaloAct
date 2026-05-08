@@ -60,7 +60,7 @@ namespace Combat
             waitDestroy.Add(entity);
         }
 
-        private bool IsAlive(Entity entity)
+        public bool IsAlive(Entity entity)
         {
             if (entity.IsNull) return false;
             return aliveEntities.Contains(entity.Id)

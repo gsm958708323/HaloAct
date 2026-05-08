@@ -12,6 +12,8 @@ namespace Combat
     }
     public enum EffectType
     {
+        SpawnAOE,
+        SpawnBullet
     }
 
     public enum TargetRule

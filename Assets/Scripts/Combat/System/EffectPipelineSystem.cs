@@ -1,27 +1,27 @@
 ﻿using System.Collections.Generic;
-using UnityEditor.UIElements;
 
 namespace Combat
 {
     public class EffectPipelineSystem : ISystem
     {
-        List<IEffectProcessor> processors;
-        List<EffectRequest> currentFrameQueue;
-        List<EffectRequest> nextFrameQueue;
+        private const int MaxIterations = 256;
+        private readonly List<IEffectProcessor> processors;
+        private readonly EffectRequestBuffer buffer;
         World world;
 
-        public EffectPipelineSystem()
+        public EffectPipelineSystem(EffectRequestBuffer buffer,
+        AoeFactory aoeFactory, BulletFactory bulletFactory)
         {
+            this.buffer = buffer;
+
             processors = new()
             {
                 new ImmunityProcessor(),
                 new ModifierProcessor(),
                 new ShieldProcessor(),
-                new ApplyProcessor(),
+                new ApplyProcessor(bulletFactory, aoeFactory),
                 new ReactionProcessor(),
             };
-            currentFrameQueue = new List<EffectRequest>();
-            nextFrameQueue = new List<EffectRequest>();
         }
 
         public void Init(World world)
@@ -31,20 +31,31 @@ namespace Combat
 
         public void Tick(float delteTime)
         {
-            foreach (var request in currentFrameQueue)
+            var requests = buffer.GetCurrent();
+            int processed = 0;
+            // 防止意外无限遍历
+            for (int i = 0; i < requests.Count && processed < MaxIterations; i++)
             {
-                foreach (var item in processors)
+                processed++;
+                var request = requests[i];
+
+                if (!world.IsAlive(request.Target))
+                {
+                    // 目标已死亡，SpawnAOE/SpawnBullet 仍可执行
+                    if (request.Type != EffectType.SpawnAOE && request.Type != EffectType.SpawnBullet)
+                    {
+                        continue;
+                    }
+                }
+
+                for (int p = 0; p < processors.Count; p++)
                 {
                     if (request.Cancelled) break;
-                    item.Process(request, world);
+                    processors[p].Process(request, world);
                 }
             }
-            currentFrameQueue.Clear();
-        }
 
-        public void Submit(EffectRequest request)
-        {
-            currentFrameQueue.Add(request);
+            buffer.Flush();
         }
     }
 }
