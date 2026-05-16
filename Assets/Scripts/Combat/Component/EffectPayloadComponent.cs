@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Combat
 {
@@ -9,17 +10,62 @@ namespace Combat
 
     public static class PayloadHelper
     {
+        private static readonly EffectConfig[] Empty = System.Array.Empty<EffectConfig>();
+
         public static EffectConfig[] GetEffects(
             EffectPayloadComponent payload, PayloadTrigger trigger)
         {
-            if (payload?.Groups == null) return Array.Empty<EffectConfig>();
+            if (payload?.Groups == null) return Empty;
+            return GetEffects(payload.Groups, trigger);
+        }
 
-            for (int i = 0; i < payload.Groups.Length; i++)
+        public static EffectConfig[] GetEffects(
+            EffectGroup[] groups, PayloadTrigger trigger)
+        {
+            if (groups == null) return Empty;
+
+            for (int i = 0; i < groups.Length; i++)
             {
-                if (payload.Groups[i].Trigger == trigger)
-                    return payload.Groups[i].Effects;
+                if (groups[i].Trigger == trigger)
+                    return groups[i].Effects ?? Empty;
             }
-            return Array.Empty<EffectConfig>();
+            return Empty;
+        }
+    }
+
+    public static class EffectSubmitHelper
+    {
+        /// <summary>
+        /// 从一组 EffectConfig 创建 EffectRequest 并提交到 Buffer。
+        /// </summary>
+        public static void Submit(
+            EffectRequestBuffer buffer,
+            Entity source,
+            Entity instigator,
+            Entity target,
+            EffectConfig[] effects,
+            Vector3 hitPoint = default,
+            Vector3 direction = default)
+        {
+            if (effects == null) return;
+
+            for (int i = 0; i < effects.Length; i++)
+            {
+                var cfg = effects[i];
+                var req = new EffectRequest();
+
+                req.Type = cfg.Type;
+                req.Source = source;
+                req.Instigator = instigator;
+                req.Target = target;
+                req.Value = cfg.Value;
+                req.DamageType = cfg.DamageType;
+                req.ReferenceId = cfg.ReferenceId;
+                req.HitPoint = hitPoint;
+                req.Direction = direction;
+
+                buffer.Submit(req);
+            }
         }
     }
 

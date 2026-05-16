@@ -1,33 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Combat
 {
     public class EffectRequest
     {
-        // --- 身份 ---
-        public EffectType Type;         // Damage, Heal, ApplyBuff, SpawnAOE, SpawnBullet
+                // 效果类型
+        public EffectType Type;
 
-        // --- 来源 ---
-        public Entity Source;           // 效果发起者（施法者）
-        public Entity Instigator;      // 效果直接载体（子弹/AOE Entity）
+        // 来源
+        public Entity Source;
+        public Entity Instigator;
 
-        // --- 目标 ---
-        public Entity Target;          // 受影响的实体
+        // 目标
+        public Entity Target;
 
-        // --- 数值（可被 Pipeline 阶段修改） ---
-        public float Value;            // 伤害/治疗量
-        public DamageType DamageType;  // 物理/火/冰/毒 ...
+        // 数值
+        public float Value;
+        public DamageType DamageType;
 
-        // --- 扩展参数 ---
-        public int BuffConfigId;       // Type=ApplyBuff 时使用
-        public int AOEConfigId;        // Type=SpawnAOE 时使用
-        public int BulletConfigId;     // Type=SpawnBullet 时使用
+        // 扩展引用
+        public int ReferenceId;     // BuffConfigId / AOEConfigId / BulletConfigId
 
-        // --- 管线控制标记 ---
-        public bool Cancelled;         // 被免疫等阶段标记为取消
-        public bool Absorbed;          // 被护盾完全吸收
+        // 空间信息（命中点、方向）
+        public Vector3 HitPoint;
+        public Vector3 Direction;
 
+        // 管线控制
+        public bool Cancelled;
+        public bool Absorbed;
     }
 
     public enum DamageType

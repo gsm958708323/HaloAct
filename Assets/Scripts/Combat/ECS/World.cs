@@ -87,7 +87,9 @@ namespace Combat
             if (store.TryGetValue(entity.Id, out var existing))
                 return (T)existing;
 
-            return new T();
+            var comp = new T();
+            store[entity.Id] = comp;
+            return comp;
         }
 
         public void RemoveComponent<T>(Entity entity) where T : class, IComponent, new()

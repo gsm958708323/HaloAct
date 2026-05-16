@@ -60,7 +60,7 @@ namespace Combat
             payload.Groups = cfg.PayloadGroups;
             if (cfg.HitMode != HitMode.Single)
             {
-                world.AddComponent<TargetCacheComponent>(entity);
+                world.AddComponent<TargetMemoryComponent>(entity);
             }
             if (cfg.FollowSource)
             {

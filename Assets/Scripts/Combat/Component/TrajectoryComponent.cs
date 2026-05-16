@@ -23,5 +23,6 @@ namespace Combat
 
         public Vector3 Forward { get; internal set; }
         public Vector3 PreviousPosition { get; internal set; }
+        public Vector3 TargetPosition { get; internal set; }
     }
 }

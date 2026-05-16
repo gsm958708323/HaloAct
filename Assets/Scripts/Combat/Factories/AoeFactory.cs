@@ -48,7 +48,7 @@ namespace Combat
             var payload = world.AddComponent<EffectPayloadComponent>(entity);
             payload.Groups = cfg.PayloadGroups;
 
-            world.AddComponent<TargetCacheComponent>(entity);
+            world.AddComponent<TargetMemoryComponent>(entity);
 
             if (cfg.FollowSource)
             {
