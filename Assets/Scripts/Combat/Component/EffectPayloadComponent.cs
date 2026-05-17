@@ -67,6 +67,15 @@ namespace Combat
                 buffer.Submit(req);
             }
         }
+
+        internal static void ScaleByStacks(EffectRequest request, BuffInstance buff)
+        {
+            if (buff.CurrentStacks > 1 &&
+    (request.Type == EffectType.Damage || request.Type == EffectType.Heal))
+            {
+                request.Value *= buff.CurrentStacks;
+            }
+        }
     }
 
     [Serializable]

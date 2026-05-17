@@ -32,10 +32,6 @@ namespace Combat
         public bool Absorbed;
     }
 
-    public enum DamageType
-    {
-    }
-
     public interface IEffectProcessor
     {
         string Name { get; }

@@ -9,11 +9,8 @@ namespace Combat
     public class EntityCleanupSystem : ISystem
     {
         private readonly List<Entity> toDestroy = new(32);
-        private World world;
 
-        public void Init(World world) { this.world = world; }
-
-        public void Tick(float delteTime)
+        public override void Tick(float delteTime)
         {
             // 先收集，再移除（避免遍历中修改）
             toDestroy.Clear();

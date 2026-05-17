@@ -4,13 +4,7 @@ namespace Combat
 {
     public class FollowSystem : ISystem
     {
-        World world;
-        public void Init(World world)
-        {
-            this.world = world;
-        }
-
-        public void Tick(float delteTime)
+        public override void Tick(float delteTime)
         {
             var entities = world.Query<FollowComponent, TransformComponent>();
             for (int i = 0; i < entities.Count - 1; i++)

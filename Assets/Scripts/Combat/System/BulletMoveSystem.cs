@@ -5,13 +5,7 @@ namespace Combat
 {
     public class BulletMoveSystem : ISystem
     {
-        private World world;
-        public void Init(World world)
-        {
-            this.world = world;
-        }
-
-        public void Tick(float delteTime)
+        public override void Tick(float delteTime)
         {
             var bullets = world.Query<TrajectoryComponent, TransformComponent>();
 

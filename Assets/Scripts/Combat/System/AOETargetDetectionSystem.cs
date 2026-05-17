@@ -5,16 +5,13 @@ namespace Combat
     public class AOETargetDetectionSystem : ISystem
     {
         private readonly EffectRequestBuffer effectBuffer;
-        private World world;
 
         public AOETargetDetectionSystem(EffectRequestBuffer effectBuffer)
         {
             this.effectBuffer = effectBuffer;
         }
 
-        public void Init(World world) { this.world = world; }
-
-        public void Tick(float delteTime)
+        public override void Tick(float delteTime)
         {
             var aoes = world.Query<TickReadyTagComponent, ColliderComponent,
                         TargetMemoryComponent>();

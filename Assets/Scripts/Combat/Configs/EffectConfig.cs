@@ -13,13 +13,4 @@ namespace Combat
         public DamageType DamageType { get; internal set; }
         public int ReferenceId { get; internal set; }
     }
-    public enum EffectType
-    {
-        SpawnAOE,
-        SpawnBullet
-    }
-
-    public enum TargetRule
-    {
-    }
 }

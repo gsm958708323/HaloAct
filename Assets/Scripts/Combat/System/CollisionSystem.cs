@@ -11,16 +11,13 @@ namespace Combat
     {
         private readonly EffectRequestBuffer effectBuffer;
         private readonly List<SweepResult> sweepResults = new(16);
-        private World world;
 
         public CollisionSystem(EffectRequestBuffer effectBuffer)
         {
             this.effectBuffer = effectBuffer;
         }
 
-        public void Init(World world) { this.world = world; }
-
-        public void Tick(float deltaTime)
+        public override void Tick(float deltaTime)
         {
             var bullets = world.Query
             <HitConfigComponent, TrajectoryComponent, TransformComponent>();

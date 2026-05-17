@@ -4,7 +4,9 @@ using HaloFrame;
 using UnityEngine;
 
 
-public class ConfigManager : IManager
+namespace Ability
+{
+    public class ConfigManager : IManager
 {
     public const string ActorResourceFolder = "Actor";
     public const string BuffResourceFolder = "Buff";
@@ -62,4 +64,6 @@ public class ConfigManager : IManager
     {
         return Load<AoeData>(GetAoeResourcePath(aoeId));
     }
+}
+
 }

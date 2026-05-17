@@ -2,13 +2,7 @@
 {
     public class TickSystem : ISystem
     {
-        World world;
-        public void Init(World world)
-        {
-            this.world = world;
-        }
-
-        public void Tick(float delteTime)
+        public override void Tick(float delteTime)
         {
             foreach (var entity in world.Query<TickTimerComponent>())
             {

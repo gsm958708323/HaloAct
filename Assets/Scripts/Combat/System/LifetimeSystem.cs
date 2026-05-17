@@ -5,16 +5,13 @@ namespace Combat
     public class LifetimeSystem : ISystem
     {
         private readonly EffectRequestBuffer effectBuffer;
-        private World world;
 
         public LifetimeSystem(EffectRequestBuffer effectBuffer)
         {
             this.effectBuffer = effectBuffer;
         }
 
-        public void Init(World world) { this.world = world; }
-
-        public void Tick(float delteTime)
+        public override void Tick(float delteTime)
         {
             var entities = world.Query<LifetimeComponent>();
 

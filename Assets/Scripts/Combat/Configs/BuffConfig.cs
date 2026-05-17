@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,29 +9,87 @@ namespace Combat
     public class BuffConfig : ScriptableObject
     {
         public int BuffId;
-        public string BuffName;
         public float Duration;
-        public int MaxStack;
+        public int MaxStack = 1;
+        public StackMode StackMode;
+        public RefreshPolicy RefreshPolicy;
+        public int StackThreshold;
+        /// <summary>
+        /// 堆叠层数达到阈值后的行为
+        /// </summary>
+        public ThresholdAction ThresholdAction;
+        public float TickInterval;
         public int Priority;
-        /// <summary>
-        /// 互斥组标签
-        /// </summary>
         public BuffGroupTag GroupTag;
-        /// <summary>
-        /// 是否为免疫类buff
-        /// </summary>
-        public bool Immunity;
-        /// <summary>
-        /// 施加时触发的效果
-        /// </summary>
-        public EffectConfig[] OnApplyEffects;
-        public EffectConfig[] OnTickEffects;
-        public EffectConfig[] OnRemoveEffects;
+        public BuffGroupTag[] GrantsImmunityTo;
+        public int DependsOnBuffId;
+        public bool IsShield;
+        public float ShieldValue;
+        public DamageType ShieldAbsorbType;
+        public Modifier[] Modifiers;
+        public TriggerRule[] TriggerRules;
+        public EffectGroup[] PayloadGroups;
+    }
+
+    [Serializable]
+    public struct TriggerRule
+    {
+        public TriggerEvent Event;
+        public TriggerCondition Condition;
+        public float ConditionParam;
+        public DamageType RequiredDamageType;   // DamageTypeEquals 时使用
+        public EffectConfig[] Effects;
+    }
+
+     public enum TriggerEvent
+    {
+        OnTakeDamage,
+        OnDealDamage,
+        OnHeal,
+        OnKill,
+        OnDeath,
+        OnBuffApplied,
+        OnBuffRemoved,
+        OnShieldBreak,
+    }
+
+    public enum TriggerCondition
+    {
+        None,
+        HealthBelow,
+        HealthAbove,
+        StackCountEquals,
+        DamageTypeEquals,
+    }
+
+    public enum TargetRule
+    {
+        Self,
+        DirectTarget,
+        AOETargets,
+        Source,
+    }
+
+    public enum RefreshPolicy
+    {
+        Reset,          // 重置为配置持续时间
+        Max,            // 取当前剩余与配置的较大值
+        Extend,         // 累加
+    }
+
+    public enum ThresholdAction
+    {
+        ResetStacks,
+        RemoveBuff,
+        Keep,
     }
 
     public enum BuffGroupTag
     {
-
+        None,
+        Burn,
+        Freeze,
+        Poison
     }
 }
 

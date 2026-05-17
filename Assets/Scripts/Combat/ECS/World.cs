@@ -248,9 +248,14 @@ namespace Combat
     /// 组件是引用类型，虽然比值类型慢一些，但是开发边界，组件使用引用类型来存储数据，支持多态，方便开发
     /// </summary>
     public interface IComponent { }
-    public interface ISystem
+    public abstract class ISystem
     {
-        void Init(World world);
-        void Tick(float delteTime);
+        protected World world;
+        public virtual void Init(World world)
+        {
+            this.world = world;
+        }
+
+        public virtual void Tick(float delteTime) { }
     }
 }

@@ -7,29 +7,27 @@ namespace Combat
         private const int MaxIterations = 256;
         private readonly List<IEffectProcessor> processors;
         private readonly EffectRequestBuffer buffer;
-        World world;
 
-        public EffectPipelineSystem(EffectRequestBuffer buffer,
-        AoeFactory aoeFactory, BulletFactory bulletFactory)
+        public EffectPipelineSystem(
+            EffectRequestBuffer buffer,
+            IEventBus eventBus,
+            BuffFactory buffFactory,
+            BulletFactory bulletFactory,
+            AoeFactory aoeFactory)
         {
             this.buffer = buffer;
 
-            processors = new()
+            processors = new List<IEffectProcessor>
             {
                 new ImmunityProcessor(),
                 new ModifierProcessor(),
-                new ShieldProcessor(),
-                new ApplyProcessor(bulletFactory, aoeFactory),
-                new ReactionProcessor(),
+                new ShieldProcessor(eventBus),
+                new ApplyProcessor(eventBus, buffFactory, bulletFactory, aoeFactory),
+                // new ReactionProcessor(buffer),
             };
         }
 
-        public void Init(World world)
-        {
-            this.world = world;
-        }
-
-        public void Tick(float delteTime)
+        public override void Tick(float delteTime)
         {
             var requests = buffer.GetCurrent();
             int processed = 0;
